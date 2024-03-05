@@ -1,8 +1,11 @@
-package dev.memocode.memo_server.domain.base.memo;
+package dev.memocode.memo_server.domain.memo.entity;
 
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
-import dev.memocode.memo_server.domain.base.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.series.entity.Series;
+import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.HashSet;
 import java.util.Set;
 
+import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -29,26 +33,28 @@ public class Memo extends AggregateRoot {
     private String content;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "authors_id")
+    @JoinColumn(name = "author_id")
     private Author author;
-
-    @OneToOne(fetch = LAZY)
-    @JoinColumn(name = "selected_memo_version_id")
-    private MemoVersion selectedMemoVersion;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "series_id")
     private Series series;
 
     @Column(name = "affinity")
-    private Long affinity; // 좋아요
+    @Builder.Default
+    private Integer affinity = 0; // 좋아요
 
-    private Integer orderBy;
+    @Column(name = "sequence")
+    private Integer sequence;
+
+    @OneToOne(mappedBy = "memo", cascade = PERSIST, orphanRemoval = true)
+    private SelectedMemoVersion selectedMemoVersion;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_memo_id")
     private Memo parentMemo;
 
     @OneToMany(mappedBy = "parentMemo")
+    @Builder.Default
     private Set<Memo> childMemos = new HashSet<>();
 }

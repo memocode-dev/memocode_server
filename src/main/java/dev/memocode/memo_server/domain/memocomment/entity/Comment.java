@@ -1,7 +1,8 @@
-package dev.memocode.memo_server.domain.base.memo;
+package dev.memocode.memo_server.domain.memocomment.entity;
 
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
-import dev.memocode.memo_server.domain.base.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.memo.entity.Memo;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,20 +19,25 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @SuperBuilder
 @NoArgsConstructor(access = PROTECTED)
-@Table(name = "memo_comments")
+@Table(name = "comments")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class MemoComment extends AggregateRoot {
+public class Comment extends AggregateRoot {
 
     @Column(name = "content")
     private String content;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "author_id")
     private Author author;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "parent_post_comment_id")
-    private MemoComment parentMemoComment;
+    @JoinColumn(name = "memo_id")
+    private Memo memo;
 
-    @OneToMany(mappedBy = "parentMemoComment")
-    private List<MemoComment> childMemoComments = new ArrayList<>();
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_post_comment_id")
+    private Comment parentComment;
+
+    @OneToMany(mappedBy = "parentComment")
+    private List<Comment> childComments = new ArrayList<>();
 }

@@ -1,4 +1,4 @@
-package dev.memocode.memo_server.domain.base.external.user.entity;
+package dev.memocode.memo_server.domain.external.user.entity;
 
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
 import jakarta.persistence.Column;
@@ -21,7 +21,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @SuperBuilder
 @NoArgsConstructor(access = PROTECTED)
-@Table(name = "authors")
+@Table(name = "users")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Author extends AggregateRoot {
 

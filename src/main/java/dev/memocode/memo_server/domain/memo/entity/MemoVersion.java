@@ -1,6 +1,7 @@
-package dev.memocode.memo_server.domain.base.memo;
+package dev.memocode.memo_server.domain.memo.entity;
 
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
+import dev.memocode.memo_server.domain.memo.entity.Memo;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,12 +15,12 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @SuperBuilder
 @NoArgsConstructor(access = PROTECTED)
-@Table(name = "memo_versions")
+@Table(name = "memo_version")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class MemoVersion extends AggregateRoot {
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "memos_id")
+    @JoinColumn(name = "memo_id")
     private Memo memo;
 
     @Column(name = "title")

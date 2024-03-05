@@ -4,14 +4,16 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import static dev.memocode.memo_server.exception.GlobalErrorCodeType.CRITICAL;
-import static org.springframework.http.HttpStatus.BAD_GATEWAY;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static dev.memocode.memo_server.exception.GlobalErrorCodeType.INFO;
+import static org.springframework.http.HttpStatus.*;
 
 @Getter
 public enum GlobalErrorCode {
 
     INTERNAL_ERROR(INTERNAL_SERVER_ERROR, 500, "서버 에러, 관리자에게 문의하세요", CRITICAL),
     UNEXPECTED_API_RESPONSE(BAD_GATEWAY, 502, "예상치 못한 API 응답입니다.", CRITICAL),
+
+    AUTHOR_NOT_FOUND(NOT_FOUND, 404, "author not found", INFO),
     ;
 
     private final HttpStatus status;
