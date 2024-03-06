@@ -1,8 +1,13 @@
 package dev.memocode.memo_server.usecase.impl;
 
+import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.user.service.AuthorService;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
+import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
+import dev.memocode.memo_server.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,6 +19,7 @@ import java.util.UUID;
 public class MemoUseCaseImpl implements MemoUseCase {
 
     private final MemoService memoService;
+    private final AuthorService authorService;
 
     @Override
     public UUID createMemo(MemoCreateDTO dto) {
@@ -21,4 +27,24 @@ public class MemoUseCaseImpl implements MemoUseCase {
 
         return memo.getId();
     }
+
+    @Override
+    public void deleteMemo(MemoDeleteDTO dto) {
+        memoService.deleteMemo(dto);
+    }
+
+    @Override
+    public MemoDetailDTO findMemo(UUID memoId, UUID accountId) {
+        Memo memo = memoService.findMemo(memoId);
+        Author author = authorService.findByAccountIdElseThrow(accountId);
+
+        return MemoDetailDTO.from(memo, author);
+    }
+
+    @Override
+    public UUID updateMemo(MemoUpdateDTO dto) {
+        return memoService.updateMemo(dto);
+    }
+
+
 }

@@ -4,9 +4,10 @@ import dev.memocode.memo_server.api.spec.MemoApi;
 import dev.memocode.memo_server.dto.form.MemoCreateForm;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.dto.form.MemoUpdateForm;
-import dev.memocode.memo_server.dto.response.MemoDetailDto;
-import dev.memocode.memo_server.dto.response.MemoUpdateDto;
-import dev.memocode.memo_server.dto.response.MemosDto;
+import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
+import dev.memocode.memo_server.dto.response.MemosDTO;
 import dev.memocode.memo_server.mapper.MemoCreateDTOMapper;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
@@ -27,36 +28,64 @@ public class MemoController implements MemoApi {
 
     private final MemoUseCase memoUseCase;
     private final MemoCreateDTOMapper memoCreateDTOMapper;
-
     private static final String ACCOUNT_ID_CLAIM_NAME = "account_id";
 
+    /**
+     * 메모 생성
+     */
     @PostMapping
     public ResponseEntity<String> createMemo(@RequestBody MemoCreateForm form, @AuthenticationPrincipal Jwt jwt) {
-        MemoCreateDTO memoCreateDTO =
-                memoCreateDTOMapper.fromMemoCreateFormAndAccountId(form, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+        MemoCreateDTO dto =
+                memoCreateDTOMapper.fromMemoCreateFormAndAccountId(form,
+                        UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
-        UUID memoId = memoUseCase.createMemo(memoCreateDTO);
+        UUID memoId = memoUseCase.createMemo(dto);
         return ResponseEntity.created(URI.create(memoId.toString())).body(memoId.toString());
     }
 
+    /**
+     * 메모 삭제
+     */
     @DeleteMapping("/{memoId}")
-    public ResponseEntity<Void> deleteMemo(@PathVariable Long memoId, @AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<Void> deleteMemo(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt){
+        MemoDeleteDTO dto =
+                memoCreateDTOMapper.fromMemoDeleteMemoIdAndAccountId(memoId,
+                        UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+
+        memoUseCase.deleteMemo(dto);
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 메모 수정
+     */
     @PatchMapping("/{memoId}")
-    public ResponseEntity<MemoUpdateDto> updateMemo(@PathVariable Long memoId, @RequestBody MemoUpdateForm form,
+    public ResponseEntity<String> updateMemo(@PathVariable UUID memoId, @RequestBody MemoUpdateForm form,
                                                     @AuthenticationPrincipal Jwt jwt){
-        return ResponseEntity.ok().build();
+        MemoUpdateDTO dto =
+                memoCreateDTOMapper.fromMemoUpdateMemoIdAndAccountId(memoId,
+                        form, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+
+        UUID updateMemoId = memoUseCase.updateMemo(dto);
+
+        return ResponseEntity.ok().body(updateMemoId.toString());
     }
 
+    /**
+     * 메모 단일 조회
+     */
     @GetMapping("/{memoId}")
-    public ResponseEntity<MemoDetailDto> findMemo(@PathVariable Long memoId, @AuthenticationPrincipal Jwt jwt){
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<MemoDetailDTO> findMemo(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt){
+        MemoDetailDTO dto = memoUseCase.findMemo(memoId,
+                UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+        return ResponseEntity.ok().body(dto);
     }
 
+    /**
+     * 메모 전체 조회
+     */
     @GetMapping
-    public ResponseEntity<MemosDto> findAllMemo(@AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt){
         return ResponseEntity.ok().body(null);
     }
 }

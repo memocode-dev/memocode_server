@@ -1,19 +1,18 @@
 package dev.memocode.memo_server.dto.response;
 
-import dev.memocode.memo_server.dto.form.MemoUpdateForm;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemoUpdateDto {
-
-    private MemoUpdateForm memoUpdateForm;
-    private Instant updatedAt;
+public class AuthorDTO {
+    private String username;
+    private String nickname;
+    private UUID accountId;
 }

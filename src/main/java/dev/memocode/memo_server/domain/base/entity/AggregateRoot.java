@@ -20,9 +20,9 @@ import static lombok.AccessLevel.PROTECTED;
 public abstract class AggregateRoot extends BaseEntity {
 
     @Column(name = "deleted_at")
-    private Instant deletedAt;
+    protected Instant deletedAt;
 
     @Column(name = "is_deleted")
     @Builder.Default
-    private Boolean deleted = false;
+    protected Boolean deleted = false;
 }
