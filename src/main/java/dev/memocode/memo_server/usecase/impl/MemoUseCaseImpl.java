@@ -4,7 +4,6 @@ import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,6 @@ public class MemoUseCaseImpl implements MemoUseCase {
 
     @Override
     public UUID createMemo(MemoCreateDTO dto) {
-
         Memo memo = memoService.createMemo(dto);
 
         return memo.getId();
