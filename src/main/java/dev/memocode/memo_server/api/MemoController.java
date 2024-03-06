@@ -12,6 +12,7 @@ import dev.memocode.memo_server.mapper.MemoCreateDTOMapper;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -85,7 +86,11 @@ public class MemoController implements MemoApi {
      * 메모 전체 조회
      */
     @GetMapping
-    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt){
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size){
+        MemosDTO memos =
+                memoUseCase.findMemos(UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)), page, size);
+        return ResponseEntity.ok().body(memos);
     }
 }

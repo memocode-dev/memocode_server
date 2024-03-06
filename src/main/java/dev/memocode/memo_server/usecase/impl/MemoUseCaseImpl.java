@@ -8,8 +8,10 @@ import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.dto.response.MemosDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -34,6 +36,11 @@ public class MemoUseCaseImpl implements MemoUseCase {
     }
 
     @Override
+    public UUID updateMemo(MemoUpdateDTO dto) {
+        return memoService.updateMemo(dto);
+    }
+
+    @Override
     public MemoDetailDTO findMemo(UUID memoId, UUID accountId) {
         Memo memo = memoService.findMemo(memoId);
         Author author = authorService.findByAccountIdElseThrow(accountId);
@@ -42,9 +49,9 @@ public class MemoUseCaseImpl implements MemoUseCase {
     }
 
     @Override
-    public UUID updateMemo(MemoUpdateDTO dto) {
-        return memoService.updateMemo(dto);
+    public MemosDTO findMemos(UUID accountId, int page, int size) {
+        Page<Memo> memos = memoService.findMemos(accountId, page, size);
+
+        return MemosDTO.from(memos);
     }
-
-
 }
