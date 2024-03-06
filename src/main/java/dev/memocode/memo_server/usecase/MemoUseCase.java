@@ -4,6 +4,8 @@ import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.dto.response.MemosDTO;
+import org.hibernate.query.Page;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -21,4 +23,6 @@ public interface MemoUseCase {
 
     @Transactional
     UUID updateMemo(MemoUpdateDTO dto);
+
+    MemosDTO findMemos(UUID uuid, int page, int size);
 }

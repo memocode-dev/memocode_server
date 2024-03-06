@@ -21,7 +21,7 @@ public class MemoDetailDTO {
     private Instant updatedAt;
     private AuthorDTO authorDTO;
 
-    public static MemoDetailDTO from(Memo memo, Author author) {
+    public static MemoDetailDTO of(Memo memo, Author author) {
         return MemoDetailDTO.builder()
                 .title(memo.getTitle())
                 .content(memo.getContent())

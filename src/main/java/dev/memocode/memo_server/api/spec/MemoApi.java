@@ -7,6 +7,7 @@ import dev.memocode.memo_server.dto.response.MemosDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.hibernate.query.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 
@@ -30,5 +31,5 @@ public interface MemoApi {
     ResponseEntity<MemoDetailDTO> findMemo(UUID memoId, Jwt jwt);
 
     @Operation(summary = "메모 전체 조회")
-    ResponseEntity<MemosDTO> findAllMemo(Jwt jwt);
+    ResponseEntity<MemosDTO> findAllMemo(Jwt jwt, int page, int size);
 }

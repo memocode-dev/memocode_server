@@ -8,7 +8,7 @@ import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.dto.response.MemosDTO;
-import dev.memocode.memo_server.mapper.MemoCreateDTOMapper;
+import dev.memocode.memo_server.mapper.MemoDtoMapper;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.UUID;
 public class MemoController implements MemoApi {
 
     private final MemoUseCase memoUseCase;
-    private final MemoCreateDTOMapper memoCreateDTOMapper;
+    private final MemoDtoMapper memoDtoMapper;
     private static final String ACCOUNT_ID_CLAIM_NAME = "account_id";
 
     /**
@@ -36,7 +36,7 @@ public class MemoController implements MemoApi {
     @PostMapping
     public ResponseEntity<String> createMemo(@RequestBody MemoCreateForm form, @AuthenticationPrincipal Jwt jwt) {
         MemoCreateDTO dto =
-                memoCreateDTOMapper.fromMemoCreateFormAndAccountId(form,
+                memoDtoMapper.fromMemoCreateFormAndAccountId(form,
                         UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
         UUID memoId = memoUseCase.createMemo(dto);
@@ -49,7 +49,7 @@ public class MemoController implements MemoApi {
     @DeleteMapping("/{memoId}")
     public ResponseEntity<Void> deleteMemo(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt){
         MemoDeleteDTO dto =
-                memoCreateDTOMapper.fromMemoDeleteMemoIdAndAccountId(memoId,
+                memoDtoMapper.fromMemoDeleteMemoIdAndAccountId(memoId,
                         UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
         memoUseCase.deleteMemo(dto);
@@ -63,7 +63,7 @@ public class MemoController implements MemoApi {
     public ResponseEntity<String> updateMemo(@PathVariable UUID memoId, @RequestBody MemoUpdateForm form,
                                                     @AuthenticationPrincipal Jwt jwt){
         MemoUpdateDTO dto =
-                memoCreateDTOMapper.fromMemoUpdateMemoIdAndAccountId(memoId,
+                memoDtoMapper.fromMemoUpdateMemoIdAndAccountId(memoId,
                         form, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
         UUID updateMemoId = memoUseCase.updateMemo(dto);
@@ -85,7 +85,11 @@ public class MemoController implements MemoApi {
      * 메모 전체 조회
      */
     @GetMapping
-    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt){
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt,
+                                                @RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size){
+        MemosDTO memos =
+                memoUseCase.findMemos(UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)), page, size);
+        return ResponseEntity.ok().body(memos);
     }
 }
