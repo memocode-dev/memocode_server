@@ -45,7 +45,7 @@ public class MemoUseCaseImpl implements MemoUseCase {
         Memo memo = memoService.findMemo(memoId);
         Author author = authorService.findByAccountIdElseThrow(accountId);
 
-        return MemoDetailDTO.from(memo, author);
+        return MemoDetailDTO.of(memo, author);
     }
 
     @Override

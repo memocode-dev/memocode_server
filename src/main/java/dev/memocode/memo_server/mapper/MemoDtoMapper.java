@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public class MemoCreateDTOMapper {
+public class MemoDtoMapper {
 
     public MemoCreateDTO fromMemoCreateFormAndAccountId(MemoCreateForm form, UUID accountId) {
         return MemoCreateDTO.builder()
