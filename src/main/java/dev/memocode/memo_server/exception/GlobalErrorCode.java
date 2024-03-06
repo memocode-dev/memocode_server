@@ -14,6 +14,10 @@ public enum GlobalErrorCode {
     UNEXPECTED_API_RESPONSE(BAD_GATEWAY, 502, "예상치 못한 API 응답입니다.", CRITICAL),
 
     AUTHOR_NOT_FOUND(NOT_FOUND, 404, "author not found", INFO),
+
+    // 메모 관련 오류
+    MEMO_NOT_FOUND(NOT_FOUND, 404, "memo not found", INFO),
+    NOT_VALID_MEMO_OWNER(FORBIDDEN, 403, "메모에 접근할 권한이 없습니다.", INFO)
     ;
 
     private final HttpStatus status;

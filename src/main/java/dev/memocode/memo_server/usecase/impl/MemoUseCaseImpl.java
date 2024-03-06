@@ -3,6 +3,7 @@ package dev.memocode.memo_server.usecase.impl;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
+import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,4 +22,11 @@ public class MemoUseCaseImpl implements MemoUseCase {
 
         return memo.getId();
     }
+
+    @Override
+    public void deleteMemo(MemoDeleteDTO dto) {
+        memoService.deleteMemo(dto);
+    }
+
+
 }

@@ -4,9 +4,10 @@ import dev.memocode.memo_server.api.spec.MemoApi;
 import dev.memocode.memo_server.dto.form.MemoCreateForm;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.dto.form.MemoUpdateForm;
-import dev.memocode.memo_server.dto.response.MemoDetailDto;
-import dev.memocode.memo_server.dto.response.MemoUpdateDto;
-import dev.memocode.memo_server.dto.response.MemosDto;
+import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.dto.response.MemoUpdateDTO;
+import dev.memocode.memo_server.dto.response.MemosDTO;
 import dev.memocode.memo_server.mapper.MemoCreateDTOMapper;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
@@ -33,30 +34,36 @@ public class MemoController implements MemoApi {
     @PostMapping
     public ResponseEntity<String> createMemo(@RequestBody MemoCreateForm form, @AuthenticationPrincipal Jwt jwt) {
         MemoCreateDTO memoCreateDTO =
-                memoCreateDTOMapper.fromMemoCreateFormAndAccountId(form, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+                memoCreateDTOMapper.fromMemoCreateFormAndAccountId(form,
+                        UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
         UUID memoId = memoUseCase.createMemo(memoCreateDTO);
         return ResponseEntity.created(URI.create(memoId.toString())).body(memoId.toString());
     }
 
     @DeleteMapping("/{memoId}")
-    public ResponseEntity<Void> deleteMemo(@PathVariable Long memoId, @AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<Void> deleteMemo(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt){
+        MemoDeleteDTO memoDeleteDTO =
+                memoCreateDTOMapper.fromMemoDeleteMemoIdAndAccountId(memoId,
+                        UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+
+        memoUseCase.deleteMemo(memoDeleteDTO);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{memoId}")
-    public ResponseEntity<MemoUpdateDto> updateMemo(@PathVariable Long memoId, @RequestBody MemoUpdateForm form,
+    public ResponseEntity<MemoUpdateDTO> updateMemo(@PathVariable UUID memoId, @RequestBody MemoUpdateForm form,
                                                     @AuthenticationPrincipal Jwt jwt){
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{memoId}")
-    public ResponseEntity<MemoDetailDto> findMemo(@PathVariable Long memoId, @AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<MemoDetailDTO> findMemo(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt){
         return ResponseEntity.ok().body(null);
     }
 
     @GetMapping
-    public ResponseEntity<MemosDto> findAllMemo(@AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt){
         return ResponseEntity.ok().body(null);
     }
 }

@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -57,4 +58,10 @@ public class Memo extends AggregateRoot {
     @OneToMany(mappedBy = "parentMemo")
     @Builder.Default
     private Set<Memo> childMemos = new HashSet<>();
+
+    // 메모 삭제 (soft delete)
+    public void delete() {
+        this.deleted = true;
+        this.deletedAt = Instant.now();
+    }
 }

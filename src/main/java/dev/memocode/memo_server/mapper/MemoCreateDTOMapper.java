@@ -2,6 +2,7 @@ package dev.memocode.memo_server.mapper;
 
 import dev.memocode.memo_server.dto.form.MemoCreateForm;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
+import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
 import org.hibernate.annotations.Comment;
 import org.springframework.stereotype.Component;
 
@@ -16,5 +17,13 @@ public class MemoCreateDTOMapper {
                 .content(form.getContent())
                 .accountId(accountId)
                 .build();
+    }
+
+    public MemoDeleteDTO fromMemoDeleteMemoIdAndAccountId(UUID memoId, UUID accountId) {
+        return MemoDeleteDTO.builder()
+                .memoId(memoId)
+                .accountId(accountId)
+                .build();
+
     }
 }
