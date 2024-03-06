@@ -6,6 +6,7 @@ import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.repository.MemoRepository;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,16 @@ public class MemoService {
 
         // soft delete 적용
         memo.delete();
+    }
+
+    @Transactional
+    public UUID updateMemo(MemoUpdateDTO dto) {
+        Memo memo = findByMemoId(dto.getMemoId());
+        validOwner(memo.getAuthor().getAccountId(), dto.getAccountId());
+
+        memo.updateMemo(dto.getTitle(), dto.getContent());
+
+        return memo.getId();
     }
 
     public Memo findMemo(UUID memoId) {

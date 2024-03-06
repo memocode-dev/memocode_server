@@ -3,7 +3,6 @@ package dev.memocode.memo_server.domain.memo.entity;
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
 import dev.memocode.memo_server.domain.external.user.entity.Author;
 import dev.memocode.memo_server.domain.series.entity.Series;
-import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -63,5 +62,11 @@ public class Memo extends AggregateRoot {
     public void delete() {
         this.deleted = true;
         this.deletedAt = Instant.now();
+    }
+
+    // 메모 수정
+    public void updateMemo(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

@@ -3,7 +3,6 @@ package dev.memocode.memo_server.api.spec;
 import dev.memocode.memo_server.dto.form.MemoCreateForm;
 import dev.memocode.memo_server.dto.form.MemoUpdateForm;
 import dev.memocode.memo_server.dto.response.MemoDetailDTO;
-import dev.memocode.memo_server.dto.response.MemoUpdateDTO;
 import dev.memocode.memo_server.dto.response.MemosDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,7 +24,7 @@ public interface MemoApi {
     ResponseEntity<Void> deleteMemo(UUID memoId, Jwt jwt);
 
     @Operation(summary = "메모 수정")
-    ResponseEntity<MemoUpdateDTO> updateMemo(UUID memoId, MemoUpdateForm form, Jwt jwt);
+    ResponseEntity<String> updateMemo(UUID memoId, MemoUpdateForm form, Jwt jwt);
 
     @Operation(summary = "메모 단일 조회")
     ResponseEntity<MemoDetailDTO> findMemo(UUID memoId, Jwt jwt);

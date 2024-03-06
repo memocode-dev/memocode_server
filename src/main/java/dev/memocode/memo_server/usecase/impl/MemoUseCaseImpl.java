@@ -6,6 +6,7 @@ import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
 import dev.memocode.memo_server.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,11 @@ public class MemoUseCaseImpl implements MemoUseCase {
         Author author = authorService.findByAccountIdElseThrow(accountId);
 
         return MemoDetailDTO.from(memo, author);
+    }
+
+    @Override
+    public UUID updateMemo(MemoUpdateDTO dto) {
+        return memoService.updateMemo(dto);
     }
 
 
