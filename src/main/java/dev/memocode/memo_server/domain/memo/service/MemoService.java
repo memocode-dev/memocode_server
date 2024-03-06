@@ -46,6 +46,10 @@ public class MemoService {
         memo.delete();
     }
 
+    public Memo findMemo(UUID memoId) {
+        return findByMemoId(memoId);
+    }
+
     /**
      * 메모 owner 체크
      */

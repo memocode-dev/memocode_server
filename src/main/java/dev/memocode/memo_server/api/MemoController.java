@@ -31,6 +31,9 @@ public class MemoController implements MemoApi {
 
     private static final String ACCOUNT_ID_CLAIM_NAME = "account_id";
 
+    /**
+     * 메모 생성
+     */
     @PostMapping
     public ResponseEntity<String> createMemo(@RequestBody MemoCreateForm form, @AuthenticationPrincipal Jwt jwt) {
         MemoCreateDTO memoCreateDTO =
@@ -41,6 +44,9 @@ public class MemoController implements MemoApi {
         return ResponseEntity.created(URI.create(memoId.toString())).body(memoId.toString());
     }
 
+    /**
+     * 메모 삭제
+     */
     @DeleteMapping("/{memoId}")
     public ResponseEntity<Void> deleteMemo(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt){
         MemoDeleteDTO memoDeleteDTO =
@@ -51,17 +57,27 @@ public class MemoController implements MemoApi {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 메모 수정
+     */
     @PatchMapping("/{memoId}")
     public ResponseEntity<MemoUpdateDTO> updateMemo(@PathVariable UUID memoId, @RequestBody MemoUpdateForm form,
                                                     @AuthenticationPrincipal Jwt jwt){
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * 메모 단일 조회
+     */
     @GetMapping("/{memoId}")
     public ResponseEntity<MemoDetailDTO> findMemo(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt){
-        return ResponseEntity.ok().body(null);
+        MemoDetailDTO dto = memoUseCase.findMemo(memoId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+        return ResponseEntity.ok().body(dto);
     }
 
+    /**
+     * 메모 전체 조회
+     */
     @GetMapping
     public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt){
         return ResponseEntity.ok().body(null);
