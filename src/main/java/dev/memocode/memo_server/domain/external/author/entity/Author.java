@@ -1,4 +1,4 @@
-package dev.memocode.memo_server.domain.external.user.entity;
+package dev.memocode.memo_server.domain.external.author.entity;
 
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
 import jakarta.persistence.Column;

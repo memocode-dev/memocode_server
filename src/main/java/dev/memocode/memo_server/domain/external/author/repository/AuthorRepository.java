@@ -1,7 +1,7 @@
-package dev.memocode.memo_server.domain.external.user.repository;
+package dev.memocode.memo_server.domain.external.author.repository;
 
 
-import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.author.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

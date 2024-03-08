@@ -1,6 +1,7 @@
-package dev.memocode.memo_server.dto.response;
+package dev.memocode.memo_server.domain.memo.dto.response;
 
-import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.author.dto.AuthorDTO;
+import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package dev.memocode.memo_server.dto.request;
+package dev.memocode.memo_server.domain.memo.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

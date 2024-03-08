@@ -1,11 +1,10 @@
 package dev.memocode.memo_server.usecase;
 
-import dev.memocode.memo_server.dto.request.MemoCreateDTO;
-import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
-import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
-import dev.memocode.memo_server.dto.response.MemoDetailDTO;
-import dev.memocode.memo_server.dto.response.MemosDTO;
-import org.hibernate.query.Page;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;

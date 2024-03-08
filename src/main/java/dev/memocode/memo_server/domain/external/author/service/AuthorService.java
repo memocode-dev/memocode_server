@@ -1,8 +1,8 @@
-package dev.memocode.memo_server.domain.external.user.service;
+package dev.memocode.memo_server.domain.external.author.service;
 
 
-import dev.memocode.memo_server.domain.external.user.entity.Author;
-import dev.memocode.memo_server.domain.external.user.repository.AuthorRepository;
+import dev.memocode.memo_server.domain.external.author.entity.Author;
+import dev.memocode.memo_server.domain.external.author.repository.AuthorRepository;
 import dev.memocode.memo_server.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package dev.memocode.memo_server.dto.form;
+package dev.memocode.memo_server.domain.memo.dto.form;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,7 +1,7 @@
 package dev.memocode.memo_server.domain.memo.entity;
 
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
-import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.series.entity.Series;
 import jakarta.persistence.*;
 import lombok.Builder;

@@ -1,13 +1,12 @@
 package dev.memocode.memo_server.api.spec;
 
-import dev.memocode.memo_server.dto.form.MemoCreateForm;
-import dev.memocode.memo_server.dto.form.MemoUpdateForm;
-import dev.memocode.memo_server.dto.response.MemoDetailDTO;
-import dev.memocode.memo_server.dto.response.MemosDTO;
+import dev.memocode.memo_server.domain.memo.dto.form.MemoCreateForm;
+import dev.memocode.memo_server.domain.memo.dto.form.MemoUpdateForm;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.hibernate.query.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 
