@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
@@ -13,6 +14,8 @@ import java.time.Instant;
 @Builder
 public class MemoVersionTitleDTO {
 
+    private UUID id;
+    private Long version;
     private String title;
     private Instant createdAt;
 }

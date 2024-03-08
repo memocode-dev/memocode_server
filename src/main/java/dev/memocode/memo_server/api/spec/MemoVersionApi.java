@@ -1,6 +1,5 @@
 package dev.memocode.memo_server.api.spec;
 
-import dev.memocode.memo_server.domain.memo.dto.form.MemoCreateForm;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,14 +15,14 @@ import java.util.UUID;
 public interface MemoVersionApi {
 
     @Operation(summary = "메모 버전 생성")
-    ResponseEntity<String> createMemoVersion(MemoCreateForm form, Jwt jwt);
+    ResponseEntity<String> createMemoVersion(UUID memoId, Jwt jwt);
 
     @Operation(summary = "메모 버전 삭제")
-    ResponseEntity<Void> deleteMemoVersion(UUID memVersionId, Jwt jwt);
+    ResponseEntity<Void> deleteMemoVersion(UUID memoId, UUID memVersionId, Jwt jwt);
 
     @Operation(summary = "메모 단일 조회")
-    ResponseEntity<MemoVersionDetailDTO> findMemoVersion(UUID memoVersionId, Jwt jwt);
+    ResponseEntity<MemoVersionDetailDTO> findMemoVersion(UUID memoId, UUID memoVersionId, Jwt jwt);
 
     @Operation(summary = "메모 버전 전체 조회")
-    ResponseEntity<MemoVersionsDTO> findAllMemoVersion(Jwt jwt);
+    ResponseEntity<MemoVersionsDTO> findAllMemoVersion(UUID memoId, Jwt jwt);
 }

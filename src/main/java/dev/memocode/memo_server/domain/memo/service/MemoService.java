@@ -63,10 +63,10 @@ public class MemoService {
         return findByMemoId(memoId);
     }
 
-    public Page<Memo> findMemos(UUID accountId, int page, int size) {
+    public Page<Memo> findMemos(UUID authorId, int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        return memoRepository.findByAuthorAccountId(accountId, pageRequest);
+        return memoRepository.findByAuthorId(authorId, pageRequest);
 
     }
 

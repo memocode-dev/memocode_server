@@ -9,12 +9,16 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
+import dev.memocode.memo_server.exception.GlobalErrorCode;
+import dev.memocode.memo_server.exception.GlobalException;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+
+import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
 
 @Component
 @RequiredArgsConstructor
@@ -50,7 +54,9 @@ public class MemoUseCaseImpl implements MemoUseCase {
 
     @Override
     public MemosDTO findMemos(UUID accountId, int page, int size) {
-        Page<Memo> memos = memoService.findMemos(accountId, page, size);
+        Author author = authorService.findByAccountId(accountId)
+                .orElseThrow(() -> new GlobalException(AUTHOR_NOT_FOUND));
+        Page<Memo> memos = memoService.findMemos(author.getId(), page, size);
 
         return MemosDTO.from(memos);
     }
