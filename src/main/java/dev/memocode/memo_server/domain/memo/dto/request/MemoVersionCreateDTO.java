@@ -13,6 +13,6 @@ import java.util.UUID;
 @Builder
 public class MemoVersionCreateDTO {
 
-    private UUID memoID;
+    private UUID memoId;
     private UUID accountId;
 }
