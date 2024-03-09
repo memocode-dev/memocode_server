@@ -1,6 +1,7 @@
-package dev.memocode.memo_server.dto.response;
+package dev.memocode.memo_server.domain.memo.dto.response;
 
-import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.author.dto.AuthorDTO;
+import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,16 +14,15 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemoDetailDTO {
-
+public class MemoVersionDetailDTO {
     private String title;
     private String content;
     private Instant createdAt;
     private Instant updatedAt;
     private AuthorDTO authorDTO;
 
-    public static MemoDetailDTO of(Memo memo, Author author) {
-        return MemoDetailDTO.builder()
+    public static MemoVersionDetailDTO of(Memo memo, Author author) {
+        return MemoVersionDetailDTO.builder()
                 .title(memo.getTitle())
                 .content(memo.getContent())
                 .createdAt(memo.getCreatedAt())

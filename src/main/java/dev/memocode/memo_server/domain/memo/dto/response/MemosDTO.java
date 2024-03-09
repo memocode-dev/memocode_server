@@ -1,4 +1,4 @@
-package dev.memocode.memo_server.dto.response;
+package dev.memocode.memo_server.domain.memo.dto.response;
 
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import lombok.AllArgsConstructor;
@@ -23,7 +23,6 @@ public class MemosDTO {
 
     public static MemosDTO from(Page<Memo> memos) {
         List<MemoDetailDTO> memoDTOs = memos.stream()
-                .filter(memo1 -> !memo1.getDeleted())
                 .map(memo -> MemoDetailDTO.of(memo, memo.getAuthor()))
                 .collect(Collectors.toList());
 

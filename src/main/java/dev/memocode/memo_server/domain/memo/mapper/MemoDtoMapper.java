@@ -1,10 +1,10 @@
-package dev.memocode.memo_server.mapper;
+package dev.memocode.memo_server.domain.memo.mapper;
 
-import dev.memocode.memo_server.dto.form.MemoCreateForm;
-import dev.memocode.memo_server.dto.form.MemoUpdateForm;
-import dev.memocode.memo_server.dto.request.MemoCreateDTO;
-import dev.memocode.memo_server.dto.request.MemoDeleteDTO;
-import dev.memocode.memo_server.dto.request.MemoUpdateDTO;
+import dev.memocode.memo_server.domain.memo.dto.form.MemoCreateForm;
+import dev.memocode.memo_server.domain.memo.dto.form.MemoUpdateForm;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package dev.memocode.memo_server.dto.request;
+package dev.memocode.memo_server.domain.memo.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,11 +8,12 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class MemoDeleteDTO {
+public class MemoVersionDeleteDTO {
 
     private UUID memoId;
+    private UUID memoVersionId;
     private UUID accountId;
 }

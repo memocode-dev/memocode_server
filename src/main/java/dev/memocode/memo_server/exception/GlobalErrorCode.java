@@ -17,7 +17,8 @@ public enum GlobalErrorCode {
 
     // 메모 관련 오류
     MEMO_NOT_FOUND(NOT_FOUND, 404, "memo not found", INFO),
-    NOT_VALID_MEMO_OWNER(FORBIDDEN, 403, "메모에 접근할 권한이 없습니다.", INFO)
+    NOT_VALID_MEMO_OWNER(FORBIDDEN, 403, "메모에 접근할 권한이 없습니다.", INFO),
+    MEMO_VERSION_NOT_FOUND(NOT_FOUND, 404, "메모 버전에 접근할 수 없습니다.", INFO)
     ;
 
     private final HttpStatus status;

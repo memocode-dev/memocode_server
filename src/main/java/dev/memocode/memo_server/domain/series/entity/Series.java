@@ -1,7 +1,7 @@
 package dev.memocode.memo_server.domain.series.entity;
 
 import dev.memocode.memo_server.domain.base.entity.BaseEntity;
-import dev.memocode.memo_server.domain.external.user.entity.Author;
+import dev.memocode.memo_server.domain.external.author.entity.Author;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
