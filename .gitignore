@@ -36,5 +36,8 @@ out/
 ### VS Code ###
 .vscode/
 
+### generated 추가 (querydsl q클래스 설정)
+/src/main/generated/
+
 application-local.yml
 application-dev.yml

@@ -33,10 +33,8 @@ public class MemoService {
     public Memo createMemo(MemoCreateDTO dto) {
         Author author = authorService.findByAccountIdElseThrow(dto.getAccountId());
 
-        // 해당 작성자의 마지막 시퀀스를 찾아옴
         Integer lastSequence = memoRepository.findMaxSequenceByAuthorId(author.getId());
 
-        // 마지막 시퀀스가 없다면 0으로 초기화
         int sequence = (lastSequence != null) ? lastSequence + 1 : 1;
 
         Memo memo = Memo.builder()
