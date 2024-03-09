@@ -32,11 +32,18 @@ public class MemoService {
     @Transactional
     public Memo createMemo(MemoCreateDTO dto) {
         Author author = authorService.findByAccountIdElseThrow(dto.getAccountId());
+
+        Integer lastSequence = memoRepository.findMaxSequenceByAuthorId(author.getId());
+
+        int sequence = (lastSequence != null) ? lastSequence + 1 : 1;
+
         Memo memo = Memo.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .author(author)
+                .sequence(sequence)
                 .build();
+
         return memoRepository.save(memo);
     }
 
@@ -60,7 +67,13 @@ public class MemoService {
     }
 
     public Memo findMemo(UUID memoId) {
-        return findByMemoId(memoId);
+        Memo memo = findByMemoId(memoId);
+
+        if (memo.getDeleted()){
+            throw new GlobalException(MEMO_NOT_FOUND);
+        }
+
+        return memo;
     }
 
     public Page<Memo> findMemos(UUID authorId, int page, int size) {
