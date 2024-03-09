@@ -3,6 +3,7 @@ package dev.memocode.memo_server.usecase.impl;
 import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.external.author.service.AuthorService;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionCreateDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
@@ -19,7 +20,6 @@ public class MemoVersionUseCaseImpl implements MemoVersionUseCase {
 
     private final MemoVersionService memoVersionService;
     private final MemoService memoService;
-    private final AuthorService authorService;
 
     @Override
     public UUID createMemoVersion(MemoVersionCreateDTO dto) {
@@ -28,4 +28,12 @@ public class MemoVersionUseCaseImpl implements MemoVersionUseCase {
 
         return memoVersion.getId();
     }
+
+    @Override
+    public void deleteMemoVersion(MemoVersionDeleteDTO dto) {
+        Memo memo = memoService.findByMemoId(dto.getMemoId());
+        memoVersionService.deleteMemoVersion(memo, dto);
+    }
+
+
 }

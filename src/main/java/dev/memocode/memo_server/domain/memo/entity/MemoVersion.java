@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
+
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -31,4 +33,10 @@ public class MemoVersion extends AggregateRoot {
 
     @Column(name = "version")
     private Integer version;
+
+    // memoVersion soft delete 적용
+    public void delete() {
+        this.deleted = true;
+        this.deletedAt = Instant.now();
+    }
 }

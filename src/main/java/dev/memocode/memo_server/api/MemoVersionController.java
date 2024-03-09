@@ -2,6 +2,7 @@ package dev.memocode.memo_server.api;
 
 import dev.memocode.memo_server.api.spec.MemoVersionApi;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionCreateDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import dev.memocode.memo_server.domain.memo.mapper.MemoVersionDtoMapper;
@@ -30,7 +31,8 @@ public class MemoVersionController implements MemoVersionApi {
      * 메모 버전 생성
      */
     @PostMapping
-    public ResponseEntity<String> createMemoVersion(@PathVariable(name = "memoId") UUID memoId, @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<String> createMemoVersion(@PathVariable(name = "memoId") UUID memoId,
+                                                    @AuthenticationPrincipal Jwt jwt) {
         MemoVersionCreateDTO dto = memoVersionDtoMapper
                 .createMemoVersion(memoId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
@@ -44,7 +46,13 @@ public class MemoVersionController implements MemoVersionApi {
      * 메모 버전 삭제
      */
     @DeleteMapping("/{memoVersionId}")
-    public ResponseEntity<Void> deleteMemoVersion(@PathVariable("memoId") UUID memoId, @PathVariable UUID memoVersionId, @AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<Void> deleteMemoVersion(@PathVariable("memoId") UUID memoId,
+                                                  @PathVariable("memoVersionId") UUID memoVersionId,
+                                                  @AuthenticationPrincipal Jwt jwt){
+        MemoVersionDeleteDTO dto = memoVersionDtoMapper
+                .deleteMemoVersion(memoId, memoVersionId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+
+        memoVersionUseCase.deleteMemoVersion(dto);
 
         return ResponseEntity.ok().build();
     }
@@ -53,7 +61,9 @@ public class MemoVersionController implements MemoVersionApi {
      * 메모 버전 단일 조회
      */
     @GetMapping("/{memoVersionId}")
-    public ResponseEntity<MemoVersionDetailDTO> findMemoVersion(@PathVariable("memoId") UUID memoId, @PathVariable UUID memoVersionId, @AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<MemoVersionDetailDTO> findMemoVersion(@PathVariable("memoId") UUID memoId,
+                                                                @PathVariable("memoVersionId") UUID memoVersionId,
+                                                                @AuthenticationPrincipal Jwt jwt){
 
         return ResponseEntity.ok().build();
     }
@@ -62,7 +72,8 @@ public class MemoVersionController implements MemoVersionApi {
      * 메모 버전 전체 조회
      */
     @GetMapping
-    public ResponseEntity<MemoVersionsDTO> findAllMemoVersion(@PathVariable("memoId") UUID memoId, @AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<MemoVersionsDTO> findAllMemoVersion(@PathVariable("memoId") UUID memoId,
+                                                              @AuthenticationPrincipal Jwt jwt){
         return ResponseEntity.ok().build();
     }
 
