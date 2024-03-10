@@ -26,6 +26,6 @@ public class MemoVersionsDTO {
         return new PageImpl<>(Collections.singletonList(
                 MemoVersionsDTO.builder()
                         .memoVersions(memoVersionTitleDTOS)
-                        .build()), memoVersions.getPageable(), memoVersions.getTotalPages());
+                        .build()), memoVersions.getPageable(), memoVersions.getTotalElements());
     }
 }
