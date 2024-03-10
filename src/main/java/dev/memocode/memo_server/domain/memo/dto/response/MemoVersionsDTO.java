@@ -1,33 +1,31 @@
 package dev.memocode.memo_server.domain.memo.dto.response;
 
-import dev.memocode.memo_server.domain.memo.entity.Memo;
+import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MemoVersionsDTO {
-    private int totalPage;
-    private int currentPage;
-    private boolean isLast;
-    private List<MemoVersionTitleDTO> memoVersionTitleDTOS;
+    private List<MemoVersionTitleDTO> memoVersions;
 
-    public static MemoVersionsDTO from(Page<Memo> memos) {
+    public static Page<MemoVersionsDTO> from(Page<MemoVersion> memoVersions) {
+        List<MemoVersionTitleDTO> memoVersionTitleDTOS = memoVersions.stream()
+                .map(MemoVersionTitleDTO::from)
+                .toList();
 
-
-        return MemoVersionsDTO.builder()
-                .totalPage(memos.getTotalPages())
-                .currentPage(memos.getNumber())
-                .isLast(memos.isLast())
-                .memoVersionTitleDTOS(null)
-                .build();
+        return new PageImpl<>(Collections.singletonList(
+                MemoVersionsDTO.builder()
+                        .memoVersions(memoVersionTitleDTOS)
+                        .build()), memoVersions.getPageable(), memoVersions.getTotalElements());
     }
 }

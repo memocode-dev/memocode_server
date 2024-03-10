@@ -1,6 +1,8 @@
 package dev.memocode.memo_server.domain.memo.repository;
 
+import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
+import dev.memocode.memo_server.domain.memo.repository.impl.MemoVersionRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,10 +12,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface MemoVersionRepository extends JpaRepository<MemoVersion, Long> {
+public interface MemoVersionRepository extends JpaRepository<MemoVersion, Long>, MemoVersionRepositoryCustom {
 
     @Query("select max(mv.version) from MemoVersion mv where mv.memo.id = :memoId")
     Integer findVersionByMemoId(@Param("memoId") UUID memoId);
 
     Optional<MemoVersion> findById(UUID memoVersionId);
+
+    Optional<MemoVersion> findByIdAndMemo(UUID memoVersionId, Memo memo);
 }
