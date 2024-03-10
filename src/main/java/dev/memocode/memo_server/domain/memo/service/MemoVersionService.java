@@ -14,8 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
-import static dev.memocode.memo_server.exception.GlobalErrorCode.MEMO_VERSION_NOT_FOUND;
-import static dev.memocode.memo_server.exception.GlobalErrorCode.NOT_VALID_MEMO_OWNER;
+import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
 
 @Slf4j
 @Service
@@ -48,6 +47,19 @@ public class MemoVersionService {
         MemoVersion memoVersion = findByMemoVersion(dto);
 
         memoVersion.delete();
+    }
+
+    public MemoVersion findMemoVersionDetail(Memo memo, UUID memoVersionId, UUID accountId) {
+        MemoVersion memoVersion = memoVersionRepository.findByIdAndMemo(memoVersionId, memo)
+                .orElseThrow(() -> new GlobalException(MEMO_VERSION_NOT_FOUND));
+
+        if (memoVersion.getDeleted()){
+            throw new GlobalException(MEMO_NOT_FOUND);
+        }
+
+        validOwner(memo.getAuthor().getAccountId(), accountId);
+
+        return memoVersion;
     }
 
     private MemoVersion findByMemoVersion(MemoVersionDeleteDTO dto) {

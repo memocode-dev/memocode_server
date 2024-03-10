@@ -3,6 +3,7 @@ package dev.memocode.memo_server.api;
 import dev.memocode.memo_server.api.spec.MemoVersionApi;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionRequestDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import dev.memocode.memo_server.domain.memo.mapper.MemoVersionDtoMapper;
@@ -64,8 +65,11 @@ public class MemoVersionController implements MemoVersionApi {
     public ResponseEntity<MemoVersionDetailDTO> findMemoVersion(@PathVariable("memoId") UUID memoId,
                                                                 @PathVariable("memoVersionId") UUID memoVersionId,
                                                                 @AuthenticationPrincipal Jwt jwt){
+        MemoVersionRequestDetailDTO dto = memoVersionDtoMapper.findMemoVersionDetail(memoId,
+                memoVersionId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
-        return ResponseEntity.ok().build();
+        MemoVersionDetailDTO memoVersion = memoVersionUseCase.findMemoVersionDetail(dto);
+        return ResponseEntity.ok().body(memoVersion);
     }
 
     /**

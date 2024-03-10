@@ -1,5 +1,6 @@
 package dev.memocode.memo_server.domain.memo.repository;
 
+import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,6 @@ public interface MemoVersionRepository extends JpaRepository<MemoVersion, Long> 
     Integer findVersionByMemoId(@Param("memoId") UUID memoId);
 
     Optional<MemoVersion> findById(UUID memoVersionId);
+
+    Optional<MemoVersion> findByIdAndMemo(UUID memoVersionId, Memo memo);
 }
