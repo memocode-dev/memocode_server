@@ -1,6 +1,5 @@
 package dev.memocode.memo_server.domain.memo.service;
 
-import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
@@ -8,10 +7,11 @@ import dev.memocode.memo_server.domain.memo.repository.MemoVersionRepository;
 import dev.memocode.memo_server.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
@@ -62,6 +62,17 @@ public class MemoVersionService {
         return memoVersion;
     }
 
+    public Page<MemoVersion> findMemoVersions(UUID accountId, Memo memo, int page, int size) {
+        validOwner(memo.getAuthor().getAccountId(), accountId);
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return memoVersionRepository.findAllByMemoVersion(memo.getId(), pageRequest);
+
+    }
+
+    /**
+     * 메모 버전 찾기
+     */
     private MemoVersion findByMemoVersion(MemoVersionDeleteDTO dto) {
         return memoVersionRepository.findById(dto.getMemoVersionId())
                 .orElseThrow(() -> new GlobalException(MEMO_VERSION_NOT_FOUND));

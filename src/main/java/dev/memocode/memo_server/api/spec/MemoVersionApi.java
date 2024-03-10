@@ -24,5 +24,5 @@ public interface MemoVersionApi {
     ResponseEntity<MemoVersionDetailDTO> findMemoVersion(UUID memoId, UUID memoVersionId, Jwt jwt);
 
     @Operation(summary = "메모 버전 전체 조회")
-    ResponseEntity<MemoVersionsDTO> findAllMemoVersion(UUID memoId, Jwt jwt);
+    ResponseEntity<MemoVersionsDTO> findAllMemoVersion(UUID memoId, Jwt jwt, int page, int size);
 }

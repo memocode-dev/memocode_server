@@ -77,8 +77,13 @@ public class MemoVersionController implements MemoVersionApi {
      */
     @GetMapping
     public ResponseEntity<MemoVersionsDTO> findAllMemoVersion(@PathVariable("memoId") UUID memoId,
-                                                              @AuthenticationPrincipal Jwt jwt){
-        return ResponseEntity.ok().build();
+                                                              @AuthenticationPrincipal Jwt jwt,
+                                                              @RequestParam(name = "page", defaultValue = "0") int page,
+                                                              @RequestParam(name = "size", defaultValue = "10") int size){
+        MemoVersionsDTO dto = memoVersionUseCase
+                .findMemoVersions(memoId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)), page, size);
+
+        return ResponseEntity.ok().body(dto);
     }
 
 }
