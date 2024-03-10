@@ -52,7 +52,7 @@ public class MemoVersionUseCaseImpl implements MemoVersionUseCase {
     }
 
     @Override
-    public MemoVersionsDTO findMemoVersions(UUID memoId, UUID accountId, int page, int size) {
+    public Page<MemoVersionsDTO> findMemoVersions(UUID memoId, UUID accountId, int page, int size) {
         Author author = authorService.findByAccountIdElseThrow(accountId);
         Memo memo = memoService.findByMemoId(memoId);
         Page<MemoVersion> memoVersions = memoVersionService

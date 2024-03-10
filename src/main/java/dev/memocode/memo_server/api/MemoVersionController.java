@@ -10,6 +10,7 @@ import dev.memocode.memo_server.domain.memo.mapper.MemoVersionDtoMapper;
 import dev.memocode.memo_server.usecase.MemoVersionUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -76,11 +77,11 @@ public class MemoVersionController implements MemoVersionApi {
      * 메모 버전 전체 조회
      */
     @GetMapping
-    public ResponseEntity<MemoVersionsDTO> findAllMemoVersion(@PathVariable("memoId") UUID memoId,
-                                                              @AuthenticationPrincipal Jwt jwt,
-                                                              @RequestParam(name = "page", defaultValue = "0") int page,
-                                                              @RequestParam(name = "size", defaultValue = "10") int size){
-        MemoVersionsDTO dto = memoVersionUseCase
+    public ResponseEntity<Page<MemoVersionsDTO>> findAllMemoVersion(@PathVariable("memoId") UUID memoId,
+                                                                    @AuthenticationPrincipal Jwt jwt,
+                                                                    @RequestParam(name = "page", defaultValue = "0") int page,
+                                                                    @RequestParam(name = "size", defaultValue = "10") int size){
+        Page<MemoVersionsDTO> dto = memoVersionUseCase
                 .findMemoVersions(memoId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)), page, size);
 
         return ResponseEntity.ok().body(dto);

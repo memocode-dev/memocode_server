@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -14,21 +16,16 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class MemoVersionsDTO {
-    private int totalPage;
-    private int currentPage;
-    private boolean isLast;
-    private List<MemoVersionTitleDTO> memoVersionTitleDTOS;
+    private List<MemoVersionTitleDTO> memoVersions;
 
-    public static MemoVersionsDTO from(Page<MemoVersion> memoVersions) {
+    public static Page<MemoVersionsDTO> from(Page<MemoVersion> memoVersions) {
         List<MemoVersionTitleDTO> memoVersionTitleDTOS = memoVersions.stream()
                 .map(MemoVersionTitleDTO::from)
                 .toList();
 
-        return MemoVersionsDTO.builder()
-                .totalPage(memoVersions.getTotalPages())
-                .currentPage(memoVersions.getNumber())
-                .isLast(memoVersions.isLast())
-                .memoVersionTitleDTOS(memoVersionTitleDTOS)
-                .build();
+        return new PageImpl<>(Collections.singletonList(
+                MemoVersionsDTO.builder()
+                        .memoVersions(memoVersionTitleDTOS)
+                        .build()), memoVersions.getPageable(), memoVersions.getTotalPages());
     }
 }
