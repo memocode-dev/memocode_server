@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
 
@@ -34,6 +35,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
                 .cors(c -> c.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(a -> a
+                        .requestMatchers(GET, "/memos/api-docs/**").permitAll()
                         .requestMatchers("/memos/**").access(hasScope("write:memo"))
                         .anyRequest().denyAll()
                 )
