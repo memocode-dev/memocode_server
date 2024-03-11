@@ -1,4 +1,4 @@
-package dev.memocode.memo_server.p6spy;
+package dev.memocode.memo_server.util;
 
 import com.p6spy.engine.logging.Category;
 import com.p6spy.engine.spy.P6SpyOptions;
