@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://prod-server:32000/memocode_memo_server_dev
+    username: memocode-dev
+    password: memocode-dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.dev.memocode.dev
+
+logging:
+  level:
+    org.springframework.transaction.interceptor: TRACE
