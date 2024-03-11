@@ -1,11 +1,11 @@
 package dev.memocode.memo_server.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.memocode.memo_server.exception.ErrorResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import me.farmfarm.house_server.exception.ErrorResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
