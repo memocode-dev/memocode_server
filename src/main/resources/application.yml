@@ -26,3 +26,14 @@ spring:
 logging:
   level:
     org.springframework.transaction.interceptor: INFO
+
+########## springdoc ##########
+springdoc:
+  api-docs:
+    path: /memos/api-docs
+
+########## custom ##########
+custom:
+  front:
+    domain: "SECRET"
+    domain2: "SECRET"

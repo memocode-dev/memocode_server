@@ -13,3 +13,8 @@ spring:
 logging:
   level:
     org.springframework.transaction.interceptor: TRACE
+
+custom:
+  front:
+    domain: "http://localhost:5173"
+    domain2: "http://localhost:5173"
