@@ -2,6 +2,7 @@ package dev.memocode.memo_server.api;
 
 import dev.memocode.memo_server.api.spec.PostApi;
 import dev.memocode.memo_server.domain.memo.dto.request.PostCreateDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.PostDeleteDTO;
 import dev.memocode.memo_server.domain.memo.mapper.PostDtoMapper;
 import dev.memocode.memo_server.usecase.PostUseCase;
 import lombok.RequiredArgsConstructor;
@@ -36,9 +37,15 @@ public class PostController implements PostApi {
         return ResponseEntity.created(URI.create(postId.toString())).body(postId.toString());
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deletePost(UUID memoId, UUID memVersionId, Jwt jwt) {
-        return null;
+    @DeleteMapping("/delete/{memoVersionId}")
+    public ResponseEntity<Void> deletePost(@PathVariable("memoId") UUID memoId,
+                                           @PathVariable("memoVersionId") UUID memoVersionId,
+                                           @AuthenticationPrincipal Jwt jwt) {
+        PostDeleteDTO dto = postDtoMapper
+                .deletePost(memoId, memoVersionId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+
+        postUseCase.deletePost(dto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping

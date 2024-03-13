@@ -2,6 +2,7 @@ package dev.memocode.memo_server.usecase.impl;
 
 import dev.memocode.memo_server.domain.external.author.service.AuthorService;
 import dev.memocode.memo_server.domain.memo.dto.request.PostCreateDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.PostDeleteDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import dev.memocode.memo_server.domain.memo.entity.SelectedMemoVersion;
@@ -30,5 +31,12 @@ public class PostUseCaseImpl implements PostUseCase {
         SelectedMemoVersion post = postService.createPost(memo, memoVersion, dto.getAccountId());
 
         return post.getId();
+    }
+
+    @Override
+    public void deletePost(PostDeleteDTO dto) {
+        Memo memo = memoService.findByMemoId(dto.getMemoId());
+        MemoVersion memoVersion = memoVersionService.findByMemoVersion(dto.getMemoVersionId());
+        postService.deletePost(memo, memoVersion, dto.getAccountId());
     }
 }
