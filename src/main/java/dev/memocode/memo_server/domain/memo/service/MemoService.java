@@ -7,6 +7,7 @@ import dev.memocode.memo_server.domain.memo.repository.MemoRepository;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
+import dev.memocode.memo_server.domain.memo.repository.PostRepository;
 import dev.memocode.memo_server.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +51,8 @@ public class MemoService {
 
     @Transactional
     public void deleteMemo(MemoDeleteDTO dto) {
+        validOwner(dto.getMemoId(), dto.getAccountId());
         Memo memo = findByMemoId(dto.getMemoId());
-        validOwner(memo.getAuthor().getAccountId(), dto.getAccountId());
 
         // soft delete 적용
         memo.delete();
@@ -59,8 +60,8 @@ public class MemoService {
 
     @Transactional
     public UUID updateMemo(MemoUpdateDTO dto) {
+        validOwner(dto.getMemoId(), dto.getAccountId());
         Memo memo = findByMemoId(dto.getMemoId());
-        validOwner(memo.getAuthor().getAccountId(), dto.getAccountId());
 
         memo.updateMemo(dto.getTitle(), dto.getContent());
 
@@ -68,27 +69,27 @@ public class MemoService {
     }
 
     public Memo findMemo(UUID memoId, UUID accountId) {
+        validOwner(memoId, accountId);
         Memo memo = findByMemoId(memoId);
 
         if (memo.getDeleted()){
             throw new GlobalException(MEMO_NOT_FOUND);
         }
 
-        validOwner(memo.getAuthor().getAccountId(), accountId);
-
         return memo;
     }
 
     public List<Memo> findMemos(UUID authorId) {
         return memoRepository.findByAuthorId(authorId);
-
     }
 
     /**
      * 메모 owner 체크
      */
-    private void validOwner(UUID memoOwnerAccountId, UUID accountId) {
-        if (!memoOwnerAccountId.equals(accountId)){
+    private void validOwner(UUID memoId, UUID accountId) {
+        Memo memo = findByMemoId(memoId);
+
+        if (!memo.getAuthor().getAccountId().equals(accountId)){
             throw new GlobalException(NOT_VALID_MEMO_OWNER);
         }
     }

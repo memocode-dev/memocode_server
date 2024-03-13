@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static dev.memocode.memo_server.exception.GlobalErrorCode.NOT_VALID_MEMO_OWNER;
+import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,22 +22,9 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    @Transactional
-    public SelectedMemoVersion createPost(Memo memo, MemoVersion memoVersion, UUID accountId) {
-        validOwner(memo.getAuthor().getAccountId(), accountId);
-
-        SelectedMemoVersion post = SelectedMemoVersion.builder()
-                .memo(memo)
-                .memoVersion(memoVersion)
-                .build();
-
-        return postRepository.save(post);
-    }
-
-    @Transactional
-    public void deletePost(Memo memo, MemoVersion memoVersion, UUID accountId) {
-        validOwner(memo.getAuthor().getAccountId(), accountId);
-        postRepository.deleteByMemoAndMemoVersion(memo, memoVersion);
+    public SelectedMemoVersion findPost(Memo memo, MemoVersion memoVersion) {
+        return postRepository.findByMemoAndMemoVersion(memo, memoVersion)
+                .orElseThrow(() -> new GlobalException(POST_NOT_FOUND));
     }
 
     private void validOwner(UUID ownerAccountId, UUID accountId) {

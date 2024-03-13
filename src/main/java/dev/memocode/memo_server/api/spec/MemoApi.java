@@ -30,5 +30,5 @@ public interface MemoApi {
     ResponseEntity<MemoDetailDTO> findMemo(UUID memoId, Jwt jwt);
 
     @Operation(summary = "메모 전체 조회")
-    ResponseEntity<MemosDTO> findAllMemo(Jwt jwt, int page, int size);
+    ResponseEntity<MemosDTO> findAllMemo(Jwt jwt);
 }

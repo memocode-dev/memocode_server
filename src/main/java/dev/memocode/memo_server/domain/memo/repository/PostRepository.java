@@ -6,7 +6,9 @@ import dev.memocode.memo_server.domain.memo.entity.SelectedMemoVersion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface PostRepository extends JpaRepository<SelectedMemoVersion, Long> {
-    void deleteByMemoAndMemoVersion(Memo memo, MemoVersion memoVersion);
+    Optional<SelectedMemoVersion> findByMemoAndMemoVersion(Memo memo, MemoVersion memoVersion);
 }

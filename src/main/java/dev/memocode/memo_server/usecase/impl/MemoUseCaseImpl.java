@@ -53,7 +53,7 @@ public class MemoUseCaseImpl implements MemoUseCase {
     }
 
     @Override
-    public MemosDTO findMemos(UUID accountId, int page, int size) {
+    public MemosDTO findMemos(UUID accountId) {
         Author author = authorService.findByAccountId(accountId)
                 .orElseThrow(() -> new GlobalException(AUTHOR_NOT_FOUND));
         List<Memo> memos = memoService.findMemos(author.getId());

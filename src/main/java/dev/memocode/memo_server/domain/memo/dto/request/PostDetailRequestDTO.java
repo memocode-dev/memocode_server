@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostDeleteDTO {
+public class PostDetailRequestDTO {
 
     private UUID memoId;
     private UUID memoVersionId;
