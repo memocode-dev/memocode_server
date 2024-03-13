@@ -22,7 +22,7 @@ public enum GlobalErrorCode {
 
     // 게시글 관련 오류
     POST_EXISTS_ERROR(CONFLICT, 409, "이미 게시글에 올라간 메모 입니다.", INFO),
-    POST_NOT_FOUND(NOT_FOUND, 404, "찾을 수 없는 게시글 입니다.", INFO)
+    POST_NOT_FOUND(NOT_FOUND, 404, "찾을 수 없거나 접근할 수 없는 게시글 입니다.", INFO)
     ;
 
     private final HttpStatus status;

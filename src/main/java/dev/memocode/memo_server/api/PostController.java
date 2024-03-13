@@ -23,7 +23,8 @@ public class PostController implements PostApi {
 
     @GetMapping("/{memoId}")
     public ResponseEntity<PostDetailDTO> findPost(@PathVariable("memoId") UUID memoId) {
-        return null;
+        PostDetailDTO post = postUseCase.findPost(memoId);
+        return ResponseEntity.ok().body(post);
     }
 
     @GetMapping("/all")
