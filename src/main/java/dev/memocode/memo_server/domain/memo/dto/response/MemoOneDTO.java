@@ -17,15 +17,17 @@ import java.util.UUID;
 @Builder
 public class MemoOneDTO {
 
-    private UUID memoId;
+    private UUID id;
     private String title;
+    private Integer sequence;
     private Instant createdAt;
     private Instant updatedAt;
 
     public static MemoOneDTO from(Memo memo) {
         return MemoOneDTO.builder()
-                .memoId(memo.getId())
+                .id(memo.getId())
                 .title(memo.getTitle())
+                .sequence(memo.getSequence())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
                 .build();

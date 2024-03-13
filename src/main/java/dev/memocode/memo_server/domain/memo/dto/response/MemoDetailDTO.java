@@ -17,7 +17,7 @@ import java.util.UUID;
 @Builder
 public class MemoDetailDTO {
 
-    private UUID memoId;
+    private UUID id;
     private String title;
     private String content;
     private Instant createdAt;
@@ -25,7 +25,7 @@ public class MemoDetailDTO {
 
     public static MemoDetailDTO from(Memo memo) {
         return MemoDetailDTO.builder()
-                .memoId(memo.getId())
+                .id(memo.getId())
                 .title(memo.getTitle())
                 .content(memo.getContent())
                 .createdAt(memo.getCreatedAt())
