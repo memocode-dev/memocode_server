@@ -42,7 +42,7 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom{
         List<Memo> posts = queryFactory
                 .selectFrom(post)
                 .where(post.visibility.eq(true))
-                .orderBy(post.sequence.desc())
+                .orderBy(post.createdAt.desc(), post.title.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
