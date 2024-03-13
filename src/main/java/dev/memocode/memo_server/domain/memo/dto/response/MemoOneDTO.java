@@ -15,19 +15,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemoDetailDTO {
+public class MemoOneDTO {
 
     private UUID memoId;
     private String title;
-    private String content;
     private Instant createdAt;
     private Instant updatedAt;
 
-    public static MemoDetailDTO from(Memo memo) {
-        return MemoDetailDTO.builder()
+    public static MemoOneDTO from(Memo memo) {
+        return MemoOneDTO.builder()
                 .memoId(memo.getId())
                 .title(memo.getTitle())
-                .content(memo.getContent())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
                 .build();

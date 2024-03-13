@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
@@ -46,17 +47,16 @@ public class MemoUseCaseImpl implements MemoUseCase {
 
     @Override
     public MemoDetailDTO findMemo(UUID memoId, UUID accountId) {
-        Memo memo = memoService.findMemo(memoId);
-        Author author = authorService.findByAccountIdElseThrow(accountId);
+        Memo memo = memoService.findMemo(memoId, accountId);
 
-        return MemoDetailDTO.of(memo, author);
+        return MemoDetailDTO.from(memo);
     }
 
     @Override
     public MemosDTO findMemos(UUID accountId, int page, int size) {
         Author author = authorService.findByAccountId(accountId)
                 .orElseThrow(() -> new GlobalException(AUTHOR_NOT_FOUND));
-        Page<Memo> memos = memoService.findMemos(author.getId(), page, size);
+        List<Memo> memos = memoService.findMemos(author.getId());
 
         return MemosDTO.from(memos);
     }

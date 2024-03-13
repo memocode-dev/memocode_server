@@ -16,21 +16,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class MemosDTO {
 
-    private int totalPage;
-    private int currentPage;
-    private boolean isLast;
-    private List<MemoDetailDTO> memoDetailDTOS;
+    private List<MemoOneDTO> data;
 
-    public static MemosDTO from(Page<Memo> memos) {
-        List<MemoDetailDTO> memoDTOs = memos.stream()
-                .map(memo -> MemoDetailDTO.of(memo, memo.getAuthor()))
+    public static MemosDTO from(List<Memo> memos) {
+        List<MemoOneDTO> memoDTOs = memos.stream()
+                .map(MemoOneDTO::from)
                 .collect(Collectors.toList());
 
         return MemosDTO.builder()
-                .totalPage(memos.getTotalPages())
-                .currentPage(memos.getNumber())
-                .isLast(memos.isLast())
-                .memoDetailDTOS(memoDTOs)
+                .data(memoDTOs)
                 .build();
     }
 }
