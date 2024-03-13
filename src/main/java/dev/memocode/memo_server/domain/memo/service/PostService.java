@@ -6,6 +6,8 @@ import dev.memocode.memo_server.exception.GlobalException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.grammars.graph.GraphLanguageParserBaseListener;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,11 @@ public class PostService {
         return memo;
     }
 
+    public Page<Memo> findAllPost(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        return memoRepository.findByPost(pageRequest);
+    }
 
     /**
      * 게시글(메모) 찾기

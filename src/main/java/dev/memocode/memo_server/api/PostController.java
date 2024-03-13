@@ -2,10 +2,12 @@ package dev.memocode.memo_server.api;
 
 import dev.memocode.memo_server.api.spec.PostApi;
 import dev.memocode.memo_server.domain.memo.dto.response.PostDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.PostsDTO;
 import dev.memocode.memo_server.domain.memo.mapper.PostDtoMapper;
 import dev.memocode.memo_server.usecase.PostUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +20,6 @@ import java.util.UUID;
 public class PostController implements PostApi {
 
     private final PostUseCase postUseCase;
-    private final PostDtoMapper postDtoMapper;
-    private static final String ACCOUNT_ID_CLAIM_NAME = "account_id";
 
     @GetMapping("/{memoId}")
     public ResponseEntity<PostDetailDTO> findPost(@PathVariable("memoId") UUID memoId) {
@@ -27,8 +27,10 @@ public class PostController implements PostApi {
         return ResponseEntity.ok().body(post);
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<Void> findAllPost() {
-        return null;
+    @GetMapping
+    public ResponseEntity<Page<PostsDTO>> findAllPost(@RequestParam(name = "page", defaultValue = "0") int page,
+                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+        Page<PostsDTO> dto = postUseCase.findAllPost(page, size);
+        return ResponseEntity.ok().body(dto);
     }
 }
