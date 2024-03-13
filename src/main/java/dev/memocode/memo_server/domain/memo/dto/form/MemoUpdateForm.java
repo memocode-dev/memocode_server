@@ -13,4 +13,5 @@ public class MemoUpdateForm {
     // createForm 겹치는 문제
     private String title;
     private String content;
+    private Boolean visibility;
 }

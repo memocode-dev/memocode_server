@@ -61,7 +61,7 @@ public class MemoService {
         validOwner(dto.getMemoId(), dto.getAccountId());
         Memo memo = findByMemoId(dto.getMemoId());
 
-        memo.updateMemo(dto.getTitle(), dto.getContent());
+        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility());
 
         return memo.getId();
     }
@@ -81,13 +81,6 @@ public class MemoService {
         return memoRepository.findByAuthorId(authorId);
     }
 
-    @Transactional
-    public void updateMemoVisibility(MemoUpdateVisibilityDTO dto) {
-        validOwner(dto.getMemoId(), dto.getAccountId());
-        Memo memo = findByMemoId(dto.getMemoId());
-
-        memo.updateVisibility(dto.getVisibility());
-    }
 
     /**
      * 메모 owner 체크

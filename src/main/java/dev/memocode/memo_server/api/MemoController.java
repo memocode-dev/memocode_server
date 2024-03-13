@@ -93,18 +93,4 @@ public class MemoController implements MemoApi {
                 memoUseCase.findMemos(UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
         return ResponseEntity.ok().body(memos);
     }
-
-    /**
-     * 게시글 등록, 미등록 설정
-     */
-    @PatchMapping("/{memoId}/visibility")
-    public ResponseEntity<Void> updateMemoVisibility(@PathVariable("memoId") UUID memoId,
-                                                     @RequestBody MemoUpdateVisibilityForm form,
-                                                     @AuthenticationPrincipal Jwt jwt) {
-        MemoUpdateVisibilityDTO dto = memoDtoMapper
-                .fromMemoUpdateVisibility(memoId, form.getVisibility(), UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
-
-        memoUseCase.updateMemoVisibility(dto);
-        return ResponseEntity.ok().build();
-    }
 }

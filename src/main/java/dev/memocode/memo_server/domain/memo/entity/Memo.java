@@ -74,12 +74,9 @@ public class Memo extends AggregateRoot {
     }
 
     // 메모 수정
-    public void updateMemo(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
-
-    public void updateVisibility(Boolean visibility) {
-        this.visibility = visibility;
+    public void updateMemo(String title, String content, Boolean visibility) {
+        this.title = title == null ? this.title: title;
+        this.content = content == null ? this.content: content;
+        this.visibility = visibility == null ? this.visibility: visibility;
     }
 }

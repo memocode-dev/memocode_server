@@ -32,7 +32,4 @@ public interface MemoApi {
 
     @Operation(summary = "메모 전체 조회")
     ResponseEntity<MemosDTO> findAllMemo(Jwt jwt);
-
-    @Operation(summary = "메모 visibility 수정")
-    ResponseEntity<Void> updateMemoVisibility(UUID memoId, MemoUpdateVisibilityForm form, Jwt jwt);
 }

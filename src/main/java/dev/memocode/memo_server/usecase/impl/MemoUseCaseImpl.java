@@ -61,9 +61,4 @@ public class MemoUseCaseImpl implements MemoUseCase {
 
         return MemosDTO.from(memos);
     }
-
-    @Override
-    public void updateMemoVisibility(MemoUpdateVisibilityDTO dto) {
-        memoService.updateMemoVisibility(dto);
-    }
 }

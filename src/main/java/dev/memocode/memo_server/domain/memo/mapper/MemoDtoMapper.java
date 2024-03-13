@@ -35,14 +35,7 @@ public class MemoDtoMapper {
                 .accountId(accountId)
                 .title(form.getTitle())
                 .content(form.getContent())
-                .build();
-    }
-
-    public MemoUpdateVisibilityDTO fromMemoUpdateVisibility(UUID memoId, boolean visibility, UUID accountId) {
-        return MemoUpdateVisibilityDTO.builder()
-                .memoId(memoId)
-                .visibility(visibility)
-                .accountId(accountId)
+                .visibility(form.getVisibility())
                 .build();
     }
 }

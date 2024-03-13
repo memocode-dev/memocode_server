@@ -25,7 +25,4 @@ public interface MemoUseCase {
     MemoDetailDTO findMemo(UUID memoId, UUID accountID);
 
     MemosDTO findMemos(UUID uuid);
-
-    @Transactional
-    void updateMemoVisibility(MemoUpdateVisibilityDTO dto);
 }

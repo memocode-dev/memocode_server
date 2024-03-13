@@ -17,4 +17,5 @@ public class MemoUpdateDTO {
     private UUID accountId;
     private String title;
     private String content;
+    private Boolean visibility;
 }
