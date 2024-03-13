@@ -23,5 +23,5 @@ public interface MemoUseCase {
     @Transactional
     UUID updateMemo(MemoUpdateDTO dto);
 
-    MemosDTO findMemos(UUID uuid, int page, int size);
+    MemosDTO findMemos(UUID uuid);
 }

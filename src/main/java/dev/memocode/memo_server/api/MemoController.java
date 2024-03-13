@@ -85,11 +85,9 @@ public class MemoController implements MemoApi {
      * 메모 전체 조회
      */
     @GetMapping
-    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt,
-                                                @RequestParam(name = "page", defaultValue = "0") int page,
-                                                @RequestParam(name = "size", defaultValue = "10") int size){
+    public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt){
         MemosDTO memos =
-                memoUseCase.findMemos(UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)), page, size);
+                memoUseCase.findMemos(UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
         return ResponseEntity.ok().body(memos);
     }
 }
