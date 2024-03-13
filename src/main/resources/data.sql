@@ -36,6 +36,8 @@ CREATE TABLE memos
     series_id      CHAR(36),
     affinity       INT,
     sequence         INT,
+    visibility     BOOLEAN,
+    security       BOOLEAN,
     parent_memo_id CHAR(36),
     created_at     DATETIME NOT NULL,
     updated_at     DATETIME NOT NULL,
@@ -58,17 +60,6 @@ CREATE TABLE memo_version
     deleted_at DATETIME,
     is_deleted BOOLEAN  NOT NULL,
     FOREIGN KEY (memo_id) REFERENCES memos (id)
-) ENGINE=InnoDB ROW_FORMAT=DYNAMIC CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-CREATE TABLE selected_memo_version
-(
-    id              CHAR(36) PRIMARY KEY,
-    memo_id         CHAR(36) UNIQUE,
-    memo_version_id CHAR(36) UNIQUE,
-    created_at      DATETIME NOT NULL,
-    updated_at      DATETIME NOT NULL,
-    FOREIGN KEY (memo_id) REFERENCES memos (id),
-    FOREIGN KEY (memo_version_id) REFERENCES memo_version (id)
 ) ENGINE=InnoDB ROW_FORMAT=DYNAMIC CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 CREATE TABLE comments

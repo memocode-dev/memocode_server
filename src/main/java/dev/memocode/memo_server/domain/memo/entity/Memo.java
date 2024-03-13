@@ -53,6 +53,12 @@ public class Memo extends AggregateRoot {
     @Column(name = "sequence")
     private Integer sequence;
 
+    @Column(name = "visibility")
+    private boolean visibility;
+
+    @Column(name = "security")
+    private boolean security;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_memo_id")
     private Memo parentMemo;
