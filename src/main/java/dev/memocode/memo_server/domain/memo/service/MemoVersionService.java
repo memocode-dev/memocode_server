@@ -44,7 +44,7 @@ public class MemoVersionService {
     @Transactional
     public void deleteMemoVersion(Memo memo, MemoVersionDeleteDTO dto) {
         validOwner(memo.getAuthor().getAccountId(), dto.getAccountId());
-        MemoVersion memoVersion = findByMemoVersion(dto);
+        MemoVersion memoVersion = findByMemoVersion(dto.getMemoVersionId());
 
         memoVersion.delete();
     }
@@ -73,8 +73,8 @@ public class MemoVersionService {
     /**
      * 메모 버전 찾기
      */
-    private MemoVersion findByMemoVersion(MemoVersionDeleteDTO dto) {
-        return memoVersionRepository.findById(dto.getMemoVersionId())
+    public MemoVersion findByMemoVersion(UUID memoVersionId) {
+        return memoVersionRepository.findById(memoVersionId)
                 .orElseThrow(() -> new GlobalException(MEMO_VERSION_NOT_FOUND));
     }
 
