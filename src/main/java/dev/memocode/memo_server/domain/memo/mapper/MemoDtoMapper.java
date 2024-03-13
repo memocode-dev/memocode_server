@@ -5,6 +5,8 @@ import dev.memocode.memo_server.domain.memo.dto.form.MemoUpdateForm;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateVisibilityDTO;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -27,12 +29,20 @@ public class MemoDtoMapper {
                 .build();
     }
 
-    public MemoUpdateDTO fromMemoUpdateMemoIdAndAccountId(UUID memoId, MemoUpdateForm form, UUID accountId) {
+    public MemoUpdateDTO fromMemoUpdate(UUID memoId, MemoUpdateForm form, UUID accountId) {
         return MemoUpdateDTO.builder()
                 .memoId(memoId)
                 .accountId(accountId)
                 .title(form.getTitle())
                 .content(form.getContent())
+                .build();
+    }
+
+    public MemoUpdateVisibilityDTO fromMemoUpdateVisibility(UUID memoId, boolean visibility, UUID accountId) {
+        return MemoUpdateVisibilityDTO.builder()
+                .memoId(memoId)
+                .visibility(visibility)
+                .accountId(accountId)
                 .build();
     }
 }

@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface MemoRepositoryCustom {
 
     List<Memo> findByAuthorId(UUID authorId);
+
+    Page<Memo> findByPosts(Pageable pageable);
 }

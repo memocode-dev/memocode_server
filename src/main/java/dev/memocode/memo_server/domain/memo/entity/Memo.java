@@ -54,10 +54,10 @@ public class Memo extends AggregateRoot {
     private Integer sequence;
 
     @Column(name = "visibility")
-    private boolean visibility;
+    private Boolean visibility;
 
     @Column(name = "security")
-    private boolean security;
+    private Boolean security;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_memo_id")
@@ -77,5 +77,9 @@ public class Memo extends AggregateRoot {
     public void updateMemo(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void updateVisibility(Boolean visibility) {
+        this.visibility = visibility;
     }
 }

@@ -2,9 +2,11 @@ package dev.memocode.memo_server.api;
 
 import dev.memocode.memo_server.api.spec.MemoApi;
 import dev.memocode.memo_server.domain.memo.dto.form.MemoCreateForm;
+import dev.memocode.memo_server.domain.memo.dto.form.MemoUpdateVisibilityForm;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.form.MemoUpdateForm;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateVisibilityDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
@@ -60,10 +62,11 @@ public class MemoController implements MemoApi {
      * 메모 수정
      */
     @PatchMapping("/{memoId}")
-    public ResponseEntity<String> updateMemo(@PathVariable("memoId") UUID memoId, @RequestBody MemoUpdateForm form,
-                                                    @AuthenticationPrincipal Jwt jwt){
+    public ResponseEntity<String> updateMemo(@PathVariable("memoId") UUID memoId,
+                                             @RequestBody MemoUpdateForm form,
+                                             @AuthenticationPrincipal Jwt jwt){
         MemoUpdateDTO dto =
-                memoDtoMapper.fromMemoUpdateMemoIdAndAccountId(memoId,
+                memoDtoMapper.fromMemoUpdate(memoId,
                         form, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
         UUID updateMemoId = memoUseCase.updateMemo(dto);
@@ -89,5 +92,19 @@ public class MemoController implements MemoApi {
         MemosDTO memos =
                 memoUseCase.findMemos(UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
         return ResponseEntity.ok().body(memos);
+    }
+
+    /**
+     * 게시글 등록, 미등록 설정
+     */
+    @PatchMapping("/{memoId}/visibility")
+    public ResponseEntity<Void> updateMemoVisibility(@PathVariable("memoId") UUID memoId,
+                                                     @RequestBody MemoUpdateVisibilityForm form,
+                                                     @AuthenticationPrincipal Jwt jwt) {
+        MemoUpdateVisibilityDTO dto = memoDtoMapper
+                .fromMemoUpdateVisibility(memoId, form.getVisibility(), UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
+
+        memoUseCase.updateMemoVisibility(dto);
+        return ResponseEntity.ok().build();
     }
 }
