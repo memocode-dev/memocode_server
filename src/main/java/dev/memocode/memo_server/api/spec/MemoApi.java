@@ -2,6 +2,7 @@ package dev.memocode.memo_server.api.spec;
 
 import dev.memocode.memo_server.domain.memo.dto.form.MemoCreateForm;
 import dev.memocode.memo_server.domain.memo.dto.form.MemoUpdateForm;
+import dev.memocode.memo_server.domain.memo.dto.form.MemoUpdateVisibilityForm;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,4 +32,7 @@ public interface MemoApi {
 
     @Operation(summary = "메모 전체 조회")
     ResponseEntity<MemosDTO> findAllMemo(Jwt jwt);
+
+    @Operation(summary = "메모 visibility 수정")
+    ResponseEntity<Void> updateMemoVisibility(UUID memoId, MemoUpdateVisibilityForm form, Jwt jwt);
 }

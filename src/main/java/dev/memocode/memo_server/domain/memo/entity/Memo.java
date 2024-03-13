@@ -78,4 +78,8 @@ public class Memo extends AggregateRoot {
         this.title = title;
         this.content = content;
     }
+
+    public void updateVisibility(Boolean visibility) {
+        this.visibility = visibility;
+    }
 }

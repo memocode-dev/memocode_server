@@ -2,6 +2,7 @@ package dev.memocode.memo_server.usecase.impl;
 
 import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.external.author.service.AuthorService;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateVisibilityDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
@@ -59,5 +60,10 @@ public class MemoUseCaseImpl implements MemoUseCase {
         List<Memo> memos = memoService.findMemos(author.getId());
 
         return MemosDTO.from(memos);
+    }
+
+    @Override
+    public void updateMemoVisibility(MemoUpdateVisibilityDTO dto) {
+        memoService.updateMemoVisibility(dto);
     }
 }

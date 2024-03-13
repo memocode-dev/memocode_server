@@ -2,6 +2,7 @@ package dev.memocode.memo_server.domain.memo.service;
 
 import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.external.author.service.AuthorService;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateVisibilityDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.repository.MemoRepository;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
@@ -78,6 +79,14 @@ public class MemoService {
 
     public List<Memo> findMemos(UUID authorId) {
         return memoRepository.findByAuthorId(authorId);
+    }
+
+    @Transactional
+    public void updateMemoVisibility(MemoUpdateVisibilityDTO dto) {
+        validOwner(dto.getMemoId(), dto.getAccountId());
+        Memo memo = findByMemoId(dto.getMemoId());
+
+        memo.updateVisibility(dto.getVisibility());
     }
 
     /**

@@ -19,7 +19,6 @@ import java.util.UUID;
 public class PostUseCaseImpl implements PostUseCase {
 
     private final PostService postService;
-    private final MemoVersionService memoVersionService;
 
     @Override
     public PostDetailDTO findPost(UUID memoId) {
