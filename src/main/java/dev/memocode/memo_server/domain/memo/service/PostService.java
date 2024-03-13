@@ -41,7 +41,7 @@ public class PostService {
     public Page<Memo> findAllPost(int page, int size) {
         PageRequest pageRequest = PageRequest.of(page, size);
 
-        return memoRepository.findByPost(pageRequest);
+        return memoRepository.findByPosts(pageRequest);
     }
 
     /**

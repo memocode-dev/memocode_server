@@ -11,5 +11,5 @@ public interface MemoRepositoryCustom {
 
     List<Memo> findByAuthorId(UUID authorId);
 
-    Page<Memo> findByPost(Pageable pageable);
+    Page<Memo> findByPosts(Pageable pageable);
 }

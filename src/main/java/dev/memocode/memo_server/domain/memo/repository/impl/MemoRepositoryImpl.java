@@ -36,7 +36,7 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom{
     }
 
     @Override
-    public Page<Memo> findByPost(Pageable pageable) {
+    public Page<Memo> findByPosts(Pageable pageable) {
         QMemo post = QMemo.memo;
 
         List<Memo> posts = queryFactory
@@ -52,8 +52,6 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom{
                 .from(post)
                 .where(post.visibility.eq(true))
                 .fetchOne();
-
-        log.info("total = {}", total);
 
         return new PageImpl<>(posts, pageable, total);
     }
