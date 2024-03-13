@@ -22,23 +22,14 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Memo> findByAuthorId(UUID authorId, Pageable pageable) {
+    public List<Memo> findByAuthorId(UUID authorId) {
         QMemo memo = QMemo.memo;
         BooleanExpression authorIdEq = memo.author.id.eq(authorId);
 
-        List<Memo> memos = queryFactory
+        return queryFactory
                 .selectFrom(memo)
                 .where(authorIdEq)
-                .orderBy(memo.sequence.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .orderBy(memo.sequence.asc())
                 .fetch();
-
-        Long total = queryFactory
-                .select(memo.count())
-                .from(memo)
-                .fetchOne();
-
-        return new PageImpl<>(memos, pageable, total);
     }
 }

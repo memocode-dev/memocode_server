@@ -1,5 +1,5 @@
 # 베이스 이미지
-FROM eclipse-temurin:17
+FROM eclipse-temurin:21
 
 # 작업 디렉토리 설정
 WORKDIR /app

@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 import static dev.memocode.memo_server.exception.GlobalErrorCode.MEMO_NOT_FOUND;
@@ -66,20 +67,20 @@ public class MemoService {
         return memo.getId();
     }
 
-    public Memo findMemo(UUID memoId) {
+    public Memo findMemo(UUID memoId, UUID accountId) {
         Memo memo = findByMemoId(memoId);
 
         if (memo.getDeleted()){
             throw new GlobalException(MEMO_NOT_FOUND);
         }
 
+        validOwner(memo.getAuthor().getAccountId(), accountId);
+
         return memo;
     }
 
-    public Page<Memo> findMemos(UUID authorId, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
-
-        return memoRepository.findByAuthorId(authorId, pageRequest);
+    public List<Memo> findMemos(UUID authorId) {
+        return memoRepository.findByAuthorId(authorId);
 
     }
 
