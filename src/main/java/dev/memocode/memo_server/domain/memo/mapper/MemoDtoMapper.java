@@ -36,6 +36,7 @@ public class MemoDtoMapper {
                 .title(form.getTitle())
                 .content(form.getContent())
                 .visibility(form.getVisibility())
+                .security(form.getSecurity())
                 .build();
     }
 }

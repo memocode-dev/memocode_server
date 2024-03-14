@@ -3,6 +3,8 @@ package dev.memocode.memo_server.domain.memo.entity;
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
 import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.series.entity.Series;
+import dev.memocode.memo_server.exception.GlobalErrorCode;
+import dev.memocode.memo_server.exception.GlobalException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,6 +19,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
+import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
 import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PRIVATE;
@@ -74,9 +77,13 @@ public class Memo extends AggregateRoot {
     }
 
     // 메모 수정
-    public void updateMemo(String title, String content, Boolean visibility) {
-        this.title = title == null ? this.title: title;
-        this.content = content == null ? this.content: content;
-        this.visibility = visibility == null ? this.visibility: visibility;
+    public void updateMemo(String title, String content, Boolean visibility, Boolean security) {
+
+        if (security != null && this.security) throw new GlobalException(PROTECT_MEMO_SECURITY_UNMODIFIED);
+
+        this.title = title == null ? this.title : title;
+        this.content = content == null ? this.content : content;
+        this.visibility = visibility == null ? this.visibility : visibility;
+        this.security = security == null ? this.security : security;
     }
 }

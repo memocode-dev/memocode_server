@@ -61,7 +61,7 @@ public class MemoService {
         validOwner(dto.getMemoId(), dto.getAccountId());
         Memo memo = findByMemoId(dto.getMemoId());
 
-        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility());
+        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility(), dto.getSecurity());
 
         return memo.getId();
     }

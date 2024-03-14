@@ -19,6 +19,7 @@ public enum GlobalErrorCode {
     MEMO_NOT_FOUND(NOT_FOUND, 404, "memo not found", INFO),
     NOT_VALID_MEMO_OWNER(FORBIDDEN, 403, "메모에 접근할 권한이 없습니다.", INFO),
     MEMO_VERSION_NOT_FOUND(NOT_FOUND, 404, "메모 버전에 접근할 수 없습니다.", INFO),
+    PROTECT_MEMO_SECURITY_UNMODIFIED(BAD_REQUEST, 400, "한번 보호된 메모는 보호 모도를 풀 수 없습니다.", INFO),
 
     // 게시글 관련 오류
     POST_EXISTS_ERROR(CONFLICT, 409, "이미 게시글에 올라간 메모 입니다.", INFO),

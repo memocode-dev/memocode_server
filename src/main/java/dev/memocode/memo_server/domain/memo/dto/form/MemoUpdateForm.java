@@ -14,4 +14,5 @@ public class MemoUpdateForm {
     private String title;
     private String content;
     private Boolean visibility;
+    private Boolean security;
 }
