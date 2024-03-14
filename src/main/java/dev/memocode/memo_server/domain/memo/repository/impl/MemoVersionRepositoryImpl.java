@@ -36,6 +36,7 @@ public class MemoVersionRepositoryImpl implements MemoVersionRepositoryCustom {
         Long total = queryFactory
                 .select(memoVersion.count())
                 .from(memoVersion)
+                .where(memoIdEq)
                 .fetchOne();
 
         return new PageImpl<>(memoVersions, pageable, total);

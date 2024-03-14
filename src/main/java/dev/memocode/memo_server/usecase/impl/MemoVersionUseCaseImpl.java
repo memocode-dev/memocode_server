@@ -6,6 +6,7 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionRequestDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionTitleDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
@@ -52,12 +53,12 @@ public class MemoVersionUseCaseImpl implements MemoVersionUseCase {
     }
 
     @Override
-    public Page<MemoVersionsDTO> findMemoVersions(UUID memoId, UUID accountId, int page, int size) {
+    public Page<MemoVersionTitleDTO> findMemoVersions(UUID memoId, UUID accountId, int page, int size) {
         Author author = authorService.findByAccountIdElseThrow(accountId);
         Memo memo = memoService.findByMemoId(memoId);
         Page<MemoVersion> memoVersions = memoVersionService
                 .findMemoVersions(author.getAccountId(), memo, page, size);
 
-        return MemoVersionsDTO.from(memoVersions);
+        return MemoVersionTitleDTO.from(memoVersions);
     }
 }

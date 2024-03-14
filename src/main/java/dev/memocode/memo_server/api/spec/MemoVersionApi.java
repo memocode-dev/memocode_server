@@ -1,6 +1,7 @@
 package dev.memocode.memo_server.api.spec;
 
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionTitleDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,5 +26,5 @@ public interface MemoVersionApi {
     ResponseEntity<MemoVersionDetailDTO> findMemoVersion(UUID memoId, UUID memoVersionId, Jwt jwt);
 
     @Operation(summary = "메모 버전 전체 조회")
-    ResponseEntity<Page<MemoVersionsDTO>> findAllMemoVersion(UUID memoId, Jwt jwt, int page, int size);
+    ResponseEntity<Page<MemoVersionTitleDTO>> findAllMemoVersion(UUID memoId, Jwt jwt, int page, int size);
 }

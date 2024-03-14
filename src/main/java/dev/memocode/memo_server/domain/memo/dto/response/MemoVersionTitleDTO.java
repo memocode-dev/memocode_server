@@ -5,8 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -27,5 +31,14 @@ public class MemoVersionTitleDTO {
                 .title(memoVersion.getTitle())
                 .createdAt(memoVersion.getCreatedAt())
                 .build();
+    }
+
+    public static Page<MemoVersionTitleDTO> from(Page<MemoVersion> memoVersions){
+        List<MemoVersionTitleDTO> list = memoVersions.stream()
+                .map(MemoVersionTitleDTO::from)
+                .toList();
+
+        return PageableExecutionUtils.getPage(list, memoVersions.getPageable(), memoVersions::getTotalElements);
+
     }
 }
