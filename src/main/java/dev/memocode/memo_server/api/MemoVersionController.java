@@ -5,7 +5,6 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionRequestDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
-import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionTitleDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import dev.memocode.memo_server.domain.memo.mapper.MemoVersionDtoMapper;
 import dev.memocode.memo_server.usecase.MemoVersionUseCase;
@@ -78,11 +77,11 @@ public class MemoVersionController implements MemoVersionApi {
      * 메모 버전 전체 조회
      */
     @GetMapping
-    public ResponseEntity<Page<MemoVersionTitleDTO>> findAllMemoVersion(@PathVariable("memoId") UUID memoId,
+    public ResponseEntity<Page<MemoVersionsDTO>> findAllMemoVersion(@PathVariable("memoId") UUID memoId,
                                                                     @AuthenticationPrincipal Jwt jwt,
                                                                     @RequestParam(name = "page", defaultValue = "0") int page,
                                                                     @RequestParam(name = "size", defaultValue = "10") int size){
-        Page<MemoVersionTitleDTO> dto = memoVersionUseCase
+        Page<MemoVersionsDTO> dto = memoVersionUseCase
                 .findMemoVersions(memoId, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)), page, size);
 
         return ResponseEntity.ok().body(dto);
