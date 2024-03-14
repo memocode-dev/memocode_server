@@ -18,4 +18,5 @@ public class MemoUpdateDTO {
     private String title;
     private String content;
     private Boolean visibility;
+    private Boolean security;
 }

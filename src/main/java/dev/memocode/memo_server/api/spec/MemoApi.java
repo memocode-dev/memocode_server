@@ -25,7 +25,7 @@ public interface MemoApi {
     ResponseEntity<Void> deleteMemo(UUID memoId, Jwt jwt);
 
     @Operation(summary = "메모 수정")
-    ResponseEntity<String> updateMemo(UUID memoId, MemoUpdateForm form, Jwt jwt);
+    ResponseEntity<Void> updateMemo(UUID memoId, MemoUpdateForm form, Jwt jwt);
 
     @Operation(summary = "메모 단일 조회")
     ResponseEntity<MemoDetailDTO> findMemo(UUID memoId, Jwt jwt);

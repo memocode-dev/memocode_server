@@ -11,7 +11,6 @@ import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
 import dev.memocode.memo_server.domain.memo.service.MemoVersionService;
-import dev.memocode.memo_server.exception.GlobalException;
 import dev.memocode.memo_server.usecase.MemoVersionUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

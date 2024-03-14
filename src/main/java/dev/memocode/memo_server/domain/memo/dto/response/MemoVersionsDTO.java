@@ -6,26 +6,38 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.support.PageableExecutionUtils;
 
-import java.util.Collections;
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MemoVersionsDTO {
-    private List<MemoVersionTitleDTO> memoVersions;
 
-    public static Page<MemoVersionsDTO> from(Page<MemoVersion> memoVersions) {
-        List<MemoVersionTitleDTO> memoVersionTitleDTOS = memoVersions.stream()
-                .map(MemoVersionTitleDTO::from)
+    private UUID id;
+    private Integer version;
+    private String title;
+    private Instant createdAt;
+
+    public static MemoVersionsDTO from(MemoVersion memoVersion){
+        return MemoVersionsDTO.builder()
+                .id(memoVersion.getId())
+                .version(memoVersion.getVersion())
+                .title(memoVersion.getTitle())
+                .createdAt(memoVersion.getCreatedAt())
+                .build();
+    }
+
+    public static Page<MemoVersionsDTO> from(Page<MemoVersion> memoVersions){
+        List<MemoVersionsDTO> list = memoVersions.stream()
+                .map(MemoVersionsDTO::from)
                 .toList();
 
-        return new PageImpl<>(Collections.singletonList(
-                MemoVersionsDTO.builder()
-                        .memoVersions(memoVersionTitleDTOS)
-                        .build()), memoVersions.getPageable(), memoVersions.getTotalElements());
+        return PageableExecutionUtils.getPage(list, memoVersions.getPageable(), memoVersions::getTotalElements);
+
     }
 }

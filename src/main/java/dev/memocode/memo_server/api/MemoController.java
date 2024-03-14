@@ -62,16 +62,16 @@ public class MemoController implements MemoApi {
      * 메모 수정
      */
     @PatchMapping("/{memoId}")
-    public ResponseEntity<String> updateMemo(@PathVariable("memoId") UUID memoId,
+    public ResponseEntity<Void> updateMemo(@PathVariable("memoId") UUID memoId,
                                              @RequestBody MemoUpdateForm form,
                                              @AuthenticationPrincipal Jwt jwt){
         MemoUpdateDTO dto =
                 memoDtoMapper.fromMemoUpdate(memoId,
                         form, UUID.fromString(jwt.getClaim(ACCOUNT_ID_CLAIM_NAME)));
 
-        UUID updateMemoId = memoUseCase.updateMemo(dto);
+        memoUseCase.updateMemo(dto);
 
-        return ResponseEntity.ok().body(updateMemoId.toString());
+        return ResponseEntity.noContent().build();
     }
 
     /**

@@ -29,7 +29,7 @@ public class PostController implements PostApi {
 
     @GetMapping
     public ResponseEntity<Page<PostsDTO>> findAllPost(@RequestParam(name = "page", defaultValue = "0") int page,
-                                                @RequestParam(name = "size", defaultValue = "10") int size) {
+                                                      @RequestParam(name = "size", defaultValue = "10") int size) {
         Page<PostsDTO> dto = postUseCase.findAllPost(page, size);
         return ResponseEntity.ok().body(dto);
     }
