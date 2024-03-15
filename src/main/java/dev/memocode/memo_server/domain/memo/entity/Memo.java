@@ -79,7 +79,11 @@ public class Memo extends AggregateRoot {
     // 메모 수정
     public void updateMemo(String title, String content, Boolean visibility, Boolean security) {
 
-        if (security != null && this.security) throw new GlobalException(PROTECT_MEMO_SECURITY_UNMODIFIED);
+        if (security != null &&
+                this.security != null &&
+                this.security
+        )
+            throw new GlobalException(PROTECT_MEMO_SECURITY_UNMODIFIED);
 
         this.title = title == null ? this.title : title;
         this.content = content == null ? this.content : content;
