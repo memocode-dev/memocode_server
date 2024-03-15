@@ -57,10 +57,12 @@ public class Memo extends AggregateRoot {
     private Integer sequence;
 
     @Column(name = "visibility")
-    private Boolean visibility;
+    @Builder.Default
+    private Boolean visibility = false;
 
     @Column(name = "security")
-    private Boolean security;
+    @Builder.Default
+    private Boolean security = false;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_memo_id")
@@ -79,10 +81,7 @@ public class Memo extends AggregateRoot {
     // 메모 수정
     public void updateMemo(String title, String content, Boolean visibility, Boolean security) {
 
-        if (security != null &&
-                this.security != null &&
-                this.security
-        )
+        if (security != null && this.security)
             throw new GlobalException(PROTECT_MEMO_SECURITY_UNMODIFIED);
 
         this.title = title == null ? this.title : title;

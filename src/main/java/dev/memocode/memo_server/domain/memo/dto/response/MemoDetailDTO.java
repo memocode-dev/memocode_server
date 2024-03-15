@@ -3,6 +3,7 @@ package dev.memocode.memo_server.domain.memo.dto.response;
 import dev.memocode.memo_server.domain.external.author.dto.AuthorDTO;
 import dev.memocode.memo_server.domain.external.author.entity.Author;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +21,8 @@ public class MemoDetailDTO {
     private UUID id;
     private String title;
     private String content;
+    private Boolean visibility;
+    private Boolean security;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -28,6 +31,8 @@ public class MemoDetailDTO {
                 .id(memo.getId())
                 .title(memo.getTitle())
                 .content(memo.getContent())
+                .visibility(memo.getVisibility())
+                .security(memo.getSecurity())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
                 .build();
