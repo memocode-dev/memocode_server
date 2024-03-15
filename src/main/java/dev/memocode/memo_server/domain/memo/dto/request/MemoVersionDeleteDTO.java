@@ -15,5 +15,5 @@ public class MemoVersionDeleteDTO {
 
     private UUID memoId;
     private UUID memoVersionId;
-    private UUID accountId;
+    private UUID authorId;
 }

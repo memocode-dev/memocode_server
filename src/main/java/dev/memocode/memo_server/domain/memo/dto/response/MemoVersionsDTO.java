@@ -38,6 +38,5 @@ public class MemoVersionsDTO {
                 .toList();
 
         return PageableExecutionUtils.getPage(list, memoVersions.getPageable(), memoVersions::getTotalElements);
-
     }
 }

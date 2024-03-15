@@ -15,5 +15,5 @@ public class MemoVersionRequestDetailDTO {
 
     private UUID memoId;
     private UUID memoVersionId;
-    private UUID accountId;
+    private UUID authorId;
 }

@@ -1,10 +1,15 @@
 package dev.memocode.memo_server.domain.memo.service;
 
+import dev.memocode.memo_server.domain.base.exception.GlobalException;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
+import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionRequestDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import dev.memocode.memo_server.domain.memo.repository.MemoVersionRepository;
-import dev.memocode.memo_server.exception.GlobalException;
+import dev.memocode.memo_server.usecase.MemoVersionUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,20 +19,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
+import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.MEMO_NOT_FOUND;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MemoVersionService {
+@Transactional(readOnly = true)
+public class MemoVersionService implements MemoVersionUseCase {
 
     private final MemoVersionRepository memoVersionRepository;
-    @Transactional
-    public MemoVersion createMemoVersion(Memo memo, UUID accountId) {
-        validOwner(memo.getAuthor().getAccountId(), accountId);
+    private final InternalMemoService internalMemoService;
+    private final InternalMemoVersionService internalMemoVersionService;
 
-        Integer lastVersion = memoVersionRepository
-                .findVersionByMemoId(memo.getId());
+    @Transactional
+    @Override
+    public UUID createMemoVersion(MemoVersionCreateDTO dto) {
+
+        internalMemoService.validMemoOwner(dto.getMemoId(), dto.getAuthorId());
+
+        Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
+
+        Integer lastVersion = internalMemoVersionService.getLastVersion(memo);
 
         int version = (lastVersion != null) ? lastVersion + 1 : 1;
 
@@ -38,52 +50,39 @@ public class MemoVersionService {
                 .version(version)
                 .build();
 
-        return memoVersionRepository.save(memoVersion);
+        MemoVersion savedMemoVersion = memoVersionRepository.save(memoVersion);
+
+        return savedMemoVersion.getId();
     }
 
     @Transactional
-    public void deleteMemoVersion(Memo memo, MemoVersionDeleteDTO dto) {
-        validOwner(memo.getAuthor().getAccountId(), dto.getAccountId());
-        MemoVersion memoVersion = findByMemoVersion(dto.getMemoVersionId());
+    @Override
+    public void deleteMemoVersion(MemoVersionDeleteDTO dto) {
+        internalMemoVersionService.validMemoVersionOwner(dto.getMemoVersionId(), dto.getMemoId(), dto.getAuthorId());
+
+        MemoVersion memoVersion = internalMemoVersionService.findByIdElseThrow(dto.getMemoVersionId());
 
         memoVersion.delete();
     }
 
-    public MemoVersion findMemoVersionDetail(Memo memo, UUID memoVersionId, UUID accountId) {
-        MemoVersion memoVersion = memoVersionRepository.findByIdAndMemo(memoVersionId, memo)
-                .orElseThrow(() -> new GlobalException(MEMO_VERSION_NOT_FOUND));
+    @Override
+    public MemoVersionDetailDTO findMemoVersionDetail(MemoVersionRequestDetailDTO dto) {
+        internalMemoVersionService.validMemoVersionOwner(dto.getMemoVersionId(), dto.getMemoId(), dto.getAuthorId());
 
+        MemoVersion memoVersion = internalMemoVersionService.findByIdElseThrow(dto.getMemoVersionId());
         if (memoVersion.getDeleted()){
             throw new GlobalException(MEMO_NOT_FOUND);
         }
 
-        validOwner(memo.getAuthor().getAccountId(), accountId);
-
-        return memoVersion;
+        return MemoVersionDetailDTO.of(memoVersion);
     }
 
-    public Page<MemoVersion> findMemoVersions(UUID accountId, Memo memo, int page, int size) {
-        validOwner(memo.getAuthor().getAccountId(), accountId);
-        PageRequest pageRequest = PageRequest.of(page, size);
+    @Override
+    public Page<MemoVersionsDTO> findMemoVersions(UUID memoId, UUID authorId, int page, int size) {
+        internalMemoService.validMemoOwner(memoId, authorId);
 
-        return memoVersionRepository.findAllByMemoVersion(memo.getId(), pageRequest);
+        Page<MemoVersion> pages = memoVersionRepository.findAllByMemoVersion(memoId, PageRequest.of(page, size));
 
-    }
-
-    /**
-     * 메모 버전 찾기
-     */
-    public MemoVersion findByMemoVersion(UUID memoVersionId) {
-        return memoVersionRepository.findById(memoVersionId)
-                .orElseThrow(() -> new GlobalException(MEMO_VERSION_NOT_FOUND));
-    }
-
-    /**
-     * owner 체크
-     */
-    private void validOwner(UUID ownerId, UUID accountId) {
-        if (!accountId.equals(ownerId)){
-            throw new GlobalException(NOT_VALID_MEMO_OWNER);
-        }
+        return MemoVersionsDTO.from(pages);
     }
 }

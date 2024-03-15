@@ -1,10 +1,9 @@
 package dev.memocode.memo_server.domain.memo.entity;
 
+import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
-import dev.memocode.memo_server.domain.external.author.entity.Author;
+import dev.memocode.memo_server.domain.base.exception.GlobalException;
 import dev.memocode.memo_server.domain.series.entity.Series;
-import dev.memocode.memo_server.exception.GlobalErrorCode;
-import dev.memocode.memo_server.exception.GlobalException;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -13,16 +12,13 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
 
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import static dev.memocode.memo_server.exception.GlobalErrorCode.*;
-import static jakarta.persistence.CascadeType.PERSIST;
+import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.PROTECT_MEMO_SECURITY_UNMODIFIED;
 import static jakarta.persistence.FetchType.LAZY;
-import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -50,19 +46,16 @@ public class Memo extends AggregateRoot {
     private Series series;
 
     @Column(name = "affinity")
-    @Builder.Default
-    private Integer affinity = 0; // 좋아요
+    private Integer affinity; // 좋아요
 
     @Column(name = "sequence")
     private Integer sequence;
 
     @Column(name = "visibility")
-    @Builder.Default
-    private Boolean visibility = false;
+    private Boolean visibility;
 
     @Column(name = "security")
-    @Builder.Default
-    private Boolean security = false;
+    private Boolean security;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "parent_memo_id")

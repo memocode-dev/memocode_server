@@ -14,7 +14,7 @@ import java.util.UUID;
 public class MemoUpdateDTO {
 
     private UUID memoId;
-    private UUID accountId;
+    private UUID authorId;
     private String title;
     private String content;
     private Boolean visibility;

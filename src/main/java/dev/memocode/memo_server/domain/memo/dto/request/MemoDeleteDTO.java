@@ -12,7 +12,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class MemoDeleteDTO {
-
     private UUID memoId;
-    private UUID accountId;
+    private UUID authorId;
 }

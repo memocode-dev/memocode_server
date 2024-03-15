@@ -14,5 +14,5 @@ import java.util.UUID;
 public class MemoVersionCreateDTO {
 
     private UUID memoId;
-    private UUID accountId;
+    private UUID authorId;
 }
