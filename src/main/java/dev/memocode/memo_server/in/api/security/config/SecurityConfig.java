@@ -37,7 +37,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(GET, "/memos/api-docs/**").permitAll()
                         .requestMatchers("/memos/**").access(hasScope("write:memo"))
-                        .requestMatchers("/posts/**").access(hasScope("write:memo"))
                         .requestMatchers("/posts/**").permitAll()
                         .anyRequest().denyAll()
                 )
