@@ -21,6 +21,7 @@ public enum GlobalErrorCode {
     MEMO_VERSION_NOT_FOUND(NOT_FOUND, 404, "메모 버전에 접근할 수 없습니다.", INFO),
     PROTECT_MEMO_SECURITY_UNMODIFIED(BAD_REQUEST, 400, "한번 보호된 메모는 보호 모도를 풀 수 없습니다.", INFO),
     PROTECT_MEMO_VISIBILITY_UNMODIFIED(BAD_REQUEST, 400, "한번 보호된 메모는 공개를 하실 수 없습니다.", INFO),
+    PROTECT_MODE_DISABLED_ONCE_PUBLIC(BAD_REQUEST, 400, "한번이라도 공개된 메모는 보호 모드를 하실 수 없습니다.", INFO),
     MEMO_AND_MEMO_VERSION_NOT_MATCH(BAD_REQUEST, 400, "메모와 연관되지 않은 메모 버전입니다.", INFO),
 
     // 게시글 관련 오류

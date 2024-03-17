@@ -17,8 +17,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.PROTECT_MEMO_SECURITY_UNMODIFIED;
-import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.PROTECT_MEMO_VISIBILITY_UNMODIFIED;
+import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.*;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -55,6 +54,9 @@ public class Memo extends AggregateRoot {
     @Column(name = "visibility")
     private Boolean visibility;
 
+    @Column(name = "visibility_achieved_at")
+    private Instant visibilityAchievedAt;
+
     @Column(name = "security")
     private Boolean security;
 
@@ -75,22 +77,31 @@ public class Memo extends AggregateRoot {
     // 메모 수정
     public void updateMemo(String title, String content, Boolean visibility, Boolean security) {
 
-        // 한번 보호 모드가 작동한다면 security를 변경하지 못함
-        if (security != null && this.security)
-            throw new GlobalException(PROTECT_MEMO_SECURITY_UNMODIFIED);
-
-        // 한번 보호 모드가 작동한다면 visibility 필드 사용불가
-        if (visibility != null && this.security)
-            throw new GlobalException(PROTECT_MEMO_VISIBILITY_UNMODIFIED);
-
         this.title = title == null ? this.title : title;
         this.content = content == null ? this.content : content;
-        this.visibility = visibility == null ? this.visibility : visibility;
-        this.security = security == null ? this.security : security;
 
-        // 시큐리티가 활성화 되어있는 경우 visibility를 false로 변경
-        if (this.security) {
-            this.visibility = false;
+        if (security != null) {
+            // 한번 보호 모드가 작동한다면 security를 변경하지 못함
+            if (this.security) {
+                throw new GlobalException(PROTECT_MEMO_SECURITY_UNMODIFIED);
+            }
+
+            // 이미 한번 공개되었다면 보호모드로 변경 못함
+            if (visibilityAchievedAt != null) {
+                throw new GlobalException(PROTECT_MODE_DISABLED_ONCE_PUBLIC);
+            }
+
+            this.security = security;
+        }
+
+        if (visibility != null) {
+            // 한번 보호 모드가 작동한다면 visibility 필드 사용불가
+            if (this.security) {
+                throw new GlobalException(PROTECT_MEMO_VISIBILITY_UNMODIFIED);
+            }
+
+            this.visibility = visibility;
+            this.visibilityAchievedAt = Instant.now();
         }
     }
 }
