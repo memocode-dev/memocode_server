@@ -39,6 +39,9 @@ public class MemoMapper {
                 .id(memo.getId())
                 .title(memo.getTitle())
                 .sequence(memo.getSequence())
+                .visibility(memo.getVisibility())
+                .security(memo.getSecurity())
+                .bookmarked(memo.getBookmarked())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
                 .build();
