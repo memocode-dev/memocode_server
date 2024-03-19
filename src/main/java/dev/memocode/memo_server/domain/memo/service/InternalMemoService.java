@@ -17,6 +17,7 @@ import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.NOT
 public class InternalMemoService {
 
     private final MemoRepository memoRepository;
+    private final static int DEFAULT_LAST_SEQUENCE_DEFAULT_VALUE = 0;
 
     void validMemoOwner(UUID memoId, UUID authorId) {
         Memo memo = findByMemoIdElseThrow(memoId);
@@ -36,6 +37,6 @@ public class InternalMemoService {
     }
 
     Integer getLastSequence(UUID authorId) {
-        return memoRepository.findMaxSequenceByAuthorId(authorId);
+        return memoRepository.getLastSequence(authorId, DEFAULT_LAST_SEQUENCE_DEFAULT_VALUE);
     }
 }

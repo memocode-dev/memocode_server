@@ -35,6 +35,7 @@ public class MemoService implements MemoUseCase {
     private final MemoMapper memoMapper;
 
     private final InternalMemoService internalMemoService;
+    private final static int DEFAULT_ADD_INDEX = 1024;
 
     /**
      * 메모 생성
@@ -44,16 +45,14 @@ public class MemoService implements MemoUseCase {
     public UUID createMemo(MemoCreateDTO dto) {
         Author author = authorService.findByIdElseThrow(dto.getAuthorId());
 
-        Integer lastSequence = internalMemoService.getLastSequence(author.getId());
-
-        int sequence = (lastSequence != null) ? lastSequence + 1 : 1;
+        Integer lastSequence = getLastSequence(author);
 
         Memo memo = Memo.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .author(author)
                 .affinity(0)
-                .sequence(sequence)
+                .sequence(lastSequence + DEFAULT_ADD_INDEX)
                 .visibility(false)
                 .security(false)
                 .build();
@@ -61,6 +60,10 @@ public class MemoService implements MemoUseCase {
         Memo savedMemo = memoRepository.save(memo);
 
         return savedMemo.getId();
+    }
+
+    private Integer getLastSequence(Author author) {
+        return internalMemoService.getLastSequence(author.getId());
     }
 
     @Transactional
