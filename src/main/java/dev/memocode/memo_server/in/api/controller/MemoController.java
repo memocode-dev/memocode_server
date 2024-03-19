@@ -71,6 +71,7 @@ public class MemoController implements MemoApi {
                 .content(form.getContent())
                 .visibility(form.getVisibility())
                 .security(form.getSecurity())
+                .bookmarked(form.getBookmarked())
                 .build();
 
         memoUseCase.updateMemo(dto);

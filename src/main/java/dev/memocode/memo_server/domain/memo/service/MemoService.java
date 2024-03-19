@@ -54,6 +54,7 @@ public class MemoService implements MemoUseCase {
                 .affinity(0)
                 .sequence(lastSequence + DEFAULT_ADD_INDEX)
                 .visibility(false)
+                .bookmarked(false)
                 .security(false)
                 .build();
 
@@ -84,7 +85,7 @@ public class MemoService implements MemoUseCase {
 
         Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
 
-        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility(), dto.getSecurity());
+        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility(), dto.getSecurity(), dto.getBookmarked());
     }
 
     @Override
