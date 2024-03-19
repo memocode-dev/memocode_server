@@ -5,7 +5,6 @@ import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 
@@ -25,5 +24,5 @@ public interface MemoVersionApi {
     ResponseEntity<MemoVersionDetailDTO> findMemoVersion(UUID memoId, UUID memoVersionId, Jwt jwt);
 
     @Operation(summary = "메모 버전 전체 조회")
-    ResponseEntity<Page<MemoVersionsDTO>> findAllMemoVersion(UUID memoId, Jwt jwt, int page, int size);
+    ResponseEntity<MemoVersionsDTO> findAllMemoVersion(UUID memoId, Jwt jwt);
 }

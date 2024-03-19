@@ -1,10 +1,8 @@
 package dev.memocode.memo_server.domain.memo.mapper;
 
-import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
-import dev.memocode.memo_server.domain.memo.dto.response.MemoSummaryDTO;
-import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
-import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.*;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
+import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -52,6 +50,16 @@ public class MemoMapper {
 
         return MemosBookmarkedDTO.builder()
                 .data(bookmarkedMemosDTO)
+                .build();
+    }
+
+    public MemoVersionsDTO entity_to_memoVersionsDTO(List<MemoVersion> memoVersions) {
+        List<MemoVersionsSummaryDTO> memoVersionsSummaryDTOS = memoVersions.stream()
+                .map(MemoVersionsSummaryDTO::from)
+                .collect(Collectors.toList());
+
+        return MemoVersionsDTO.builder()
+                .data(memoVersionsSummaryDTOS)
                 .build();
     }
 }
