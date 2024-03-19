@@ -7,6 +7,7 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.mapper.MemoMapper;
@@ -106,5 +107,12 @@ public class MemoService implements MemoUseCase {
         List<Memo> memos = memoRepository.findByAuthorId(authorId);
 
         return memoMapper.entity_to_memosDTO(memos);
+    }
+
+    @Override
+    public MemosBookmarkedDTO findBookmarkedMemos(UUID authorId) {
+        List<Memo> bookmarkedMemos = memoRepository.findByAuthorIdAndBookmarked(authorId);
+
+        return memoMapper.entity_to_memosBookmarkedDTO(bookmarkedMemos);
     }
 }

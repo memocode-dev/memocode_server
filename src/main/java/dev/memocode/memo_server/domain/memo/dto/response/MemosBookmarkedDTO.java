@@ -1,0 +1,17 @@
+package dev.memocode.memo_server.domain.memo.dto.response;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemosBookmarkedDTO {
+
+    private List<MemoSummaryDTO> data;
+}

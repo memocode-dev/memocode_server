@@ -4,6 +4,7 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
@@ -22,4 +23,6 @@ public interface MemoUseCase {
     MemoDetailDTO findMemo(UUID memoId, UUID authorId);
 
     MemosDTO findMemos(UUID authorId);
+
+    MemosBookmarkedDTO findBookmarkedMemos(UUID authorId);
 }

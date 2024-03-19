@@ -64,4 +64,13 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
 
         return memo == null ? defaultValue : memo.getSequence();
     }
+
+    @Override
+    public List<Memo> findByAuthorIdAndBookmarked(UUID authorId) {
+        return queryFactory
+                .selectFrom(memo)
+                .where(memo.author.id.eq(authorId), memo.bookmarked.eq(true))
+                .orderBy(memo.sequence.asc())
+                .fetch();
+    }
 }

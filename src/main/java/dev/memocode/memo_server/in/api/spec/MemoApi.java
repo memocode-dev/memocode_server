@@ -1,6 +1,7 @@
 package dev.memocode.memo_server.in.api.spec;
 
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import dev.memocode.memo_server.in.api.form.MemoCreateForm;
 import dev.memocode.memo_server.in.api.form.MemoUpdateForm;
@@ -31,4 +32,7 @@ public interface MemoApi {
 
     @Operation(summary = "메모 전체 조회")
     ResponseEntity<MemosDTO> findAllMemo(Jwt jwt);
+
+    @Operation(summary = "메모 즐겨찾기 목록 조회")
+    ResponseEntity<MemosBookmarkedDTO> findAllBookmarkedMemos(Jwt jwt);
 }
