@@ -52,7 +52,7 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
     }
 
     @Override
-    public Integer getLastSequence(UUID authorId, int defaultValue) {
+    public Integer getLastSequenceOrDefault(UUID authorId, int defaultValue) {
         JPAQuery<Memo> query = queryFactory
                 .select(memo)
                 .from(memo)

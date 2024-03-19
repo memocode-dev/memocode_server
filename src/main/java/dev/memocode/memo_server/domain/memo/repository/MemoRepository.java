@@ -13,7 +13,4 @@ import java.util.UUID;
 public interface MemoRepository extends JpaRepository<Memo, Long>, MemoRepositoryCustom {
 
     Optional<Memo> findById(UUID memoId);
-
-    @Query("SELECT MAX(m.sequence) FROM Memo m WHERE m.author.id = :authorId")
-    Integer findMaxSequenceByAuthorId(@Param("authorId") UUID authorId);
 }

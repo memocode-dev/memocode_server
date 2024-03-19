@@ -13,5 +13,5 @@ public interface MemoRepositoryCustom {
 
     Page<Memo> findByPosts(Pageable pageable);
 
-    Integer getLastSequence(UUID authorId, int defaultValue);
+    Integer getLastSequenceOrDefault(UUID authorId, int defaultValue);
 }

@@ -37,6 +37,6 @@ public class InternalMemoService {
     }
 
     Integer getLastSequence(UUID authorId) {
-        return memoRepository.getLastSequence(authorId, DEFAULT_LAST_SEQUENCE_DEFAULT_VALUE);
+        return memoRepository.getLastSequenceOrDefault(authorId, DEFAULT_LAST_SEQUENCE_DEFAULT_VALUE);
     }
 }
