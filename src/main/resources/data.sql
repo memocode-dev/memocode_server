@@ -38,6 +38,7 @@ CREATE TABLE memos
     sequence               INT,
     visibility             BOOLEAN,
     visibility_achieved_at DATETIME,
+    bookmarked             BOOLEAN,
     security               BOOLEAN,
     parent_memo_id         CHAR(36),
     created_at             DATETIME NOT NULL,

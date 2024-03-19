@@ -57,6 +57,9 @@ public class Memo extends AggregateRoot {
     @Column(name = "visibility_achieved_at")
     private Instant visibilityAchievedAt;
 
+    @Column(name = "bookmarked")
+    private Boolean bookmarked;
+
     @Column(name = "security")
     private Boolean security;
 
