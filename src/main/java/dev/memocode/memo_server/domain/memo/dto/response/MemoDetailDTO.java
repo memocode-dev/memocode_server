@@ -18,6 +18,7 @@ public class MemoDetailDTO {
     private String content;
     private Boolean visibility;
     private Boolean security;
+    private Boolean bookmarked;
     private Instant createdAt;
     private Instant updatedAt;
 }

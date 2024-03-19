@@ -18,6 +18,7 @@ public class MemoMapper {
                 .content(memo.getContent())
                 .visibility(memo.getVisibility())
                 .security(memo.getSecurity())
+                .bookmarked(memo.getBookmarked())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
                 .build();
