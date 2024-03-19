@@ -17,6 +17,9 @@ public class MemoSummaryDTO {
     private UUID id;
     private String title;
     private Integer sequence;
+    private Boolean visibility;
+    private Boolean security;
+    private Boolean bookmarked;
     private Instant createdAt;
     private Instant updatedAt;
 }
