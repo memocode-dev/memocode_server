@@ -7,6 +7,7 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.mapper.MemoMapper;
@@ -35,6 +36,7 @@ public class MemoService implements MemoUseCase {
     private final MemoMapper memoMapper;
 
     private final InternalMemoService internalMemoService;
+    private final static int DEFAULT_ADD_INDEX = 1024;
 
     /**
      * 메모 생성
@@ -44,23 +46,26 @@ public class MemoService implements MemoUseCase {
     public UUID createMemo(MemoCreateDTO dto) {
         Author author = authorService.findByIdElseThrow(dto.getAuthorId());
 
-        Integer lastSequence = internalMemoService.getLastSequence(author.getId());
-
-        int sequence = (lastSequence != null) ? lastSequence + 1 : 1;
+        Integer lastSequence = getLastSequence(author);
 
         Memo memo = Memo.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .author(author)
                 .affinity(0)
-                .sequence(sequence)
+                .sequence(lastSequence + DEFAULT_ADD_INDEX)
                 .visibility(false)
+                .bookmarked(false)
                 .security(false)
                 .build();
 
         Memo savedMemo = memoRepository.save(memo);
 
         return savedMemo.getId();
+    }
+
+    private Integer getLastSequence(Author author) {
+        return internalMemoService.getLastSequence(author.getId());
     }
 
     @Transactional
@@ -81,7 +86,7 @@ public class MemoService implements MemoUseCase {
 
         Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
 
-        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility(), dto.getSecurity());
+        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility(), dto.getSecurity(), dto.getBookmarked());
     }
 
     @Override
@@ -102,5 +107,12 @@ public class MemoService implements MemoUseCase {
         List<Memo> memos = memoRepository.findByAuthorId(authorId);
 
         return memoMapper.entity_to_memosDTO(memos);
+    }
+
+    @Override
+    public MemosBookmarkedDTO findBookmarkedMemos(UUID authorId) {
+        List<Memo> bookmarkedMemos = memoRepository.findByAuthorIdAndBookmarked(authorId);
+
+        return memoMapper.entity_to_memosBookmarkedDTO(bookmarkedMemos);
     }
 }

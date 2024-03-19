@@ -50,4 +50,27 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
 
         return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);
     }
+
+    @Override
+    public Integer getLastSequenceOrDefault(UUID authorId, int defaultValue) {
+        JPAQuery<Memo> query = queryFactory
+                .select(memo)
+                .from(memo)
+                .where(memo.author.id.eq(authorId))
+                .orderBy(memo.sequence.desc())
+                .limit(1);
+
+        Memo memo = query.fetchOne();
+
+        return memo == null ? defaultValue : memo.getSequence();
+    }
+
+    @Override
+    public List<Memo> findByAuthorIdAndBookmarked(UUID authorId) {
+        return queryFactory
+                .selectFrom(memo)
+                .where(memo.author.id.eq(authorId), memo.bookmarked.eq(true))
+                .orderBy(memo.sequence.asc())
+                .fetch();
+    }
 }

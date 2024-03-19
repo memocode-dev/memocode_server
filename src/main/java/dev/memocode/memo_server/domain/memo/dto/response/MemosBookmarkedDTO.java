@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemoVersionsDTO {
+public class MemosBookmarkedDTO {
 
-    private List<MemoVersionsSummaryDTO> data;
+    private List<MemoSummaryDTO> data;
 }

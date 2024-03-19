@@ -25,21 +25,12 @@ public class MemoVersionRepositoryImpl implements MemoVersionRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<MemoVersion> findAllByMemoVersion(UUID memoId, Pageable pageable) {
+    public List<MemoVersion> findAllByMemoVersion(UUID memoId) {
 
-        List<MemoVersion> memoVersions = queryFactory
+        return queryFactory
                 .selectFrom(QMemoVersion.memoVersion)
                 .where(memoVersion.memo.id.eq(memoId))
                 .orderBy(memoVersion.version.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
                 .fetch();
-
-        JPAQuery<Long> countQuery = queryFactory
-                .select(memoVersion.count())
-                .from(memoVersion)
-                .where(memoVersion.memo.id.eq(memoId));
-
-        return PageableExecutionUtils.getPage(memoVersions, pageable, countQuery::fetchOne);
     }
 }

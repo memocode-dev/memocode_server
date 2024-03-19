@@ -6,17 +6,19 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionRequestDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsSummaryDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
+import dev.memocode.memo_server.domain.memo.mapper.MemoMapper;
 import dev.memocode.memo_server.domain.memo.repository.MemoVersionRepository;
 import dev.memocode.memo_server.usecase.MemoVersionUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.MEMO_NOT_FOUND;
@@ -30,6 +32,7 @@ public class MemoVersionService implements MemoVersionUseCase {
     private final MemoVersionRepository memoVersionRepository;
     private final InternalMemoService internalMemoService;
     private final InternalMemoVersionService internalMemoVersionService;
+    private final MemoMapper memoMapper;
 
     @Transactional
     @Override
@@ -78,11 +81,11 @@ public class MemoVersionService implements MemoVersionUseCase {
     }
 
     @Override
-    public Page<MemoVersionsDTO> findMemoVersions(UUID memoId, UUID authorId, int page, int size) {
+    public MemoVersionsDTO findMemoVersions(UUID memoId, UUID authorId) {
         internalMemoService.validMemoOwner(memoId, authorId);
 
-        Page<MemoVersion> pages = memoVersionRepository.findAllByMemoVersion(memoId, PageRequest.of(page, size));
+        List<MemoVersion> memoVersions = memoVersionRepository.findAllByMemoVersion(memoId);
 
-        return MemoVersionsDTO.from(pages);
+        return memoMapper.entity_to_memoVersionsDTO(memoVersions);
     }
 }

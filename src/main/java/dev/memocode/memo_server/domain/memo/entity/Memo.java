@@ -57,6 +57,9 @@ public class Memo extends AggregateRoot {
     @Column(name = "visibility_achieved_at")
     private Instant visibilityAchievedAt;
 
+    @Column(name = "bookmarked")
+    private Boolean bookmarked;
+
     @Column(name = "security")
     private Boolean security;
 
@@ -75,10 +78,11 @@ public class Memo extends AggregateRoot {
     }
 
     // 메모 수정
-    public void updateMemo(String title, String content, Boolean visibility, Boolean security) {
+    public void updateMemo(String title, String content, Boolean visibility, Boolean security, Boolean bookmarked) {
 
         this.title = title == null ? this.title : title;
         this.content = content == null ? this.content : content;
+        this.bookmarked = bookmarked == null ? this.bookmarked : bookmarked;
 
         if (security != null) {
             // 한번 보호 모드가 작동한다면 security를 변경하지 못함

@@ -19,4 +19,5 @@ public class MemoUpdateDTO {
     private String content;
     private Boolean visibility;
     private Boolean security;
+    private Boolean bookmarked;
 }

@@ -4,6 +4,7 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import dev.memocode.memo_server.in.api.form.MemoCreateForm;
 import dev.memocode.memo_server.in.api.form.MemoUpdateForm;
@@ -71,6 +72,7 @@ public class MemoController implements MemoApi {
                 .content(form.getContent())
                 .visibility(form.getVisibility())
                 .security(form.getSecurity())
+                .bookmarked(form.getBookmarked())
                 .build();
 
         memoUseCase.updateMemo(dto);
@@ -96,5 +98,13 @@ public class MemoController implements MemoApi {
         MemosDTO memos =
                 memoUseCase.findMemos(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
         return ResponseEntity.ok().body(memos);
+    }
+
+    @GetMapping("/bookmarked")
+    public ResponseEntity<MemosBookmarkedDTO> findAllBookmarkedMemos(@AuthenticationPrincipal Jwt jwt) {
+        MemosBookmarkedDTO bookmarkedMemos
+                = memoUseCase.findBookmarkedMemos(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
+
+        return ResponseEntity.ok().body(bookmarkedMemos);
     }
 }
