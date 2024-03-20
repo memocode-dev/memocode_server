@@ -2,10 +2,10 @@ package dev.memocode.memo_server.domain.memocomment.service;
 
 import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.service.AuthorService;
-import dev.memocode.memo_server.domain.base.exception.GlobalException;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.InternalMemoService;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
+import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
 import dev.memocode.memo_server.domain.memocomment.entity.Comment;
 import dev.memocode.memo_server.domain.memocomment.repository.CommentRepository;
@@ -59,6 +59,18 @@ public class CommentService implements CommentUseCase {
         internalCommentService.validOwner(comment.getAuthor().getId(), dto.getAuthorId());
 
         comment.update(dto.getContent());
+    }
+
+    @Override
+    @Transactional
+    public void deleteComments(CommentDeleteDto dto) {
+        Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
+        Comment comment = internalCommentService.findByCommentId(dto.getCommentId());
+
+        internalCommentService.validPost(memo);
+        internalCommentService.validOwner(comment.getAuthor().getId(), dto.getAuthorId());
+
+        comment.delete();
     }
 
 }

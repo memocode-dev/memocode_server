@@ -1,6 +1,7 @@
 package dev.memocode.memo_server.in.api.controller;
 
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
+import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
 import dev.memocode.memo_server.in.api.form.CommentCreateForm;
 import dev.memocode.memo_server.in.api.form.CommentUpdateForm;
@@ -55,5 +56,21 @@ public class CommentController implements PostCommentApi {
 
         commentUseCase.updateComments(dto);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteComments(@PathVariable("memoId") UUID memoId,
+                                               @PathVariable("commentId") UUID commentId,
+                                               @AuthenticationPrincipal Jwt jwt) {
+
+        CommentDeleteDto dto = CommentDeleteDto.builder()
+                .memoId(memoId)
+                .commentId(commentId)
+                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .build();
+
+        commentUseCase.deleteComments(dto);
+
+        return ResponseEntity.ok().build();
     }
 }

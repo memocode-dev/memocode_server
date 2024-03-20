@@ -21,4 +21,7 @@ public interface PostCommentApi {
 
     @Operation(summary = "블로그 댓글 수정")
     ResponseEntity<Void> updateComments(UUID memoId, UUID commentId, CommentUpdateForm form, Jwt jwt);
+
+    @Operation(summary = "블로그 댓글 삭제")
+    ResponseEntity<Void> deleteComments(UUID memoId, UUID commentId, Jwt jwt);
 }

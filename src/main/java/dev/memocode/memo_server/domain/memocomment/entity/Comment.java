@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,5 +44,10 @@ public class Comment extends AggregateRoot {
 
     public void update(String content) {
         this.content = content == null ? this.content : content;
+    }
+
+    public void delete() {
+        this.deleted = true;
+        this.deletedAt = Instant.now();
     }
 }
