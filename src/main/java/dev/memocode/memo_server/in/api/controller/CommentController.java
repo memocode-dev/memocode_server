@@ -3,12 +3,14 @@ package dev.memocode.memo_server.in.api.controller;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
+import dev.memocode.memo_server.domain.memocomment.dto.response.CommentsDTO;
 import dev.memocode.memo_server.in.api.form.CommentCreateForm;
 import dev.memocode.memo_server.in.api.form.CommentUpdateForm;
 import dev.memocode.memo_server.in.api.spec.PostCommentApi;
 import dev.memocode.memo_server.usecase.CommentUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -73,4 +75,13 @@ public class CommentController implements PostCommentApi {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping
+    public ResponseEntity<Page<CommentsDTO>> findAllComments(@PathVariable("memoId") UUID memoId,
+                                                             @RequestParam(name = "page", defaultValue = "0") int page,
+                                                             @RequestParam(name = "size", defaultValue = "10") int size) {
+        Page<CommentsDTO> dto = commentUseCase.findAllComments(memoId, page, size);
+        return ResponseEntity.ok().body(dto);
+    }
+
 }

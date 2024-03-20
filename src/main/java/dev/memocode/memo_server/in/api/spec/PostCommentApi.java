@@ -1,12 +1,12 @@
 package dev.memocode.memo_server.in.api.spec;
 
-import dev.memocode.memo_server.domain.memocomment.entity.Comment;
+import dev.memocode.memo_server.domain.memocomment.dto.response.CommentsDTO;
 import dev.memocode.memo_server.in.api.form.CommentCreateForm;
 import dev.memocode.memo_server.in.api.form.CommentUpdateForm;
-import dev.memocode.memo_server.in.api.form.MemoCreateForm;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 
@@ -24,4 +24,7 @@ public interface PostCommentApi {
 
     @Operation(summary = "블로그 댓글 삭제")
     ResponseEntity<Void> deleteComments(UUID memoId, UUID commentId, Jwt jwt);
+
+    @Operation(summary = "블로그 댓글 전체 조회")
+    ResponseEntity<Page<CommentsDTO>> findAllComments(UUID memoId, int page, int size);
 }

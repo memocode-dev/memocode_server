@@ -7,17 +7,19 @@ import dev.memocode.memo_server.domain.memo.service.InternalMemoService;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
+import dev.memocode.memo_server.domain.memocomment.dto.response.CommentsDTO;
 import dev.memocode.memo_server.domain.memocomment.entity.Comment;
+import dev.memocode.memo_server.domain.memocomment.mapper.CommentMapper;
 import dev.memocode.memo_server.domain.memocomment.repository.CommentRepository;
 import dev.memocode.memo_server.usecase.CommentUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
-
-import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -29,6 +31,7 @@ public class CommentService implements CommentUseCase {
     private final InternalCommentService internalCommentService;
     private final AuthorService authorService;
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;
 
     @Override
     @Transactional
@@ -71,6 +74,18 @@ public class CommentService implements CommentUseCase {
         internalCommentService.validOwner(comment.getAuthor().getId(), dto.getAuthorId());
 
         comment.delete();
+    }
+
+    @Override
+    public Page<CommentsDTO> findAllComments(UUID memoId, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+
+        // 존재하는 게시글인지 찾기
+        internalMemoService.findByMemoIdElseThrow(memoId);
+
+        Page<Comment> comments = commentRepository.findAllByMemoId(memoId, pageRequest);
+
+        return commentMapper.entity_to_commentsDto(comments);
     }
 
 }
