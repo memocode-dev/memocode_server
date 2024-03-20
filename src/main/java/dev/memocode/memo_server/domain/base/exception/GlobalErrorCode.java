@@ -26,7 +26,11 @@ public enum GlobalErrorCode {
 
     // 게시글 관련 오류
     POST_EXISTS_ERROR(CONFLICT, 409, "이미 게시글에 올라간 메모 입니다.", INFO),
-    POST_NOT_FOUND(NOT_FOUND, 404, "찾을 수 없거나 접근할 수 없는 게시글 입니다.", INFO)
+    POST_NOT_FOUND(NOT_FOUND, 404, "찾을 수 없거나 접근할 수 없는 게시글 입니다.", INFO),
+
+    // 게시글 댓글 오류
+    POST_COMMENT_NOT_FOUND(NOT_FOUND, 404, "찾을 수 없거나 접근할 수 없는 댓글 입니다.", INFO),
+    NOT_VALID_POST_COMMENT_OWNER(FORBIDDEN, 403, "댓글에 접근할 권한이 없습니다.", INFO)
     ;
 
     private final HttpStatus status;

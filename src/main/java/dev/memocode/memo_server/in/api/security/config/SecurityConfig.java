@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .requestMatchers(GET, "/memos/api-docs/**").permitAll()
                         .requestMatchers("/memos/**").access(hasScope("write:memo"))
                         .requestMatchers("/posts/**").permitAll()
+                        .requestMatchers("/comments/**").access(hasScope("write:memo")) // 추후 권한 수정
                         .anyRequest().denyAll()
                 )
                 .oauth2ResourceServer(o -> o.jwt(Customizer.withDefaults()));

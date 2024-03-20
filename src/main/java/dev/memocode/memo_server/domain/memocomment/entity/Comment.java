@@ -8,7 +8,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +23,8 @@ import static lombok.AccessLevel.PROTECTED;
 @SuperBuilder
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "comments")
+@SQLDelete(sql = "UPDATE users SET deleted = true, deleted_at = NOW() WHERE id = ?")
+@SQLRestriction("is_deleted = false")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Comment extends AggregateRoot {
 
@@ -40,4 +45,13 @@ public class Comment extends AggregateRoot {
 
     @OneToMany(mappedBy = "parentComment")
     private List<Comment> childComments = new ArrayList<>();
+
+    public void update(String content) {
+        this.content = content == null ? this.content : content;
+    }
+
+    public void delete() {
+        this.deleted = true;
+        this.deletedAt = Instant.now();
+    }
 }

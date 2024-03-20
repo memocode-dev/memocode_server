@@ -27,12 +27,12 @@ public class InternalMemoService {
         }
     }
 
-    Memo findByMemoIdElseThrow(UUID memoId) {
+    public Memo findByMemoIdElseThrow(UUID memoId) {
         return findById(memoId)
                 .orElseThrow(() -> new GlobalException(MEMO_NOT_FOUND));
     }
 
-    Optional<Memo> findById(UUID memoId) {
+    public Optional<Memo> findById(UUID memoId) {
         return memoRepository.findById(memoId);
     }
 
