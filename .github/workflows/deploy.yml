@@ -28,11 +28,6 @@ jobs:
     needs: tag
     steps:
       - uses: actions/checkout@v3
-      - name: build 가져오기
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-          path: build
       - name: Docker Buildx 설치
         uses: docker/setup-buildx-action@v2
       - name: Docker Hub 로그인
