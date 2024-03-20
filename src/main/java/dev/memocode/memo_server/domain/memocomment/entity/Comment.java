@@ -40,4 +40,8 @@ public class Comment extends AggregateRoot {
 
     @OneToMany(mappedBy = "parentComment")
     private List<Comment> childComments = new ArrayList<>();
+
+    public void update(String content) {
+        this.content = content == null ? this.content : content;
+    }
 }

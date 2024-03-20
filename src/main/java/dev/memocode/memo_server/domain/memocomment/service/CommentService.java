@@ -6,6 +6,7 @@ import dev.memocode.memo_server.domain.base.exception.GlobalException;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.InternalMemoService;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
+import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
 import dev.memocode.memo_server.domain.memocomment.entity.Comment;
 import dev.memocode.memo_server.domain.memocomment.repository.CommentRepository;
 import dev.memocode.memo_server.usecase.CommentUseCase;
@@ -25,17 +26,17 @@ import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.*;
 public class CommentService implements CommentUseCase {
 
     private final InternalMemoService internalMemoService;
+    private final InternalCommentService internalCommentService;
     private final AuthorService authorService;
     private final CommentRepository commentRepository;
 
     @Override
     @Transactional
     public UUID createComments(CommentCreateDTO dto) {
-
         Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
         Author author = authorService.findByIdElseThrow(dto.getAuthorId());
 
-        validPost(memo);
+        internalCommentService.validPost(memo);
 
         Comment comment = Comment.builder()
                 .content(dto.getContent())
@@ -48,14 +49,16 @@ public class CommentService implements CommentUseCase {
         return saveComment.getId();
     }
 
-    // 게시글이 삭제되었는지 또는 게시판에 올라가있는지 체크
-    private static void validPost(Memo memo) {
-        if (memo.getDeleted()){
-            throw new GlobalException(MEMO_NOT_FOUND);
-        }
+    @Override
+    @Transactional
+    public void updateComments(CommentUpdateDTO dto) {
+        Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
+        Comment comment = internalCommentService.findByCommentId(dto.getCommentId());
 
-        if (!memo.getVisibility()){
-            throw new GlobalException(POST_NOT_FOUND);
-        }
+        internalCommentService.validPost(memo);
+        internalCommentService.validOwner(comment.getAuthor().getId(), dto.getAuthorId());
+
+        comment.update(dto.getContent());
     }
+
 }
