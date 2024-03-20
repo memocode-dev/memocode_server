@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class CommentsDTO {
         List<ChildCommentsDTO> childComments = comment.getChildComments()
                 .stream()
                 .map(ChildCommentsDTO::from)
+                .sorted(Comparator.comparing(ChildCommentsDTO::getCreateAt))
                 .toList();
 
         return CommentsDTO.builder()
