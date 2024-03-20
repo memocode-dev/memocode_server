@@ -4,6 +4,7 @@ import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.service.AuthorService;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.InternalMemoService;
+import dev.memocode.memo_server.domain.memocomment.dto.request.ChildCommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
@@ -86,6 +87,27 @@ public class CommentService implements CommentUseCase {
         Page<Comment> comments = commentRepository.findAllByMemoId(memoId, pageRequest);
 
         return commentMapper.entity_to_commentsDto(comments);
+    }
+
+    @Override
+    @Transactional
+    public UUID createChildComment(ChildCommentCreateDTO dto) {
+        Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
+        Author author = authorService.findByIdElseThrow(dto.getAuthorId());
+        Comment comment = internalCommentService.findByCommentId(dto.getCommentId());
+
+        internalCommentService.validPost(memo);
+
+        Comment childComment = Comment.builder()
+                .content(dto.getContent())
+                .author(author)
+                .memo(memo)
+                .parentComment(comment)
+                .build();
+
+        Comment saveChildComment = commentRepository.save(childComment);
+
+        return saveChildComment.getId();
     }
 
 }
