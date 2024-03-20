@@ -2,8 +2,6 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://prod-server:32000/memocode_memo_server_dev
-    username: memocode-dev
-    password: memocode-dev
   security:
     oauth2:
       resourceserver:
@@ -13,6 +11,11 @@ spring:
 logging:
   level:
     org.springframework.transaction.interceptor: TRACE
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
 
 custom:
   front:

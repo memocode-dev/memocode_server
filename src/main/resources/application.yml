@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: "SECRET"
-    username: "SECRET"
-    password: "SECRET"
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jpa:
     open-in-view: false
     hibernate:
@@ -26,6 +26,11 @@ spring:
 logging:
   level:
     org.springframework.transaction.interceptor: INFO
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
 
 ########## springdoc ##########
 springdoc:

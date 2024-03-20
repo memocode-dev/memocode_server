@@ -1,9 +1,9 @@
-name: deloy
+name: deloy-prod
 
 on:
   push:
     branches:
-      - dev
+      - main
 
 permissions: write-all
 
@@ -80,4 +80,4 @@ jobs:
           kubeconfig: ${{ secrets.MEMOCODE_KUBE_CONFIG }}
       - name: 버전 변경
         run: |
-          kubectl set image deployment/memocode-memo-server-dev spring-boot=ghcr.io/memocode-dev/memocode_memo_server:${{ needs.tag.outputs.tag_name }} --namespace=memocode
+          kubectl set image deployment/memocode-memo-server-prod spring-boot=ghcr.io/memocode-dev/memocode_memo_server:${{ needs.tag.outputs.tag_name }} --namespace=memocode

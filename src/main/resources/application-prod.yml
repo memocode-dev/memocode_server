@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql.mysql:3306/memocode_memo_server_prod
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://auth.memocode.dev
+
+custom:
+  front:
+    domain: "https://memocode.dev"
+    domain2: "https://memocode.dev"

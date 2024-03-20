@@ -38,3 +38,5 @@ out/
 
 ### generated 추가 (querydsl q클래스 설정)
 /src/main/generated/
+
+secret.env
