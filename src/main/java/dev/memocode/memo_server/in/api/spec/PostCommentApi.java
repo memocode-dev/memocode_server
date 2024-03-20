@@ -27,4 +27,7 @@ public interface PostCommentApi {
 
     @Operation(summary = "블로그 댓글 전체 조회")
     ResponseEntity<Page<CommentsDTO>> findAllComments(UUID memoId, int page, int size);
+
+    @Operation(summary = "블로그 대댓글 생성")
+    ResponseEntity<String> createChildComments(UUID memoId, UUID commentId, CommentCreateForm form, Jwt jwt);
 }

@@ -1,5 +1,6 @@
 package dev.memocode.memo_server.usecase;
 
+import dev.memocode.memo_server.domain.memocomment.dto.request.ChildCommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
@@ -19,4 +20,6 @@ public interface CommentUseCase {
     void deleteComments(CommentDeleteDto dto);
 
     Page<CommentsDTO> findAllComments(UUID memoId, int page, int size);
+
+    UUID createChildComment(ChildCommentCreateDTO dto);
 }

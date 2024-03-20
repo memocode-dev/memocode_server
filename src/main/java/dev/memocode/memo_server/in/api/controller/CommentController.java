@@ -1,5 +1,6 @@
 package dev.memocode.memo_server.in.api.controller;
 
+import dev.memocode.memo_server.domain.memocomment.dto.request.ChildCommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentUpdateDTO;
@@ -82,6 +83,24 @@ public class CommentController implements PostCommentApi {
                                                              @RequestParam(name = "size", defaultValue = "10") int size) {
         Page<CommentsDTO> dto = commentUseCase.findAllComments(memoId, page, size);
         return ResponseEntity.ok().body(dto);
+    }
+
+    @PostMapping("/{commentId}")
+    public ResponseEntity<String> createChildComments(@PathVariable("memoId") UUID memoId,
+                                                      @PathVariable("commentId") UUID commentId,
+                                                      @RequestBody CommentCreateForm form,
+                                                      @AuthenticationPrincipal Jwt jwt) {
+
+        ChildCommentCreateDTO dto = ChildCommentCreateDTO.builder()
+                .memoId(memoId)
+                .commentId(commentId)
+                .content(form.getContent())
+                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .build();
+
+        UUID childCommentId = commentUseCase.createChildComment(dto);
+
+        return ResponseEntity.created(URI.create(childCommentId.toString())).body(childCommentId.toString());
     }
 
 }
