@@ -6,6 +6,6 @@ import org.springframework.validation.annotation.Validated;
 import java.util.UUID;
 
 @Validated
-public interface PostCommentUseCase {
+public interface CommentUseCase {
     UUID createComments(CommentCreateDTO dto);
 }

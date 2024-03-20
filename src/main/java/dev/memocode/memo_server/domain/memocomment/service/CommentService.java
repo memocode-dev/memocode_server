@@ -2,14 +2,13 @@ package dev.memocode.memo_server.domain.memocomment.service;
 
 import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.service.AuthorService;
-import dev.memocode.memo_server.domain.base.exception.GlobalErrorCode;
 import dev.memocode.memo_server.domain.base.exception.GlobalException;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.service.InternalMemoService;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.entity.Comment;
-import dev.memocode.memo_server.domain.memocomment.repository.PostCommentRepository;
-import dev.memocode.memo_server.usecase.PostCommentUseCase;
+import dev.memocode.memo_server.domain.memocomment.repository.CommentRepository;
+import dev.memocode.memo_server.usecase.CommentUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,11 +22,11 @@ import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
-public class PostCommentService implements PostCommentUseCase {
+public class CommentService implements CommentUseCase {
 
     private final InternalMemoService internalMemoService;
     private final AuthorService authorService;
-    private final PostCommentRepository postCommentRepository;
+    private final CommentRepository commentRepository;
 
     @Override
     @Transactional
@@ -44,7 +43,7 @@ public class PostCommentService implements PostCommentUseCase {
                 .memo(memo)
                 .build();
 
-        Comment saveComment = postCommentRepository.save(comment);
+        Comment saveComment = commentRepository.save(comment);
 
         return saveComment.getId();
     }
