@@ -32,6 +32,8 @@ public class PostService implements PostUseCase {
     private final AuthorService authorService;
     private final PostMapper postMapper;
 
+    private static final Boolean VISIBILITY_TRUE = true;
+
     @Override
     public PostDetailDTO findPost(UUID memoId) {
         Memo memo = internalMemoService.findByMemoIdElseThrow(memoId);
@@ -53,7 +55,7 @@ public class PostService implements PostUseCase {
 
     @Override
     public Page<PostsDTO> findAllPost(int page, int size) {
-        Page<Memo> memos = memoRepository.findByPosts(PageRequest.of(page, size));
+        Page<Memo> memos = memoRepository.findByPosts(PageRequest.of(page, size), VISIBILITY_TRUE);
 
         return postMapper.entity_to_postsDTO(memos);
     }
@@ -62,7 +64,7 @@ public class PostService implements PostUseCase {
     public Page<PostAuthorDTO> findAuthorAllPost(UUID authorId, int page, int size) {
         authorService.findByIdElseThrow(authorId);
         Page<Memo> posts = memoRepository
-                .findAllPostByAuthorId(authorId, PageRequest.of(page, size));
+                .findAllPostByAuthorId(authorId, PageRequest.of(page, size), VISIBILITY_TRUE);
 
         return postMapper.entity_to_postAuthorDto(posts);
     }
