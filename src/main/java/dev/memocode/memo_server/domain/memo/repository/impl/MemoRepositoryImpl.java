@@ -33,11 +33,11 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
     }
 
     @Override
-    public Page<Memo> findByPosts(Pageable pageable) {
+    public Page<Memo> findByPosts(Pageable pageable, Boolean visibility) {
 
         List<Memo> posts = queryFactory
                 .selectFrom(memo)
-                .where(memo.visibility.eq(true))
+                .where(memo.visibility.eq(visibility))
                 .orderBy(memo.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -46,7 +46,7 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(memo.count())
                 .from(memo)
-                .where(memo.visibility.eq(true));
+                .where(memo.visibility.eq(visibility));
 
         return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);
     }
@@ -66,20 +66,20 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
     }
 
     @Override
-    public List<Memo> findByAuthorIdAndBookmarked(UUID authorId) {
+    public List<Memo> findByAuthorIdAndBookmarked(UUID authorId, Boolean visibility) {
         return queryFactory
                 .selectFrom(memo)
-                .where(memo.author.id.eq(authorId), memo.bookmarked.eq(true))
+                .where(memo.author.id.eq(authorId), memo.bookmarked.eq(visibility))
                 .orderBy(memo.sequence.asc())
                 .fetch();
     }
 
     // 해당 사용자에 대한 블로그 조회
     @Override
-    public Page<Memo> findAllPostByAuthorId(UUID authorId, Pageable pageable) {
+    public Page<Memo> findAllPostByAuthorId(UUID authorId, Pageable pageable, Boolean visibility) {
         List<Memo> posts = queryFactory
                 .selectFrom(memo)
-                .where(memo.visibility.eq(true), memo.author.id.eq(authorId))
+                .where(memo.visibility.eq(visibility), memo.author.id.eq(authorId))
                 .orderBy(memo.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -88,7 +88,7 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(memo.count())
                 .from(memo)
-                .where(memo.visibility.eq(true), memo.author.id.eq(authorId));
+                .where(memo.visibility.eq(visibility), memo.author.id.eq(authorId));
 
         return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);
     }
