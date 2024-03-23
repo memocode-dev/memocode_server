@@ -105,7 +105,7 @@ class CommentUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .build();
 
-        UUID comments1 = commentService.createComments(comment1);
+        UUID comments1 = commentService.createComment(comment1);
 
         // 2번 부모 댓글 생성
         CommentCreateDTO comment2 = CommentCreateDTO.builder()
@@ -114,7 +114,7 @@ class CommentUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .build();
 
-        commentService.createComments(comment2);
+        commentService.createComment(comment2);
 
         // 자식 댓글 생성
         ChildCommentCreateDTO childDto = ChildCommentCreateDTO.builder()
