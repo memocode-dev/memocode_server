@@ -75,6 +75,8 @@ public class CommentService implements CommentUseCase {
         internalCommentService.validOwner(comment.getAuthor().getId(), dto.getAuthorId());
 
         comment.delete();
+        // 자식 댓글또한 연쇄 삭제
+        comment.getChildComments().forEach(Comment::delete);
     }
 
     @Override
@@ -85,6 +87,8 @@ public class CommentService implements CommentUseCase {
         internalMemoService.findByMemoIdElseThrow(memoId);
 
         Page<Comment> comments = commentRepository.findAllByMemoId(memoId, pageRequest);
+
+        log.info("service comments getTotalElements= {}", comments.getTotalElements());
 
         return commentMapper.entity_to_commentsDto(comments);
     }
