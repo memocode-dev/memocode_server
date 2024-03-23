@@ -73,4 +73,23 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
                 .orderBy(memo.sequence.asc())
                 .fetch();
     }
+
+    // 해당 사용자에 대한 블로그 조회
+    @Override
+    public Page<Memo> findByAuthorIdAndPosts(UUID authorId, Pageable pageable) {
+        List<Memo> posts = queryFactory
+                .selectFrom(memo)
+                .where(memo.visibility.eq(true), memo.author.id.eq(authorId))
+                .orderBy(memo.createdAt.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory
+                .select(memo.count())
+                .from(memo)
+                .where(memo.visibility.eq(true), memo.author.id.eq(authorId));
+
+        return PageableExecutionUtils.getPage(posts, pageable, countQuery::fetchOne);
+    }
 }
