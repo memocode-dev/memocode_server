@@ -35,7 +35,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         Long total = queryFactory
                 .select(comment.count())
                 .from(comment)
-                .where(comment.memo.id.eq(memoId))
+                .where(comment.memo.id.eq(memoId), comment.parentComment.isNull())
                 .fetchOne();
 
         log.info("comment total = {}", total);
