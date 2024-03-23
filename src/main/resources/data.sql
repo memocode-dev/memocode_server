@@ -10,7 +10,6 @@ CREATE TABLE users
     id         CHAR(36)            NOT NULL PRIMARY KEY,
     username   VARCHAR(255) UNIQUE NOT NULL,
     nickname   VARCHAR(255)        NOT NULL,
-    account_id CHAR(36)            NOT NULL,
     created_at DATETIME            NOT NULL,
     updated_at DATETIME            NOT NULL,
     deleted_at DATETIME,
