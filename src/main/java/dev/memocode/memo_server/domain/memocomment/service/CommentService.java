@@ -88,8 +88,6 @@ public class CommentService implements CommentUseCase {
 
         Page<Comment> comments = commentRepository.findAllByMemoId(memoId, pageRequest);
 
-        log.info("service comments getTotalElements= {}", comments.getTotalElements());
-
         return commentMapper.entity_to_commentsDto(comments);
     }
 
