@@ -36,7 +36,7 @@ public class CommentService implements CommentUseCase {
 
     @Override
     @Transactional
-    public UUID createComments(CommentCreateDTO dto) {
+    public UUID createComment(CommentCreateDTO dto) {
         Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
         Author author = authorService.findByIdElseThrow(dto.getAuthorId());
 

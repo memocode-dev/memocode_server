@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Validated
 public interface CommentUseCase {
-    UUID createComments(@Valid CommentCreateDTO dto);
+    UUID createComment(@Valid CommentCreateDTO dto);
 
     void updateComments(@Valid CommentUpdateDTO dto);
 
