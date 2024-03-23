@@ -17,17 +17,17 @@ import java.util.UUID;
 public interface PostCommentApi {
 
     @Operation(summary = "블로그 댓글 생성")
-    ResponseEntity<String> createComments(UUID memoId, CommentCreateForm form, Jwt jwt);
+    ResponseEntity<String> createComment(UUID memoId, CommentCreateForm form, Jwt jwt);
 
     @Operation(summary = "블로그 댓글 수정")
-    ResponseEntity<Void> updateComments(UUID memoId, UUID commentId, CommentUpdateForm form, Jwt jwt);
+    ResponseEntity<Void> updateComment(UUID memoId, UUID commentId, CommentUpdateForm form, Jwt jwt);
 
     @Operation(summary = "블로그 댓글 삭제")
-    ResponseEntity<Void> deleteComments(UUID memoId, UUID commentId, Jwt jwt);
+    ResponseEntity<Void> deleteComment(UUID memoId, UUID commentId, Jwt jwt);
 
     @Operation(summary = "블로그 댓글 전체 조회")
-    ResponseEntity<Page<CommentsDTO>> findAllComments(UUID memoId, int page, int size);
+    ResponseEntity<Page<CommentsDTO>> findAllComment(UUID memoId, int page, int size);
 
     @Operation(summary = "블로그 대댓글 생성")
-    ResponseEntity<String> createChildComments(UUID memoId, UUID commentId, CommentCreateForm form, Jwt jwt);
+    ResponseEntity<String> createChildComment(UUID memoId, UUID commentId, CommentCreateForm form, Jwt jwt);
 }

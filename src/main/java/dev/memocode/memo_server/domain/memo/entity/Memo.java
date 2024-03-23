@@ -76,6 +76,7 @@ public class Memo extends AggregateRoot {
 
     // 게시글 댓글 수 가져오기
     @OneToMany(mappedBy = "memo")
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     // 메모 삭제 (soft delete)

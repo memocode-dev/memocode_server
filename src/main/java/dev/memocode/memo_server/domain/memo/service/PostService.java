@@ -62,7 +62,7 @@ public class PostService implements PostUseCase {
     public Page<PostAuthorDTO> findAuthorAllPost(UUID authorId, int page, int size) {
         authorService.findByIdElseThrow(authorId);
         Page<Memo> posts = memoRepository
-                .findByAuthorIdAndPosts(authorId, PageRequest.of(page, size));
+                .findAllPostByAuthorId(authorId, PageRequest.of(page, size));
 
         return postMapper.entity_to_postAuthorDto(posts);
     }

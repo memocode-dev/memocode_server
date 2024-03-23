@@ -30,7 +30,7 @@ public class CommentController implements PostCommentApi {
     private static final String USER_ID_CLAIM_NAME = "user_id";
 
     @PostMapping
-    public ResponseEntity<String> createComments(@PathVariable("memoId") UUID memoId,
+    public ResponseEntity<String> createComment(@PathVariable("memoId") UUID memoId,
                                                  @RequestBody CommentCreateForm form,
                                                  @AuthenticationPrincipal Jwt jwt) {
 
@@ -40,12 +40,12 @@ public class CommentController implements PostCommentApi {
                 .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
                 .build();
 
-        UUID commentId = commentUseCase.createComments(dto);
+        UUID commentId = commentUseCase.createComment(dto);
         return ResponseEntity.created(URI.create(commentId.toString())).body(commentId.toString());
     }
 
     @PatchMapping("/{commentId}")
-    public ResponseEntity<Void> updateComments(@PathVariable("memoId") UUID memoId,
+    public ResponseEntity<Void> updateComment(@PathVariable("memoId") UUID memoId,
                                                @PathVariable("commentId") UUID commentId,
                                                @RequestBody CommentUpdateForm form,
                                                @AuthenticationPrincipal Jwt jwt) {
@@ -62,7 +62,7 @@ public class CommentController implements PostCommentApi {
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComments(@PathVariable("memoId") UUID memoId,
+    public ResponseEntity<Void> deleteComment(@PathVariable("memoId") UUID memoId,
                                                @PathVariable("commentId") UUID commentId,
                                                @AuthenticationPrincipal Jwt jwt) {
 
@@ -78,7 +78,7 @@ public class CommentController implements PostCommentApi {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CommentsDTO>> findAllComments(@PathVariable("memoId") UUID memoId,
+    public ResponseEntity<Page<CommentsDTO>> findAllComment(@PathVariable("memoId") UUID memoId,
                                                              @RequestParam(name = "page", defaultValue = "0") int page,
                                                              @RequestParam(name = "size", defaultValue = "10") int size) {
         Page<CommentsDTO> dto = commentUseCase.findAllComments(memoId, page, size);
@@ -86,7 +86,7 @@ public class CommentController implements PostCommentApi {
     }
 
     @PostMapping("/{commentId}")
-    public ResponseEntity<String> createChildComments(@PathVariable("memoId") UUID memoId,
+    public ResponseEntity<String> createChildComment(@PathVariable("memoId") UUID memoId,
                                                       @PathVariable("commentId") UUID commentId,
                                                       @RequestBody CommentCreateForm form,
                                                       @AuthenticationPrincipal Jwt jwt) {
