@@ -29,6 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@Transactional
 class CommentUseCaseTest {
 
     @Autowired
@@ -61,8 +62,8 @@ class CommentUseCaseTest {
     private Author createTestAuthor() {
         Author author = Author.builder()
                 .id(UUID.randomUUID())
-                .username("댓글테스트")
-                .nickname("댓글테스트닉네임")
+                .username("테스트이름")
+                .nickname("테스트닉네임")
                 .createdAt(Instant.now())
                 .updatedAt(Instant.now())
                 .deleted(false)
