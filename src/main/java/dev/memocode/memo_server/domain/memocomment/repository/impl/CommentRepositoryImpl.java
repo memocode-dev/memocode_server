@@ -38,6 +38,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .where(comment.memo.id.eq(memoId))
                 .fetchOne();
 
+        log.info("comment total = {}", total);
+
         return new PageImpl<>(comments, pageable, total);
     }
 }
