@@ -8,7 +8,7 @@ import dev.memocode.memo_server.domain.memo.dto.response.PostAuthorDTO;
 import dev.memocode.memo_server.domain.memo.repository.MemoRepository;
 import dev.memocode.memo_server.domain.memo.service.MemoService;
 import dev.memocode.memo_server.domain.memo.service.PostService;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -36,6 +36,9 @@ class PostUseCaseTest {
     @Autowired
     private AuthorRepository authorRepository;
 
+    @Autowired
+    private MemoRepository memoRepository;
+
     private Author savedAuthor;
 
     @BeforeEach
@@ -46,8 +49,8 @@ class PostUseCaseTest {
     private Author createTestAuthor() {
         Author author = Author.builder()
                 .id(UUID.randomUUID())
-                .username("테스트이름")
-                .nickname("테스트닉네임")
+                .username("게시글테스트")
+                .nickname("게시글테스트닉네임")
                 .createdAt(Instant.now())
                 .updatedAt(Instant.now())
                 .deleted(false)
@@ -77,6 +80,6 @@ class PostUseCaseTest {
 
         Page<PostAuthorDTO> authorAllPost = postService.findAuthorAllPost(savedAuthor.getId(), 0, 10);
 
-        Assertions.assertThat(authorAllPost.getTotalElements()).isEqualTo(1L);
+        assertThat(authorAllPost.getTotalElements()).isEqualTo(1L);
     }
 }
