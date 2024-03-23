@@ -1,6 +1,8 @@
 package dev.memocode.memo_server.domain.memo.service;
 
+import dev.memocode.memo_server.domain.author.service.AuthorService;
 import dev.memocode.memo_server.domain.base.exception.GlobalException;
+import dev.memocode.memo_server.domain.memo.dto.response.PostAuthorDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostsDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
@@ -27,6 +29,7 @@ public class PostService implements PostUseCase {
 
     private final MemoRepository memoRepository;
     private final InternalMemoService internalMemoService;
+    private final AuthorService authorService;
     private final PostMapper postMapper;
 
     @Override
@@ -53,5 +56,14 @@ public class PostService implements PostUseCase {
         Page<Memo> memos = memoRepository.findByPosts(PageRequest.of(page, size));
 
         return postMapper.entity_to_postsDTO(memos);
+    }
+
+    @Override
+    public Page<PostAuthorDTO> findAuthorAllPost(UUID authorId, int page, int size) {
+        authorService.findByIdElseThrow(authorId);
+        Page<Memo> posts = memoRepository
+                .findByAuthorIdAndPosts(authorId, PageRequest.of(page, size));
+
+        return postMapper.entity_to_postAuthorDto(posts);
     }
 }

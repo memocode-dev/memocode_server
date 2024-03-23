@@ -3,6 +3,7 @@ package dev.memocode.memo_server.domain.memo.entity;
 import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
 import dev.memocode.memo_server.domain.base.exception.GlobalException;
+import dev.memocode.memo_server.domain.memocomment.entity.Comment;
 import dev.memocode.memo_server.domain.series.entity.Series;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -14,7 +15,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.*;
@@ -70,6 +73,10 @@ public class Memo extends AggregateRoot {
     @OneToMany(mappedBy = "parentMemo")
     @Builder.Default
     private Set<Memo> childMemos = new HashSet<>();
+
+    // 게시글 댓글 수 가져오기
+    @OneToMany(mappedBy = "memo")
+    private List<Comment> comments = new ArrayList<>();
 
     // 메모 삭제 (soft delete)
     public void delete() {
