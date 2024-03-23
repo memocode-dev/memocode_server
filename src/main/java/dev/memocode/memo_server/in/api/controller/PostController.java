@@ -1,5 +1,6 @@
 package dev.memocode.memo_server.in.api.controller;
 
+import dev.memocode.memo_server.domain.memo.dto.response.PostAuthorDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostsDTO;
 import dev.memocode.memo_server.in.api.spec.PostApi;
@@ -32,4 +33,14 @@ public class PostController implements PostApi {
         Page<PostsDTO> dto = postUseCase.findAllPost(page, size);
         return ResponseEntity.ok().body(dto);
     }
+
+    @GetMapping("/author/{authorId}")
+    public ResponseEntity<Page<PostAuthorDTO>> findAuthorPost(@PathVariable("authorId") UUID authorId,
+                                                              @RequestParam(name = "page", defaultValue = "0") int page,
+                                                              @RequestParam(name = "size", defaultValue = "10") int size) {
+
+        Page<PostAuthorDTO> dto = postUseCase.findAuthorAllPost(authorId, page, size);
+        return ResponseEntity.ok().body(dto);
+    }
+
 }

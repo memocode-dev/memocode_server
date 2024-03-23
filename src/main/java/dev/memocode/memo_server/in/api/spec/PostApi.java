@@ -1,5 +1,6 @@
 package dev.memocode.memo_server.in.api.spec;
 
+import dev.memocode.memo_server.domain.memo.dto.response.PostAuthorDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostsDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,4 +20,7 @@ public interface PostApi {
 
     @Operation(summary = "게시글 전체 조회")
     ResponseEntity<Page<PostsDTO>> findAllPost(int page, int size);
+
+    @Operation(summary = "해당 사용자에 대한 블로그 글 조회")
+    ResponseEntity<Page<PostAuthorDTO>> findAuthorPost(UUID authorId, int page, int size);
 }

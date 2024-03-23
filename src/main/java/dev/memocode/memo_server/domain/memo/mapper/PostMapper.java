@@ -1,6 +1,7 @@
 package dev.memocode.memo_server.domain.memo.mapper;
 
 import dev.memocode.memo_server.domain.author.dto.AuthorDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.PostAuthorDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostsDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
@@ -44,6 +45,14 @@ public class PostMapper {
     public Page<PostsDTO> entity_to_postsDTO(Page<Memo> posts) {
         List<PostsDTO> list = posts.stream()
                 .map(this::entity_to_postsDTO)
+                .toList();
+
+        return PageableExecutionUtils.getPage(list, posts.getPageable(), posts::getTotalElements);
+    }
+
+    public Page<PostAuthorDTO> entity_to_postAuthorDto(Page<Memo> posts) {
+        List<PostAuthorDTO> list = posts.stream()
+                .map(PostAuthorDTO::from)
                 .toList();
 
         return PageableExecutionUtils.getPage(list, posts.getPageable(), posts::getTotalElements);
