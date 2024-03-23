@@ -4,6 +4,7 @@ import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,7 @@ public class Comment extends AggregateRoot {
     private Comment parentComment;
 
     @OneToMany(mappedBy = "parentComment")
+    @Builder.Default
     private List<Comment> childComments = new ArrayList<>();
 
     public void update(String content) {
