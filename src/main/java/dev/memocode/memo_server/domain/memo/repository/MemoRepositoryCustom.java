@@ -11,11 +11,11 @@ public interface MemoRepositoryCustom {
 
     List<Memo> findByAuthorId(UUID authorId);
 
-    Page<Memo> findByPosts(Pageable pageable);
+    Page<Memo> findByPosts(Pageable pageable, Boolean visibility);
 
     Integer getLastSequenceOrDefault(UUID authorId, int defaultValue);
 
-    List<Memo> findByAuthorIdAndBookmarked(UUID authorId);
+    List<Memo> findByAuthorIdAndBookmarked(UUID authorId, Boolean visibility);
 
-    Page<Memo> findAllPostByAuthorId(UUID authorId, Pageable pageable);
+    Page<Memo> findAllPostByAuthorId(UUID authorId, Pageable pageable, Boolean visibility);
 }
