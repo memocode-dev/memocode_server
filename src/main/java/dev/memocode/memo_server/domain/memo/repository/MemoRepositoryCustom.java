@@ -15,7 +15,7 @@ public interface MemoRepositoryCustom {
 
     Integer getLastSequenceOrDefault(UUID authorId, int defaultValue);
 
-    List<Memo> findByAuthorIdAndBookmarked(UUID authorId, Boolean visibility);
+    List<Memo> findByAuthorIdAndBookmarked(UUID authorId, Boolean bookmarked);
 
     Page<Memo> findAllPostByAuthorId(UUID authorId, Pageable pageable, Boolean visibility);
 }

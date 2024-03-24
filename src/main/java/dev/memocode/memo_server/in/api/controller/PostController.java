@@ -35,11 +35,11 @@ public class PostController implements PostApi {
     }
 
     @GetMapping("/author/{authorId}")
-    public ResponseEntity<Page<PostAuthorDTO>> findAuthorPost(@PathVariable("authorId") UUID authorId,
+    public ResponseEntity<Page<PostAuthorDTO>> findAllPostByAuthor(@PathVariable("authorId") UUID authorId,
                                                               @RequestParam(name = "page", defaultValue = "0") int page,
                                                               @RequestParam(name = "size", defaultValue = "10") int size) {
 
-        Page<PostAuthorDTO> dto = postUseCase.findAuthorAllPost(authorId, page, size);
+        Page<PostAuthorDTO> dto = postUseCase.findAllPostByAuthorId(authorId, page, size);
         return ResponseEntity.ok().body(dto);
     }
 
