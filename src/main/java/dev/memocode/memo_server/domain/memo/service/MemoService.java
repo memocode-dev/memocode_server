@@ -37,7 +37,7 @@ public class MemoService implements MemoUseCase {
 
     private final InternalMemoService internalMemoService;
     private final static int DEFAULT_ADD_INDEX = 1024;
-    private static final Boolean VISIBILITY_TRUE = true;
+    private static final Boolean BOOKMARKED_TRUE = true;
 
     /**
      * 메모 생성
@@ -112,7 +112,7 @@ public class MemoService implements MemoUseCase {
 
     @Override
     public MemosBookmarkedDTO findBookmarkedMemos(UUID authorId) {
-        List<Memo> bookmarkedMemos = memoRepository.findByAuthorIdAndBookmarked(authorId, VISIBILITY_TRUE);
+        List<Memo> bookmarkedMemos = memoRepository.findByAuthorIdAndBookmarked(authorId, BOOKMARKED_TRUE);
 
         return memoMapper.entity_to_memosBookmarkedDTO(bookmarkedMemos);
     }

@@ -61,7 +61,7 @@ public class PostService implements PostUseCase {
     }
 
     @Override
-    public Page<PostAuthorDTO> findAuthorAllPost(UUID authorId, int page, int size) {
+    public Page<PostAuthorDTO> findAllPostByAuthorId(UUID authorId, int page, int size) {
         authorService.findByIdElseThrow(authorId);
         Page<Memo> posts = memoRepository
                 .findAllPostByAuthorId(authorId, PageRequest.of(page, size), VISIBILITY_TRUE);

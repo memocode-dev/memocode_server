@@ -66,10 +66,10 @@ public class MemoRepositoryImpl implements MemoRepositoryCustom {
     }
 
     @Override
-    public List<Memo> findByAuthorIdAndBookmarked(UUID authorId, Boolean visibility) {
+    public List<Memo> findByAuthorIdAndBookmarked(UUID authorId, Boolean bookmarked) {
         return queryFactory
                 .selectFrom(memo)
-                .where(memo.author.id.eq(authorId), memo.bookmarked.eq(visibility))
+                .where(memo.author.id.eq(authorId), memo.bookmarked.eq(bookmarked))
                 .orderBy(memo.sequence.asc())
                 .fetch();
     }
