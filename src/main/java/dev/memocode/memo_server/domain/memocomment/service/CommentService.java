@@ -75,8 +75,6 @@ public class CommentService implements CommentUseCase {
         internalCommentService.validOwner(comment.getAuthor().getId(), dto.getAuthorId());
 
         comment.delete();
-        // 자식 댓글또한 연쇄 삭제
-        comment.getChildComments().forEach(Comment::delete);
     }
 
     @Override

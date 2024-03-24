@@ -55,5 +55,7 @@ public class Comment extends AggregateRoot {
     public void delete() {
         this.deleted = true;
         this.deletedAt = Instant.now();
+        // 자식 댓글또한 연쇄 삭제
+        this.getChildComments().forEach(Comment::delete);
     }
 }
