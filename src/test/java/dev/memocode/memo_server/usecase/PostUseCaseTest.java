@@ -79,7 +79,7 @@ class PostUseCaseTest {
 
         memoService.updateMemo(updateDTO);
 
-        Page<PostAuthorDTO> authorAllPost = postService.findAuthorAllPost(savedAuthor.getId(), 0, 10);
+        Page<PostAuthorDTO> authorAllPost = postService.findAllPostByAuthorId(savedAuthor.getId(), 0, 10);
 
         assertThat(authorAllPost.getTotalElements()).isEqualTo(1L);
     }
