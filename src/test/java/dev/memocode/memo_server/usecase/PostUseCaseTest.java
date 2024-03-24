@@ -59,7 +59,7 @@ class PostUseCaseTest {
 
     @Test
     @DisplayName("해당 사용자의 블로그 게시물 조회")
-    void findAuthorAllPost() {
+    void findAuthorAllPost_success() {
         MemoCreateDTO dto = MemoCreateDTO.builder()
                 .authorId(savedAuthor.getId())
                 .title("테스트 제목입니다.")
@@ -79,5 +79,37 @@ class PostUseCaseTest {
         Page<PostAuthorDTO> authorAllPost = postUseCase.findAllPostByAuthorId(savedAuthor.getId(), 0, 10);
 
         assertThat(authorAllPost.getTotalElements()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("해당 사용자의 블로그에 대한 게시글 조회 실패 (visibility 체크 된것이 하나)")
+    void findAuthorAllPost_Fail() {
+        MemoCreateDTO dto1 = MemoCreateDTO.builder()
+                .authorId(savedAuthor.getId())
+                .title("테스트 제목입니다.")
+                .content("테스트 내용입니다.")
+                .build();
+
+        UUID memoId1 = memoUseCase.createMemo(dto1);
+
+        MemoCreateDTO dto2 = MemoCreateDTO.builder()
+                .authorId(savedAuthor.getId())
+                .title("테스트 제목입니다.")
+                .content("테스트 내용입니다.")
+                .build();
+
+        memoUseCase.createMemo(dto2);
+
+        MemoUpdateDTO updateDTO = MemoUpdateDTO.builder()
+                .memoId(memoId1)
+                .authorId(savedAuthor.getId())
+                .visibility(true)
+                .build();
+
+        memoUseCase.updateMemo(updateDTO);
+
+        Page<PostAuthorDTO> authorAllPost = postUseCase.findAllPostByAuthorId(savedAuthor.getId(), 0, 10);
+
+        assertThat(authorAllPost.getTotalElements()).isNotEqualTo(2L);
     }
 }
