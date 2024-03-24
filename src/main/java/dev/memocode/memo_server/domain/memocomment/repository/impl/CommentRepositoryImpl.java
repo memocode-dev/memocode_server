@@ -21,7 +21,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
     @Override
-    public Page<Comment> findAllByMemoId(UUID memoId, Pageable pageable) {
+    public Page<Comment> findAllParentsCommentByMemoId(UUID memoId, Pageable pageable) {
         QComment comment = QComment.comment;
 
         List<Comment> comments = queryFactory
