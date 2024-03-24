@@ -4,15 +4,10 @@ import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.repository.AuthorRepository;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
-import dev.memocode.memo_server.domain.memo.repository.MemoRepository;
-import dev.memocode.memo_server.domain.memo.service.MemoService;
-import dev.memocode.memo_server.domain.memo.service.PostService;
 import dev.memocode.memo_server.domain.memocomment.dto.request.ChildCommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentCreateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.CommentDeleteDto;
 import dev.memocode.memo_server.domain.memocomment.dto.response.CommentsDTO;
-import dev.memocode.memo_server.domain.memocomment.service.CommentService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,19 +28,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CommentUseCaseTest {
 
     @Autowired
-    private MemoService memoService;
+    private CommentUseCase commentUseCase;
 
     @Autowired
-    private CommentService commentService;
-
-    @Autowired
-    private PostService postService;
+    private MemoUseCase memoUseCase;
 
     @Autowired
     private AuthorRepository authorRepository;
-
-    @Autowired
-    private MemoRepository memoRepository;
 
     private Author savedAuthor;
     private UUID memoId;
@@ -82,7 +71,7 @@ class CommentUseCaseTest {
                 .content("테스트 내용입니다.")
                 .build();
 
-        UUID memoId = memoService.createMemo(dto);
+        UUID memoId = memoUseCase.createMemo(dto);
 
         MemoUpdateDTO updateDTO = MemoUpdateDTO.builder()
                 .memoId(memoId)
@@ -90,7 +79,7 @@ class CommentUseCaseTest {
                 .visibility(true)
                 .build();
 
-        memoService.updateMemo(updateDTO);
+        memoUseCase.updateMemo(updateDTO);
 
         return memoId;
     }
@@ -105,7 +94,7 @@ class CommentUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .build();
 
-        UUID comments1 = commentService.createComment(comment1);
+        UUID comments1 = commentUseCase.createComment(comment1);
 
         // 2번 부모 댓글 생성
         CommentCreateDTO comment2 = CommentCreateDTO.builder()
@@ -114,7 +103,7 @@ class CommentUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .build();
 
-        commentService.createComment(comment2);
+        commentUseCase.createComment(comment2);
 
         // 자식 댓글 생성
         ChildCommentCreateDTO childDto = ChildCommentCreateDTO.builder()
@@ -124,7 +113,7 @@ class CommentUseCaseTest {
                 .commentId(comments1)
                 .build();
 
-        commentService.createChildComment(childDto);
+        commentUseCase.createChildComment(childDto);
 
         // 1번 부모 댓글 삭제 -> 댓글 3개에서 1개가 되야한다.
         CommentDeleteDto deleteDto = CommentDeleteDto.builder()
@@ -133,10 +122,9 @@ class CommentUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .build();
 
-        commentService.deleteComments(deleteDto);
+        commentUseCase.deleteComments(deleteDto);
 
-        Page<CommentsDTO> allComments = commentService.findAllComments(memoId, 0, 10);
+        Page<CommentsDTO> allComments = commentUseCase.findAllComments(memoId, 0, 10);
         assertThat(allComments.getTotalElements()).isEqualTo(1L);
-
     }
 }
