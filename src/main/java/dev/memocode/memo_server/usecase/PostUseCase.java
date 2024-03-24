@@ -12,5 +12,5 @@ public interface PostUseCase {
 
     Page<PostsDTO> findAllPost(int page, int size);
 
-    Page<PostAuthorDTO> findAuthorAllPost(UUID authorId, int page, int size);
+    Page<PostAuthorDTO> findAllPostByAuthorId(UUID authorId, int page, int size);
 }

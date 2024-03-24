@@ -22,5 +22,5 @@ public interface PostApi {
     ResponseEntity<Page<PostsDTO>> findAllPost(int page, int size);
 
     @Operation(summary = "해당 사용자에 대한 블로그 글 조회")
-    ResponseEntity<Page<PostAuthorDTO>> findAuthorPost(UUID authorId, int page, int size);
+    ResponseEntity<Page<PostAuthorDTO>> findAllPostByAuthor(UUID authorId, int page, int size);
 }
