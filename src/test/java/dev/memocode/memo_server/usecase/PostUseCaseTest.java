@@ -29,16 +29,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PostUseCaseTest {
 
     @Autowired
-    private MemoService memoService;
+    private MemoUseCase memoUseCase;
 
     @Autowired
-    private PostService postService;
+    private PostUseCase postUseCase;
 
     @Autowired
     private AuthorRepository authorRepository;
-
-    @Autowired
-    private MemoRepository memoRepository;
 
     private Author savedAuthor;
 
@@ -69,7 +66,7 @@ class PostUseCaseTest {
                 .content("테스트 내용입니다.")
                 .build();
 
-        UUID memoId = memoService.createMemo(dto);
+        UUID memoId = memoUseCase.createMemo(dto);
 
         MemoUpdateDTO updateDTO = MemoUpdateDTO.builder()
                 .memoId(memoId)
@@ -77,9 +74,9 @@ class PostUseCaseTest {
                 .visibility(true)
                 .build();
 
-        memoService.updateMemo(updateDTO);
+        memoUseCase.updateMemo(updateDTO);
 
-        Page<PostAuthorDTO> authorAllPost = postService.findAllPostByAuthorId(savedAuthor.getId(), 0, 10);
+        Page<PostAuthorDTO> authorAllPost = postUseCase.findAllPostByAuthorId(savedAuthor.getId(), 0, 10);
 
         assertThat(authorAllPost.getTotalElements()).isEqualTo(1L);
     }
