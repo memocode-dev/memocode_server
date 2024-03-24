@@ -84,7 +84,7 @@ public class CommentService implements CommentUseCase {
         // 존재하는 게시글인지 찾기
         internalMemoService.findByMemoIdElseThrow(memoId);
 
-        Page<Comment> comments = commentRepository.findAllByMemoId(memoId, pageRequest);
+        Page<Comment> comments = commentRepository.findAllParentsCommentByMemoId(memoId, pageRequest);
 
         return commentMapper.entity_to_commentsDto(comments);
     }

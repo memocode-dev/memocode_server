@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface CommentRepositoryCustom {
-    Page<Comment> findAllByMemoId(UUID memoId, Pageable pageable);
+    Page<Comment> findAllParentsCommentByMemoId(UUID memoId, Pageable pageable);
 }
