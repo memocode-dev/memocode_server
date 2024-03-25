@@ -16,6 +16,7 @@ public class MemoMapper {
                 .id(memo.getId())
                 .title(memo.getTitle())
                 .content(memo.getContent())
+                .summary(memo.getSummary())
                 .visibility(memo.getVisibility())
                 .security(memo.getSecurity())
                 .bookmarked(memo.getBookmarked())
