@@ -14,5 +14,6 @@ import java.util.UUID;
 public class MemoCreateDTO {
     private String title;
     private String content;
+    private String summary;
     private UUID authorId;
 }

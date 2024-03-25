@@ -69,6 +69,7 @@ class CommentUseCaseTest {
                 .authorId(authorId)
                 .title("테스트 제목입니다.")
                 .content("테스트 내용입니다.")
+                .summary("요약 내용입니다.")
                 .build();
 
         UUID memoId = memoUseCase.createMemo(dto);
