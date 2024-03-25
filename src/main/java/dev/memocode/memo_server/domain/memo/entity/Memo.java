@@ -40,6 +40,9 @@ public class Memo extends AggregateRoot {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "summary")
+    private String summary;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "author_id")
     private Author author;

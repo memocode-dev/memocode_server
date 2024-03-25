@@ -64,6 +64,7 @@ class PostUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .title("테스트 제목입니다.")
                 .content("테스트 내용입니다.")
+                .summary("요약 내용입니다.")
                 .build();
 
         UUID memoId = memoUseCase.createMemo(dto);
@@ -88,6 +89,7 @@ class PostUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .title("테스트 제목입니다.")
                 .content("테스트 내용입니다.")
+                .summary("요약 내용입니다.")
                 .build();
 
         UUID memoId1 = memoUseCase.createMemo(dto1);
@@ -96,6 +98,7 @@ class PostUseCaseTest {
                 .authorId(savedAuthor.getId())
                 .title("테스트 제목입니다.")
                 .content("테스트 내용입니다.")
+                .summary("요약 내용입니다.")
                 .build();
 
         memoUseCase.createMemo(dto2);

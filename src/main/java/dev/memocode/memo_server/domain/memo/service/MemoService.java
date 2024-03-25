@@ -52,6 +52,7 @@ public class MemoService implements MemoUseCase {
         Memo memo = Memo.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
+                .summary(dto.getSummary())
                 .author(author)
                 .affinity(0)
                 .sequence(lastSequence + DEFAULT_ADD_INDEX)
