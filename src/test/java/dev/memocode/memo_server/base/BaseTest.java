@@ -4,19 +4,23 @@ import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.repository.AuthorRepository;
 import dev.memocode.memo_server.testcontainer.LogstashContainer;
 import dev.memocode.memo_server.testcontainer.MeilisearchContainer;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.ClassRule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import java.time.Instant;
+
+@Sql("/data.sql")
 @SpringBootTest
 @Testcontainers
 @ActiveProfiles("test")
@@ -32,17 +36,18 @@ public abstract class BaseTest {
     protected static final String CONFIG_PATH = "/usr/share/logstash/config/logstash.yml";
     protected static final String DRIVER_PATH = "/opt/logstash/vendor/jar/jdbc/";
 
-    @Container
+    @ClassRule
     final static MySQLContainer<?> mysql =
             new MySQLContainer<>(DockerImageName.parse("mysql:8.3.0"))
                     .withDatabaseName(MYSQL_DATABASE)
                     .withUsername(MYSQL_USERNAME)
                     .withPassword(MYSQL_PASSWORD);
 
-    @Container
+    @ClassRule
     final static MeilisearchContainer meilisearch = new MeilisearchContainer()
             .withMasterKey(MEILISEARCH_MASTER_KEY);
 
+    @ClassRule
     private final LogstashContainer logstash;
 
     public BaseTest() {
@@ -79,12 +84,16 @@ public abstract class BaseTest {
 
     protected Author author;
 
-    @BeforeAll
+    @BeforeEach
     void beforeAll() {
         // 유저 생성
         this.author = Author.builder()
-                .username("test1")
-                .nickname("test1")
+                .username("테스트이름")
+                .nickname("테스트닉네임")
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
+                .deleted(false)
+                .deletedAt(null)
                 .build();
         authorRepository.save(this.author);
     }

@@ -6,7 +6,6 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionRequestDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
-import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsSummaryDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import dev.memocode.memo_server.domain.memo.mapper.MemoMapper;
@@ -14,7 +13,6 @@ import dev.memocode.memo_server.domain.memo.repository.MemoVersionRepository;
 import dev.memocode.memo_server.usecase.MemoVersionUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
