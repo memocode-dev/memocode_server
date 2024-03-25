@@ -22,8 +22,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -92,9 +91,11 @@ class PostUseCaseTest {
                 .summary("요약 내용입니다.")
                 .build();
 
-        assertThrows(ConstraintViolationException.class, () -> {
+        ConstraintViolationException exception = assertThrows(ConstraintViolationException.class, () -> {
             memoUseCase.createMemo(dto);
         });
+
+        assertTrue(exception.getMessage().contains("제목이 비어있습니다."));
     }
 
     @Test
@@ -154,10 +155,11 @@ class PostUseCaseTest {
                 .bookmarked(false)
                 .build();
 
-        assertThrows(GlobalException.class, () -> {
+        GlobalException exception = assertThrows(GlobalException.class, () -> {
             memoUseCase.updateMemo(updateDTO);
         });
 
+        assertTrue(exception.getMessage().contains("메모에 접근할 권한이 없습니다."));
     }
 
     @Test
