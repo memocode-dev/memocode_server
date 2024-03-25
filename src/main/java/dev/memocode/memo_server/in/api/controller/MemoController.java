@@ -37,6 +37,7 @@ public class MemoController implements MemoApi {
         MemoCreateDTO dto = MemoCreateDTO.builder()
                 .title(form.getTitle())
                 .content(form.getContent())
+                .summary(form.getSummary())
                 .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
                 .build();
 

@@ -15,7 +15,8 @@ import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 public class MemoCreateForm {
     @Schema(requiredMode = REQUIRED)
     private String title;
-
     @Schema(requiredMode = REQUIRED)
     private String content;
+    @Schema(requiredMode = REQUIRED)
+    private String summary;
 }
