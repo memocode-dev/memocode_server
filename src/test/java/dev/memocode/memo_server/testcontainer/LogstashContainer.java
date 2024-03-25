@@ -1,6 +1,5 @@
 package dev.memocode.memo_server.testcontainer;
 
-import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
 

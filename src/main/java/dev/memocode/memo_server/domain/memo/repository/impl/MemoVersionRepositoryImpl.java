@@ -1,15 +1,11 @@
 package dev.memocode.memo_server.domain.memo.repository.impl;
 
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import dev.memocode.memo_server.domain.memo.entity.MemoVersion;
 import dev.memocode.memo_server.domain.memo.entity.QMemoVersion;
 import dev.memocode.memo_server.domain.memo.repository.MemoVersionRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

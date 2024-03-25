@@ -5,11 +5,9 @@ import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoVersionRequestDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsDTO;
-import dev.memocode.memo_server.domain.memo.dto.response.MemoVersionsSummaryDTO;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.List;
 import java.util.UUID;
 
 @Validated
