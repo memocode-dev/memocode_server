@@ -1,14 +1,11 @@
 package dev.memocode.memo_server.memo;
 
 import dev.memocode.memo_server.base.BaseTest;
-import dev.memocode.memo_server.domain.author.entity.Author;
-import dev.memocode.memo_server.domain.author.repository.AuthorRepository;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 public class MemoSearchTest extends BaseTest {
 
@@ -21,6 +18,7 @@ public class MemoSearchTest extends BaseTest {
         MemoCreateDTO memoCreateDTO = MemoCreateDTO.builder()
                 .title("메모코드")
                 .content("메모코드")
+                .summary("요약")
                 .authorId(author.getId())
                 .build();
 

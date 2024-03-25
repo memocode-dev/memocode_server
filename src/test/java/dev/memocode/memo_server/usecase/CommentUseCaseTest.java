@@ -1,7 +1,6 @@
 package dev.memocode.memo_server.usecase;
 
-import dev.memocode.memo_server.domain.author.entity.Author;
-import dev.memocode.memo_server.domain.author.repository.AuthorRepository;
+import dev.memocode.memo_server.base.BaseTest;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
 import dev.memocode.memo_server.domain.memocomment.dto.request.ChildCommentCreateDTO;
@@ -17,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -25,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
-class CommentUseCaseTest {
+class CommentUseCaseTest extends BaseTest {
 
     @Autowired
     private CommentUseCase commentUseCase;
@@ -33,32 +31,11 @@ class CommentUseCaseTest {
     @Autowired
     private MemoUseCase memoUseCase;
 
-    @Autowired
-    private AuthorRepository authorRepository;
-
-    private Author savedAuthor;
     private UUID memoId;
 
     @BeforeEach
     void setUp() {
-        savedAuthor = createTestAuthor();
-        memoId = createTestMemo(savedAuthor.getId());
-    }
-
-    /**
-     * 유저 생성
-     */
-    private Author createTestAuthor() {
-        Author author = Author.builder()
-                .id(UUID.randomUUID())
-                .username("테스트이름")
-                .nickname("테스트닉네임")
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now())
-                .deleted(false)
-                .deletedAt(null)
-                .build();
-        return authorRepository.save(author);
+        memoId = createTestMemo(author.getId());
     }
 
     /**
@@ -92,7 +69,7 @@ class CommentUseCaseTest {
         CommentCreateDTO comment1 = CommentCreateDTO.builder()
                 .memoId(memoId)
                 .content("1번 게시글의 테스트 댓글입니다.")
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .build();
 
         UUID comments1 = commentUseCase.createComment(comment1);
@@ -101,7 +78,7 @@ class CommentUseCaseTest {
         CommentCreateDTO comment2 = CommentCreateDTO.builder()
                 .memoId(memoId)
                 .content("1번 게시글의 테스트 댓글입니다.")
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .build();
 
         commentUseCase.createComment(comment2);
@@ -110,7 +87,7 @@ class CommentUseCaseTest {
         ChildCommentCreateDTO childDto = ChildCommentCreateDTO.builder()
                 .memoId(memoId)
                 .content("1번 게시글의 1번 댓글의 대댓글입니다.")
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .commentId(comments1)
                 .build();
 
@@ -120,7 +97,7 @@ class CommentUseCaseTest {
         CommentDeleteDto deleteDto = CommentDeleteDto.builder()
                 .memoId(memoId)
                 .commentId(comments1)
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .build();
 
         commentUseCase.deleteComments(deleteDto);
@@ -136,7 +113,7 @@ class CommentUseCaseTest {
         CommentCreateDTO comment1 = CommentCreateDTO.builder()
                 .memoId(memoId)
                 .content("1번 게시글의 테스트 댓글입니다.")
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .build();
 
         UUID comments1 = commentUseCase.createComment(comment1);
@@ -145,7 +122,7 @@ class CommentUseCaseTest {
         CommentCreateDTO comment2 = CommentCreateDTO.builder()
                 .memoId(memoId)
                 .content("1번 게시글의 테스트 댓글입니다.")
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .build();
 
         commentUseCase.createComment(comment2);
@@ -154,7 +131,7 @@ class CommentUseCaseTest {
         ChildCommentCreateDTO childDto = ChildCommentCreateDTO.builder()
                 .memoId(memoId)
                 .content("1번 게시글의 1번 댓글의 대댓글입니다.")
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .commentId(comments1)
                 .build();
 
@@ -164,7 +141,7 @@ class CommentUseCaseTest {
         CommentDeleteDto deleteDto = CommentDeleteDto.builder()
                 .memoId(memoId)
                 .commentId(comments1)
-                .authorId(savedAuthor.getId())
+                .authorId(author.getId())
                 .build();
 
         commentUseCase.deleteComments(deleteDto);
