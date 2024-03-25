@@ -31,7 +31,7 @@ CREATE TABLE memos
     id                     CHAR(36) PRIMARY KEY,
     title                  VARCHAR(255),
     content                LONGTEXT,
-    summary                LONGTEXT,
+    summary                TEXT,
     author_id              CHAR(36),
     series_id              CHAR(36),
     affinity               INT,
