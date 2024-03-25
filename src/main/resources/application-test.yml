@@ -1,15 +1,13 @@
 spring:
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:memocode;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=MySQL;
-    username: sa
-    password:
-
-logging:
-  level:
-    org.springframework.transaction.interceptor: TRACE
+  sql:
+    init:
+      mode: always
 
 decorator:
   datasource:
     p6spy:
       enable-logging: true
+
+logging:
+  level:
+    org.springframework.transaction.interceptor: TRACE
