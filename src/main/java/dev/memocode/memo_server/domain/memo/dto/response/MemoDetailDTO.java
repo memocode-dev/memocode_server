@@ -16,6 +16,7 @@ public class MemoDetailDTO {
     private UUID id;
     private String title;
     private String content;
+    private String summary;
     private Boolean visibility;
     private Boolean security;
     private Boolean bookmarked;

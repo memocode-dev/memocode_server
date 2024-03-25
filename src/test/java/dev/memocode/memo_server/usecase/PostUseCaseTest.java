@@ -2,8 +2,10 @@ package dev.memocode.memo_server.usecase;
 
 import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.repository.AuthorRepository;
+import dev.memocode.memo_server.domain.base.exception.GlobalException;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
+import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostAuthorDTO;
 import jakarta.validation.ConstraintViolationException;
@@ -20,6 +22,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -92,6 +95,69 @@ class PostUseCaseTest {
         assertThrows(ConstraintViolationException.class, () -> {
             memoUseCase.createMemo(dto);
         });
+    }
+
+    @Test
+    @DisplayName("메모 수정 성공")
+    void modifyMemo_success(){
+        MemoCreateDTO dto = MemoCreateDTO.builder()
+                .authorId(savedAuthor.getId())
+                .title("테스트 제목입니다.")
+                .content("테스트 내용입니다.")
+                .summary("요약 내용입니다.")
+                .build();
+
+        UUID memoId = memoUseCase.createMemo(dto);
+
+        MemoUpdateDTO updateDTO = MemoUpdateDTO.builder()
+                .memoId(memoId)
+                .authorId(savedAuthor.getId())
+                .title("테스트 제목을 수정하였습니다.")
+                .content("테스트 내용을 수정하였습니다.")
+                .summary("테스트 요약을 수정하였습니다.")
+                .visibility(false)
+                .security(false)
+                .bookmarked(false)
+                .build();
+
+        memoUseCase.updateMemo(updateDTO);
+        MemoDetailDTO memo = memoUseCase.findMemo(memoId, savedAuthor.getId());
+        String modifiedTitle = memo.getTitle();
+        String modifiedContent = memo.getContent();
+        String modifiedSummary = memo.getSummary();
+
+        assertEquals("테스트 제목을 수정하였습니다.", modifiedTitle);
+        assertEquals("테스트 내용을 수정하였습니다.", modifiedContent);
+        assertEquals("테스트 요약을 수정하였습니다.", modifiedSummary);
+    }
+
+    @Test
+    @DisplayName("메모 수정은 작성자 외 다른 사람이 수정할 수 없다.(메모 접근 불가능)")
+    void modifyMemo_fail(){
+        MemoCreateDTO dto = MemoCreateDTO.builder()
+                .authorId(savedAuthor.getId())
+                .title("테스트 제목입니다.")
+                .content("테스트 내용입니다.")
+                .summary("요약 내용입니다.")
+                .build();
+
+        UUID memoId = memoUseCase.createMemo(dto);
+
+        MemoUpdateDTO updateDTO = MemoUpdateDTO.builder()
+                .memoId(memoId)
+                .authorId(UUID.randomUUID()) // 다른 사용자를 random UUID 표시
+                .title("테스트 제목을 수정하였습니다.")
+                .content("테스트 내용을 수정하였습니다.")
+                .summary("테스트 요약을 수정하였습니다.")
+                .visibility(false)
+                .security(false)
+                .bookmarked(false)
+                .build();
+
+        assertThrows(GlobalException.class, () -> {
+            memoUseCase.updateMemo(updateDTO);
+        });
+
     }
 
     @Test
