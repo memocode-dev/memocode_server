@@ -88,7 +88,7 @@ public class MemoService implements MemoUseCase {
 
         Memo memo = internalMemoService.findByMemoIdElseThrow(dto.getMemoId());
 
-        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getVisibility(), dto.getSecurity(), dto.getBookmarked());
+        memo.updateMemo(dto.getTitle(), dto.getContent(), dto.getSummary(), dto.getVisibility(), dto.getSecurity(), dto.getBookmarked());
     }
 
     @Override

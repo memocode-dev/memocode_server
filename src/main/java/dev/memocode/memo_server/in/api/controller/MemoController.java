@@ -71,6 +71,7 @@ public class MemoController implements MemoApi {
                 .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
                 .title(form.getTitle())
                 .content(form.getContent())
+                .summary(form.getSummary())
                 .visibility(form.getVisibility())
                 .security(form.getSecurity())
                 .bookmarked(form.getBookmarked())
