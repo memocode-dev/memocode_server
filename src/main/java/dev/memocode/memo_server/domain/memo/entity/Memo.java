@@ -89,10 +89,11 @@ public class Memo extends AggregateRoot {
     }
 
     // 메모 수정
-    public void updateMemo(String title, String content, Boolean visibility, Boolean security, Boolean bookmarked) {
+    public void updateMemo(String title, String content, String summary, Boolean visibility, Boolean security, Boolean bookmarked) {
 
         this.title = title == null ? this.title : title;
         this.content = content == null ? this.content : content;
+        this.summary = summary == null ? this.summary : summary;
         this.bookmarked = bookmarked == null ? this.bookmarked : bookmarked;
 
         if (security != null) {
