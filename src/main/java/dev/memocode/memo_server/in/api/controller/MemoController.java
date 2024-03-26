@@ -1,5 +1,6 @@
 package dev.memocode.memo_server.in.api.controller;
 
+import dev.memocode.memo_server.domain.memo.dto.MemoSearchDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -108,5 +110,16 @@ public class MemoController implements MemoApi {
                 = memoUseCase.findBookmarkedMemos(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
 
         return ResponseEntity.ok().body(bookmarkedMemos);
+    }
+
+    /**
+     * 메모 검색
+     */
+    @Override
+    public ResponseEntity<List<MemoSearchDTO>> searchMemos(@RequestParam(defaultValue = "") String keyword, Jwt jwt) {
+        List<MemoSearchDTO> memoSearchDTOS =
+                memoUseCase.searchMemos(keyword, UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
+
+        return ResponseEntity.ok(memoSearchDTOS);
     }
 }

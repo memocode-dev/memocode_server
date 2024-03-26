@@ -43,6 +43,9 @@ dependencies {
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+    // meilisearch
+    implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
+
     // swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
     annotationProcessor 'org.projectlombok:lombok'
