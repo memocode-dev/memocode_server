@@ -42,3 +42,8 @@ custom:
   front:
     domain: "SECRET"
     domain2: "SECRET"
+  meilisearch:
+    url: "SECRET"
+    api-key: "SECRET"
+    index:
+      memos: "memos"

@@ -1,5 +1,6 @@
 package dev.memocode.memo_server.in.api.spec;
 
+import dev.memocode.memo_server.domain.memo.dto.MemoSearchDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemoDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+import java.util.List;
 import java.util.UUID;
 
 // http://localhost:8080/swagger-ui/index.html#
@@ -35,4 +37,7 @@ public interface MemoApi {
 
     @Operation(summary = "메모 즐겨찾기 목록 조회")
     ResponseEntity<MemosBookmarkedDTO> findAllBookmarkedMemos(Jwt jwt);
+
+    @Operation(summary = "메모 검색")
+    ResponseEntity<List<MemoSearchDTO>> searchMemos(String keyword, Jwt jwt);
 }

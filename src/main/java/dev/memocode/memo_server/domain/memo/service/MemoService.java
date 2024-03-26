@@ -3,6 +3,7 @@ package dev.memocode.memo_server.domain.memo.service;
 import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.service.AuthorService;
 import dev.memocode.memo_server.domain.base.exception.GlobalException;
+import dev.memocode.memo_server.domain.memo.dto.MemoSearchDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
@@ -11,6 +12,7 @@ import dev.memocode.memo_server.domain.memo.dto.response.MemosBookmarkedDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import dev.memocode.memo_server.domain.memo.entity.Memo;
 import dev.memocode.memo_server.domain.memo.mapper.MemoMapper;
+import dev.memocode.memo_server.domain.memo.repository.MemoMeilisearchRepository;
 import dev.memocode.memo_server.domain.memo.repository.MemoRepository;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.MEM
 public class MemoService implements MemoUseCase {
 
     private final MemoRepository memoRepository;
+
+    private final MemoMeilisearchRepository memoMeilisearchRepository;
 
     private final AuthorService authorService;
 
@@ -116,5 +120,10 @@ public class MemoService implements MemoUseCase {
         List<Memo> bookmarkedMemos = memoRepository.findByAuthorIdAndBookmarked(authorId, BOOKMARKED_TRUE);
 
         return memoMapper.entity_to_memosBookmarkedDTO(bookmarkedMemos);
+    }
+
+    @Override
+    public List<MemoSearchDTO> searchMemos(String keyword, UUID authorId) {
+        return memoMeilisearchRepository.searchMemos(keyword, authorId);
     }
 }
