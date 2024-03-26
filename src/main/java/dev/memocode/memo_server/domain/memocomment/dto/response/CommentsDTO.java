@@ -25,6 +25,7 @@ public class CommentsDTO {
     private Instant createAt;
     private Instant updateAt;
     private AuthorDTO authorDTO;
+    @Builder.Default
     private List<ChildCommentsDTO> reply = new ArrayList<>();
 
     public static CommentsDTO from(Comment comment){
