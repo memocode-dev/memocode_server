@@ -99,6 +99,7 @@ public abstract class BaseTest {
         registry.add("spring.datasource.username", mysql::getUsername);
         registry.add("custom.meilisearch.url", () -> "http://localhost:%s".formatted(MEILISEARCH_PORT));
         registry.add("custom.meilisearch.api-key", () -> MEILISEARCH_MASTER_KEY);
+        registry.add("custom.meilisearch.index.memos", () -> "memos");
     }
 
     @Autowired

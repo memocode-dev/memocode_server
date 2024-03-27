@@ -1,6 +1,7 @@
 package dev.memocode.memo_server.usecase;
 
-import dev.memocode.memo_server.domain.memo.dto.MemoSearchDTO;
+import com.meilisearch.sdk.model.SearchResultPaginated;
+import dev.memocode.memo_server.domain.memo.dto.MemoSearchRequestDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
@@ -10,7 +11,6 @@ import dev.memocode.memo_server.domain.memo.dto.response.MemosDTO;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.List;
 import java.util.UUID;
 
 @Validated
@@ -28,5 +28,5 @@ public interface MemoUseCase {
 
     MemosBookmarkedDTO findBookmarkedMemos(UUID authorId);
 
-    List<MemoSearchDTO> searchMemos(String keyword, UUID authorId);
+    SearchResultPaginated searchMemos(MemoSearchRequestDTO dto);
 }

@@ -19,6 +19,7 @@ public class MeilisearchContainer extends GenericContainer<MeilisearchContainer>
     }
 
     public MeilisearchContainer withMasterKey(String masterKey) {
+        withEnv("MEILI_MASTER_KEY", masterKey);
         return self();
     }
 }
