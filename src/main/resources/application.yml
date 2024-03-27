@@ -43,7 +43,7 @@ custom:
     domain: "SECRET"
     domain2: "SECRET"
   meilisearch:
-    url: "SECRET"
-    api-key: "SECRET"
+    url: ${MEILISEARCH_URL}
+    api-key: ${MEILISEARCH_API_KEY}
     index:
-      memos: "memos"
+      memos: "SECRET"

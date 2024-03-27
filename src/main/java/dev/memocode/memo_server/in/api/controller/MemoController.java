@@ -1,6 +1,7 @@
 package dev.memocode.memo_server.in.api.controller;
 
-import dev.memocode.memo_server.domain.memo.dto.MemoSearchDTO;
+import com.meilisearch.sdk.model.SearchResultPaginated;
+import dev.memocode.memo_server.domain.memo.dto.MemoSearchRequestDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
@@ -19,7 +20,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -116,10 +116,22 @@ public class MemoController implements MemoApi {
      * 메모 검색
      */
     @Override
-    public ResponseEntity<List<MemoSearchDTO>> searchMemos(@RequestParam(defaultValue = "") String keyword, Jwt jwt) {
-        List<MemoSearchDTO> memoSearchDTOS =
-                memoUseCase.searchMemos(keyword, UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
+    @GetMapping("/search")
+    public ResponseEntity<SearchResultPaginated> searchMemos(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int pageSize,
+            @AuthenticationPrincipal Jwt jwt) {
 
-        return ResponseEntity.ok(memoSearchDTOS);
+        MemoSearchRequestDTO dto = MemoSearchRequestDTO.builder()
+                .keyword(keyword)
+                .page(page)
+                .pageSize(pageSize)
+                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .build();
+
+        SearchResultPaginated searchResultPaginated = memoUseCase.searchMemos(dto);
+
+        return ResponseEntity.ok(searchResultPaginated);
     }
 }

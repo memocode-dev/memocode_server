@@ -21,3 +21,6 @@ custom:
   front:
     domain: "http://localhost:5173"
     domain2: "https://dev.memocode.dev"
+  meilisearch:
+    index:
+      memos: "memos-dev"

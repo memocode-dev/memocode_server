@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
                 .cors(c -> c.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers(GET, "/memos/api-docs/**").permitAll()
+                        .requestMatchers(GET, "/memos/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/memos/**").access(hasScope("write:memo"))
                         .requestMatchers("/posts/**").permitAll()
                         .requestMatchers("/comments/**").access(hasScope("write:memo")) // 추후 권한 수정

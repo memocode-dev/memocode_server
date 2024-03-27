@@ -1,9 +1,10 @@
 package dev.memocode.memo_server.domain.memo.service;
 
+import com.meilisearch.sdk.model.SearchResultPaginated;
 import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.service.AuthorService;
 import dev.memocode.memo_server.domain.base.exception.GlobalException;
-import dev.memocode.memo_server.domain.memo.dto.MemoSearchDTO;
+import dev.memocode.memo_server.domain.memo.dto.MemoSearchRequestDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoDeleteDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoUpdateDTO;
@@ -123,7 +124,7 @@ public class MemoService implements MemoUseCase {
     }
 
     @Override
-    public List<MemoSearchDTO> searchMemos(String keyword, UUID authorId) {
-        return memoMeilisearchRepository.searchMemos(keyword, authorId);
+    public SearchResultPaginated searchMemos(MemoSearchRequestDTO dto) {
+        return memoMeilisearchRepository.searchMemos(dto);
     }
 }

@@ -1,15 +1,14 @@
 package dev.memocode.memo_server.memo;
 
+import com.meilisearch.sdk.model.SearchResultPaginated;
 import dev.memocode.memo_server.base.BaseTest;
-import dev.memocode.memo_server.domain.memo.dto.MemoSearchDTO;
+import dev.memocode.memo_server.domain.memo.dto.MemoSearchRequestDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,9 +33,9 @@ public class MemoSearchTest extends BaseTest {
 
         logstash_restart();
 
-        List<MemoSearchDTO> dtos = searchTest("메모코드", author.getId());
+        SearchResultPaginated searchResult = searchTest("메모코드", author.getId());
 
-        assertThat(dtos.isEmpty()).isFalse();
+        assertThat(searchResult.getHits()).isNotNull();
     }
 
     @Test
@@ -54,9 +53,9 @@ public class MemoSearchTest extends BaseTest {
 
         logstash_restart();
 
-        List<MemoSearchDTO> dtos = searchTest("메모코드", UUID.randomUUID());
+        SearchResultPaginated searchResult = searchTest("메모코드", UUID.randomUUID());
 
-        assertThat(dtos.isEmpty()).isTrue();
+        assertThat(searchResult.getHits()).isNull();
     }
 
     private void logstash_restart() {
@@ -64,19 +63,27 @@ public class MemoSearchTest extends BaseTest {
         logstash.start();
     }
 
-    private List<MemoSearchDTO> searchTest(String keyword, UUID authorId) throws InterruptedException {
+    private SearchResultPaginated searchTest(String keyword, UUID authorId) throws InterruptedException {
         int attempt = 0;
 
         while (attempt < 50) {
             Thread.sleep(1000);
             attempt++;
 
-            List<MemoSearchDTO> memoSearchDTOS = memoUseCase.searchMemos(keyword, authorId);
-            if (!memoSearchDTOS.isEmpty()) {
-                return memoSearchDTOS;
+            MemoSearchRequestDTO dto = MemoSearchRequestDTO
+                    .builder()
+                    .page(1)
+                    .pageSize(20)
+                    .keyword(keyword)
+                    .authorId(authorId)
+                    .build();
+
+            SearchResultPaginated searchResult = memoUseCase.searchMemos(dto);
+            if (!searchResult.getHits().isEmpty()) {
+                return searchResult;
             }
         }
 
-        return new ArrayList<>();
+        return new SearchResultPaginated();
     }
 }
