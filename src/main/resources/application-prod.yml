@@ -12,3 +12,6 @@ custom:
   front:
     domain: "https://memocode.dev"
     domain2: "https://memocode.dev"
+  meilisearch:
+    index:
+      memos: "memos"
