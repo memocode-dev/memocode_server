@@ -23,7 +23,7 @@ import static org.springframework.security.oauth2.core.authorization.OAuth2Autho
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final static String ACCESS_TOKEN_COOKIE_NAME = "auth.access_token";
+    private final static String ACCESS_TOKEN_COOKIE_NAME = "mc_at";
 
     private final CorsConfigurationSource corsConfigurationSource;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
