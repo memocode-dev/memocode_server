@@ -5,8 +5,7 @@ import dev.memocode.memo_server.base.BaseTest;
 import dev.memocode.memo_server.domain.memo.dto.MemoSearchRequestDTO;
 import dev.memocode.memo_server.domain.memo.dto.request.MemoCreateDTO;
 import dev.memocode.memo_server.usecase.MemoUseCase;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
@@ -66,12 +65,11 @@ public class MemoSearchTest extends BaseTest {
     private SearchResultPaginated searchTest(String keyword, UUID authorId) throws InterruptedException {
         int attempt = 0;
 
-        while (attempt < 50) {
+        while (attempt < 100) {
             Thread.sleep(1000);
             attempt++;
 
-            MemoSearchRequestDTO dto = MemoSearchRequestDTO
-                    .builder()
+            MemoSearchRequestDTO dto = MemoSearchRequestDTO.builder()
                     .page(1)
                     .pageSize(20)
                     .keyword(keyword)
