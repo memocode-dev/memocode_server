@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
-import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.MEMO_NOT_FOUND;
-import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.NOT_VALID_MEMO_OWNER;
+import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +23,18 @@ public class InternalMemoService {
 
         if (!memo.getAuthor().getId().equals(authorId)){
             throw new GlobalException(NOT_VALID_MEMO_OWNER);
+        }
+    }
+
+    void validPost(UUID memoId) {
+        Memo memo = findByMemoIdElseThrow(memoId);
+
+        if (memo.getDeleted()){
+            throw new GlobalException(MEMO_NOT_FOUND);
+        }
+
+        if (!memo.getVisibility()){
+            throw new GlobalException(POST_NOT_FOUND);
         }
     }
 
