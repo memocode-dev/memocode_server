@@ -14,18 +14,12 @@ spring:
     properties:
       hibernate:
         default_batch_fetch_size: 100
-        jdbc:
-          batch_size: 100
-        format_sql: true
+        format_sql: false
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: "SECRET"
-
-logging:
-  level:
-    org.springframework.transaction.interceptor: INFO
 
 decorator:
   datasource:

@@ -32,9 +32,6 @@ import java.time.Instant;
 @Sql(value = "/data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public abstract class BaseTest {
 
-    @Autowired
-    private Client client;
-
     protected final static String MYSQL_DATABASE = "testdb";
     protected final static String MYSQL_USERNAME = "test";
     protected final static String MYSQL_PASSWORD = "test";
@@ -101,6 +98,9 @@ public abstract class BaseTest {
         registry.add("custom.meilisearch.api-key", () -> MEILISEARCH_MASTER_KEY);
         registry.add("custom.meilisearch.index.memos", () -> "memos");
     }
+
+    @Autowired
+    private Client client;
 
     @Autowired
     private AuthorRepository authorRepository;
