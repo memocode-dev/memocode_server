@@ -8,10 +8,6 @@ spring:
         jwt:
           issuer-uri: https://auth.dev.memocode.dev
 
-logging:
-  level:
-    org.springframework.transaction.interceptor: TRACE
-
 decorator:
   datasource:
     p6spy:

@@ -24,7 +24,7 @@ public class P6SpySqlFormatter implements MessageFormattingStrategy {
     }
 
     private String formatSql(String category, String sql) {
-        if (sql != null && !sql.trim().isEmpty() && Category.STATEMENT.getName().equals(category)) {
+        if (sql != null && !sql.trim().isEmpty() && (Category.STATEMENT.getName().equals(category) || Category.BATCH.getName().equals(category))) {
             String trimmedSQL = sql.trim().toLowerCase(Locale.ROOT);
             if (trimmedSQL.startsWith("create") || trimmedSQL.startsWith("alter") || trimmedSQL.startsWith("comment")) {
                 sql = FormatStyle.DDL.getFormatter().format(sql);
