@@ -1,3 +1,0 @@
-1711629909517|0|debug|connection -1|url ||Registered factory: com.p6spy.engine.spy.P6SpyFactory with options: com.p6spy.engine.spy.P6SpyOptions
-1711629909517|0|debug|connection -1|url ||Registered factory: com.p6spy.engine.logging.P6LogFactory with options: com.p6spy.engine.logging.P6LogOptions
-1711629909517|0|debug|connection -1|url ||com.p6spy.engine.spy.P6ModuleManager re/initiating modules done
