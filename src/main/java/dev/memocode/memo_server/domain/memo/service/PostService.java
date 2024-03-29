@@ -36,21 +36,10 @@ public class PostService implements PostUseCase {
 
     @Override
     public PostDetailDTO findPost(UUID memoId) {
+        internalMemoService.validPost(memoId);
         Memo memo = internalMemoService.findByMemoIdElseThrow(memoId);
 
-        validPost(memo);
-
         return postMapper.entity_to_postDetailDTO(memo);
-    }
-
-    private static void validPost(Memo memo) {
-        if (memo.getDeleted()){
-            throw new GlobalException(MEMO_NOT_FOUND);
-        }
-
-        if (!memo.getVisibility()){
-            throw new GlobalException(POST_NOT_FOUND);
-        }
     }
 
     @Override

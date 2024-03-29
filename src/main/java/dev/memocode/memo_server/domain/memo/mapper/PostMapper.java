@@ -19,6 +19,7 @@ public class PostMapper {
                 .id(memo.getId())
                 .title(memo.getTitle())
                 .content(memo.getContent())
+                .commentCounts(memo.getComments().size())
                 .createdAt(memo.getCreatedAt())
                 .author(AuthorDTO.builder()
                         .authorId(memo.getAuthor().getId())

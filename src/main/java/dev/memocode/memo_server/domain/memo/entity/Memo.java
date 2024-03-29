@@ -11,6 +11,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -79,6 +81,7 @@ public class Memo extends AggregateRoot {
 
     // 게시글 댓글 수 가져오기
     @OneToMany(mappedBy = "memo")
+    @LazyCollection(LazyCollectionOption.EXTRA) // comment count query
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
