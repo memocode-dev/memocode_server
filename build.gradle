@@ -1,7 +1,10 @@
+import org.springframework.boot.gradle.tasks.aot.ProcessAot
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.graalvm.buildtools.native' version '0.9.28'
 }
 
 group = 'dev.memocode'
@@ -34,7 +37,7 @@ dependencies {
     runtimeOnly 'com.mysql:mysql-connector-j'
     runtimeOnly 'com.h2database:h2'
     // p6spy 추가
-    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+//    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
     // Query dsl 추가
@@ -60,4 +63,20 @@ tasks.named('test') {
 
 jar {
     enabled=false
+}
+
+bootBuildImage {
+    if (project.hasProperty('dockerImageName') && project.hasProperty('dockerTag')) {
+        imageName = "${project.property('dockerImageName')}:${project.property('dockerTag')}"
+    } else {
+        imageName = "ghcr.io/memocode-dev/memocode_memo_server:latest"
+    }
+}
+
+tasks.withType(ProcessAot).configureEach {
+    if (project.hasProperty('springProfile')) {
+        args("--spring.profiles.active=${project.property('springProfile')}")
+    } else {
+        args("--spring.profiles.active=default")
+    }
 }

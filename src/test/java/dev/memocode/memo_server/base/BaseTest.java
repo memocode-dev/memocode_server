@@ -16,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.aot.DisabledInAotMode;
 import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.MySQLContainer;
@@ -30,6 +31,7 @@ import java.time.Instant;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Sql(value = "/data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@DisabledInAotMode
 public abstract class BaseTest {
 
     protected final static String MYSQL_DATABASE = "testdb";
