@@ -35,9 +35,9 @@ jobs:
       - name: Build Docker Image with Gradle
         run: |
           ./gradlew bootBuildImage \
-          --dockerImageName=ghcr.io/memocode-dev/memocode_memo_server \
-          --dockerTag=${{ needs.tag.outputs.tag_name }} \
-          --springProfile=dev
+          -PdockerImageName=ghcr.io/memocode-dev/memocode_memo_server \
+          -PdockerTag=${{ needs.tag.outputs.tag_name }} \
+          -PspringProfile=dev
       - name: Docker Buildx 설치
         uses: docker/setup-buildx-action@v2
       - name: Docker Hub 로그인
