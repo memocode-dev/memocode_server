@@ -43,6 +43,7 @@ public class CommentService implements CommentUseCase {
         internalCommentService.validPost(memo);
 
         Comment comment = Comment.builder()
+                .id(UUID.randomUUID())
                 .content(dto.getContent())
                 .author(author)
                 .memo(memo)

@@ -55,6 +55,7 @@ public class MemoService implements MemoUseCase {
         Integer lastSequence = getLastSequence(author);
 
         Memo memo = Memo.builder()
+                .id(UUID.randomUUID())
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .summary(dto.getSummary())

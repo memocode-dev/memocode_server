@@ -25,6 +25,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @SpringBootTest
 @Testcontainers
@@ -123,6 +124,7 @@ public abstract class BaseTest {
 
         // 유저 생성
         this.author = Author.builder()
+                .id(UUID.randomUUID())
                 .username("테스트이름")
                 .nickname("테스트닉네임")
                 .createdAt(Instant.now())
