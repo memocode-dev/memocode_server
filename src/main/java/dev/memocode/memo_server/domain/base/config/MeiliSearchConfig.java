@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportRuntimeHints;
 
 @Configuration
-@ImportRuntimeHints({MeilisearchRuntimeHintsRegistrar.class})
+//@ImportRuntimeHints({MeilisearchRuntimeHintsRegistrar.class})
 public class MeiliSearchConfig {
 
     @Value("${custom.meilisearch.api-key}")
