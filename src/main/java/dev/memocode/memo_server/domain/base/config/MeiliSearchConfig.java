@@ -5,8 +5,10 @@ import com.meilisearch.sdk.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportRuntimeHints;
 
 @Configuration
+@ImportRuntimeHints({MeilisearchRuntimeHintsRegistrar.class})
 public class MeiliSearchConfig {
 
     @Value("${custom.meilisearch.api-key}")
