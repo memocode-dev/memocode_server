@@ -20,11 +20,5 @@ public class MeilisearchRuntimeHintsRegistrar implements RuntimeHintsRegistrar {
             hint.withMembers(MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS);
             hint.withMembers(MemberCategory.PUBLIC_FIELDS);
         });
-
-        hints.reflection().registerType(TypeReference.of("com.meilisearch.sdk.exceptions.MeilisearchApiException"), hint -> {
-            hint.withMembers(MemberCategory.INVOKE_PUBLIC_METHODS);
-            hint.withMembers(MemberCategory.INVOKE_PUBLIC_CONSTRUCTORS);
-            hint.withMembers(MemberCategory.PUBLIC_FIELDS);
-        });
     }
 }
