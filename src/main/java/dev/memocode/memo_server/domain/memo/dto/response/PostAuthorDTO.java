@@ -18,6 +18,7 @@ public class PostAuthorDTO {
     private UUID id;
     private String title;
     private String content;
+    private Integer commentCounts;
     private Instant cratedAt;
     private Instant updatedAt;
     private AuthorDTO author;
@@ -27,6 +28,7 @@ public class PostAuthorDTO {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .commentCounts(post.getComments().size())
                 .cratedAt(post.getCreatedAt())
                 .updatedAt(post.getUpdatedAt())
                 .author(AuthorDTO.builder()
