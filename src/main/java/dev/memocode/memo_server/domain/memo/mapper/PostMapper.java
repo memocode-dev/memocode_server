@@ -34,6 +34,7 @@ public class PostMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .content(post.getContent())
+                .commentCounts(post.getComments().size())
                 .createdAt(post.getCreatedAt())
                 .author(AuthorDTO.builder()
                         .authorId(post.getAuthor().getId())
