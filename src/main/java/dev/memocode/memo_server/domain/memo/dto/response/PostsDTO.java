@@ -18,6 +18,7 @@ public class PostsDTO {
     private UUID id;
     private String title;
     private String content;
+    private Integer commentCounts;
     private Instant createdAt;
     private AuthorDTO author;
 }
