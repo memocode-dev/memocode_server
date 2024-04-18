@@ -109,5 +109,4 @@ public class CommentService implements CommentUseCase {
 
         return saveChildComment.getId();
     }
-
 }

@@ -6,6 +6,9 @@ import dev.memocode.memo_server.domain.author.entity.Author;
 import dev.memocode.memo_server.domain.author.repository.AuthorRepository;
 import dev.memocode.memo_server.testcontainer.LogstashContainer;
 import dev.memocode.memo_server.testcontainer.MeilisearchContainer;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,28 +19,29 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.BindMode;
-import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.containers.Network;
+import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.Instant;
+import java.util.UUID;
 
 @SpringBootTest
 @Testcontainers
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Sql(value = "/data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public abstract class BaseTest {
 
     @Autowired
     private Client client;
 
-    protected final static String MYSQL_DATABASE = "testdb";
-    protected final static String MYSQL_USERNAME = "test";
-    protected final static String MYSQL_PASSWORD = "test";
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
+    protected final static String POSTGRESQL_DATABASE = "testdb";
+    protected final static String POSTGRESQL_USERNAME = "test";
+    protected final static String POSTGRESQL_PASSWORD = "test";
 
     protected final static String MEILISEARCH_MASTER_KEY = "masterKey";
 
@@ -45,44 +49,44 @@ public abstract class BaseTest {
     protected static final String CONFIG_PATH = "/usr/share/logstash/config/logstash.yml";
     protected static final String DRIVER_PATH = "/opt/logstash/vendor/jar/jdbc/";
 
-    protected static String MYSQL_PORT;
+    protected static String POSTGRESQL_PORT;
     protected static String MEILISEARCH_PORT;
 
     @ClassRule
-    static final Network network = Network.newNetwork();
+    public static final Network network = Network.newNetwork();
 
     @ClassRule
-    final static MySQLContainer<?> mysql =
-            new MySQLContainer<>(DockerImageName.parse("mysql:8.3.0"))
+    public static final PostgreSQLContainer<?> postgresql =
+            new PostgreSQLContainer<>(DockerImageName.parse("postgres:16"))
                     .withNetwork(network)
-                    .withNetworkAliases("mysql")
-                    .withDatabaseName(MYSQL_DATABASE)
-                    .withUsername(MYSQL_USERNAME)
-                    .withPassword(MYSQL_PASSWORD);
+                    .withNetworkAliases("test_postgresql")
+                    .withDatabaseName(POSTGRESQL_DATABASE)
+                    .withUsername(POSTGRESQL_USERNAME)
+                    .withPassword(POSTGRESQL_PASSWORD);
 
     @ClassRule
-    final static MeilisearchContainer meilisearch = new MeilisearchContainer()
+    public final static MeilisearchContainer meilisearch = new MeilisearchContainer()
             .withNetwork(network)
             .withNetworkAliases("meilisearch")
             .withMasterKey(MEILISEARCH_MASTER_KEY);
 
     @ClassRule
-    protected final LogstashContainer logstash;
+    public static LogstashContainer logstash;
 
     public BaseTest() {
-        mysql.start();
+        postgresql.start();
         meilisearch.start();
 
-        MYSQL_PORT = String.valueOf(mysql.getMappedPort(3306));
+        POSTGRESQL_PORT = String.valueOf(postgresql.getMappedPort(5432));
         MEILISEARCH_PORT = String.valueOf(meilisearch.getMappedPort(7700));
 
         logstash = new LogstashContainer()
-                .dependsOn(mysql, meilisearch)
+                .dependsOn(postgresql, meilisearch)
                 .withNetwork(network)
                 .withNetworkAliases("logstash")
-                .withEnv("MYSQL_DATABASE", MYSQL_DATABASE)
-                .withEnv("MYSQL_USERNAME", MYSQL_USERNAME)
-                .withEnv("MYSQL_PASSWORD", MYSQL_PASSWORD)
+                .withEnv("POSTGRESQL_DATABASE", POSTGRESQL_DATABASE)
+                .withEnv("POSTGRESQL_USERNAME", POSTGRESQL_USERNAME)
+                .withEnv("POSTGRESQL_PASSWORD", POSTGRESQL_PASSWORD)
                 .withEnv("MEILISEARCH_MASTER_KEY", MEILISEARCH_MASTER_KEY)
                 .withClasspathResourceMapping(
                         "docker/logstash/pipeline", PIPELINE_PATH, BindMode.READ_ONLY)
@@ -94,9 +98,9 @@ public abstract class BaseTest {
 
     @DynamicPropertySource
     static void mysqlProperties(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mysql::getJdbcUrl);
-        registry.add("spring.datasource.password", mysql::getPassword);
-        registry.add("spring.datasource.username", mysql::getUsername);
+        registry.add("spring.datasource.url", postgresql::getJdbcUrl);
+        registry.add("spring.datasource.password", postgresql::getPassword);
+        registry.add("spring.datasource.username", postgresql::getUsername);
         registry.add("custom.meilisearch.url", () -> "http://localhost:%s".formatted(MEILISEARCH_PORT));
         registry.add("custom.meilisearch.api-key", () -> MEILISEARCH_MASTER_KEY);
         registry.add("custom.meilisearch.index.memos", () -> "memos");
@@ -121,12 +125,9 @@ public abstract class BaseTest {
 
         // 유저 생성
         this.author = Author.builder()
+                .id(UUID.randomUUID())
                 .username("테스트이름")
-                .nickname("테스트닉네임")
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now())
-                .deleted(false)
-                .deletedAt(null)
+                .enabled(true)
                 .build();
         authorRepository.save(this.author);
     }
@@ -135,5 +136,16 @@ public abstract class BaseTest {
     void afterEach() {
         Index memosIndex = client.getIndex("memos");
         memosIndex.deleteAllDocuments();
+
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+
+        transaction.begin();
+        entityManager.createNativeQuery("TRUNCATE TABLE comments RESTART IDENTITY CASCADE").executeUpdate();
+        entityManager.createNativeQuery("TRUNCATE TABLE memo_version RESTART IDENTITY CASCADE").executeUpdate();
+        entityManager.createNativeQuery("TRUNCATE TABLE memos RESTART IDENTITY CASCADE").executeUpdate();
+        entityManager.createNativeQuery("TRUNCATE TABLE series RESTART IDENTITY CASCADE").executeUpdate();
+        entityManager.createNativeQuery("TRUNCATE TABLE user_entity RESTART IDENTITY CASCADE").executeUpdate();
+        transaction.commit();
     }
 }
