@@ -1,7 +1,6 @@
 package dev.memocode.memo_server.domain.memo.service;
 
 import dev.memocode.memo_server.domain.author.service.AuthorService;
-import dev.memocode.memo_server.domain.base.exception.GlobalException;
 import dev.memocode.memo_server.domain.memo.dto.response.PostAuthorDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostDetailDTO;
 import dev.memocode.memo_server.domain.memo.dto.response.PostsDTO;
@@ -17,9 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
-
-import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.MEMO_NOT_FOUND;
-import static dev.memocode.memo_server.domain.base.exception.GlobalErrorCode.POST_NOT_FOUND;
 
 @Slf4j
 @RequiredArgsConstructor

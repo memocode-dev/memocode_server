@@ -1,6 +1,5 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://mysql.mysql:3306/memocode_memo_server_prod
   security:
     oauth2:

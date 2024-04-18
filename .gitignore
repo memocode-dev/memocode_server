@@ -40,3 +40,4 @@ out/
 /src/main/generated/
 
 secret.env
+spy.log

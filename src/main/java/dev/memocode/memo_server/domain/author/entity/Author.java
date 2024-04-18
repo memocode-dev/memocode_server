@@ -1,29 +1,56 @@
 package dev.memocode.memo_server.domain.author.entity;
 
-import dev.memocode.memo_server.domain.base.entity.AggregateRoot;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 import org.hibernate.annotations.Immutable;
 
+import java.time.Instant;
+import java.util.UUID;
+
+import static lombok.AccessLevel.PRIVATE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
 @Immutable
 @Entity
-@SuperBuilder
+@Builder
 @NoArgsConstructor(access = PROTECTED)
-@Table(name = "users")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class Author extends AggregateRoot {
+@AllArgsConstructor(access = PRIVATE)
+@Table(name = "user_entity")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Author {
 
-    @Column(name = "username", unique = true)
+    @Id
+    @EqualsAndHashCode.Include
+    @Column(name = "id")
+    private UUID id;
+
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "nickname")
-    private String nickname;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
+
+    @Column(name = "created_timestamp")
+    private Long createdAt;
+
+    public String getNickname() {
+        return this.firstName + this.lastName;
+    }
+
+    public Instant getCreatedAt() {
+        return (this.createdAt != null) ? Instant.ofEpochSecond(this.createdAt) : null;
+    }
 }
