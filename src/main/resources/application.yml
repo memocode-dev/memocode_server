@@ -39,4 +39,4 @@ custom:
     url: ${MEILISEARCH_URL}
     api-key: ${MEILISEARCH_API_KEY}
     index:
-      memos: "SECRET"
+      memos: "memos"
