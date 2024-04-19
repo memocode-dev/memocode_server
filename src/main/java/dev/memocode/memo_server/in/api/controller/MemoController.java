@@ -29,7 +29,6 @@ import java.util.UUID;
 public class MemoController implements MemoApi {
 
     private final MemoUseCase memoUseCase;
-    private static final String USER_ID_CLAIM_NAME = "user_id";
 
     /**
      * 메모 생성
@@ -40,7 +39,7 @@ public class MemoController implements MemoApi {
                 .title(form.getTitle())
                 .content(form.getContent())
                 .summary(form.getSummary())
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         UUID memoId = memoUseCase.createMemo(dto);
@@ -54,7 +53,7 @@ public class MemoController implements MemoApi {
     public ResponseEntity<Void> deleteMemo(@PathVariable("memoId") UUID memoId, @AuthenticationPrincipal Jwt jwt){
         MemoDeleteDTO dto = MemoDeleteDTO.builder()
                 .memoId(memoId)
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         memoUseCase.deleteMemo(dto);
@@ -70,7 +69,7 @@ public class MemoController implements MemoApi {
                                              @AuthenticationPrincipal Jwt jwt){
         MemoUpdateDTO dto = MemoUpdateDTO.builder()
                 .memoId(memoId)
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .title(form.getTitle())
                 .content(form.getContent())
                 .summary(form.getSummary())
@@ -90,7 +89,7 @@ public class MemoController implements MemoApi {
     @GetMapping("/{memoId}")
     public ResponseEntity<MemoDetailDTO> findMemo(@PathVariable("memoId") UUID memoId, @AuthenticationPrincipal Jwt jwt){
         MemoDetailDTO dto = memoUseCase.findMemo(memoId,
-                UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
+                UUID.fromString(jwt.getSubject()));
         return ResponseEntity.ok().body(dto);
     }
 
@@ -100,14 +99,14 @@ public class MemoController implements MemoApi {
     @GetMapping
     public ResponseEntity<MemosDTO> findAllMemo(@AuthenticationPrincipal Jwt jwt){
         MemosDTO memos =
-                memoUseCase.findMemos(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
+                memoUseCase.findMemos(UUID.fromString(jwt.getSubject()));
         return ResponseEntity.ok().body(memos);
     }
 
     @GetMapping("/bookmarked")
     public ResponseEntity<MemosBookmarkedDTO> findAllBookmarkedMemos(@AuthenticationPrincipal Jwt jwt) {
         MemosBookmarkedDTO bookmarkedMemos
-                = memoUseCase.findBookmarkedMemos(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
+                = memoUseCase.findBookmarkedMemos(UUID.fromString(jwt.getSubject()));
 
         return ResponseEntity.ok().body(bookmarkedMemos);
     }
@@ -127,7 +126,7 @@ public class MemoController implements MemoApi {
                 .keyword(keyword)
                 .page(page)
                 .pageSize(pageSize)
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         SearchResultPaginated searchResultPaginated = memoUseCase.searchMemos(dto);
