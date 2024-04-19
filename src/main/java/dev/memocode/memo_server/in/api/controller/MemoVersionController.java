@@ -24,7 +24,6 @@ import java.util.UUID;
 public class MemoVersionController implements MemoVersionApi {
 
     private final MemoVersionUseCase memoVersionUseCase;
-    private static final String USER_ID_CLAIM_NAME = "user_id";
 
     /**
      * 메모 버전 생성
@@ -35,7 +34,7 @@ public class MemoVersionController implements MemoVersionApi {
 
         MemoVersionCreateDTO dto = MemoVersionCreateDTO.builder()
                 .memoId(memoId)
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         UUID memoVersion = memoVersionUseCase.createMemoVersion(dto);
@@ -54,7 +53,7 @@ public class MemoVersionController implements MemoVersionApi {
         MemoVersionDeleteDTO dto = MemoVersionDeleteDTO.builder()
                 .memoId(memoId)
                 .memoVersionId(memoVersionId)
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         memoVersionUseCase.deleteMemoVersion(dto);
@@ -72,7 +71,7 @@ public class MemoVersionController implements MemoVersionApi {
         MemoVersionRequestDetailDTO dto = MemoVersionRequestDetailDTO.builder()
                 .memoId(memoId)
                 .memoVersionId(memoVersionId)
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         MemoVersionDetailDTO memoVersion = memoVersionUseCase.findMemoVersionDetail(dto);
@@ -86,7 +85,7 @@ public class MemoVersionController implements MemoVersionApi {
     public ResponseEntity<MemoVersionsDTO> findAllMemoVersion(@PathVariable("memoId") UUID memoId,
                                                               @AuthenticationPrincipal Jwt jwt) {
         MemoVersionsDTO dto = memoVersionUseCase
-                .findMemoVersions(memoId, UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)));
+                .findMemoVersions(memoId, UUID.fromString(jwt.getSubject()));
 
         return ResponseEntity.ok().body(dto);
     }

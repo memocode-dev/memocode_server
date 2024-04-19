@@ -27,7 +27,6 @@ import java.util.UUID;
 public class CommentController implements PostCommentApi {
 
     private final CommentUseCase commentUseCase;
-    private static final String USER_ID_CLAIM_NAME = "user_id";
 
     @PostMapping
     public ResponseEntity<String> createComment(@PathVariable("memoId") UUID memoId,
@@ -37,7 +36,7 @@ public class CommentController implements PostCommentApi {
         CommentCreateDTO dto = CommentCreateDTO.builder()
                 .memoId(memoId)
                 .content(form.getContent())
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         UUID commentId = commentUseCase.createComment(dto);
@@ -54,7 +53,7 @@ public class CommentController implements PostCommentApi {
                 .memoId(memoId)
                 .commentId(commentId)
                 .content(form.getContent())
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         commentUseCase.updateComments(dto);
@@ -69,7 +68,7 @@ public class CommentController implements PostCommentApi {
         CommentDeleteDto dto = CommentDeleteDto.builder()
                 .memoId(memoId)
                 .commentId(commentId)
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         commentUseCase.deleteComments(dto);
@@ -95,7 +94,7 @@ public class CommentController implements PostCommentApi {
                 .memoId(memoId)
                 .commentId(commentId)
                 .content(form.getContent())
-                .authorId(UUID.fromString(jwt.getClaim(USER_ID_CLAIM_NAME)))
+                .authorId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         UUID childCommentId = commentUseCase.createChildComment(dto);
