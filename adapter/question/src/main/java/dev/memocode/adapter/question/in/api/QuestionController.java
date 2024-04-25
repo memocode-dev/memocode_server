@@ -74,8 +74,8 @@ public class QuestionController implements QuestionApi {
     @GetMapping
     public ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestion(
             @RequestParam(value = "keyword", defaultValue = "") String keyword,
-            @RequestParam(value = "keyword", defaultValue = "0") int page,
-            @RequestParam(value = "keyword", defaultValue = "20") int pageSize) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
 
         SearchQuestionRequest request = SearchQuestionRequest.builder()
                 .keyword(keyword)
