@@ -25,6 +25,40 @@ ext {
     set('testcontainers.version', "1.19.7")
 }
 
+subprojects {
+    group = 'dev.memocode'
+    version = '0.0.1-SNAPSHOT'
+    java {
+        sourceCompatibility = '21'
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -60,6 +94,175 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-jar {
-    enabled=false
+project(':domain:domain_user') {
+    dependencies {
+        implementation project(":domain:domain_core")
+    }
+}
+
+project(':domain:domain_memo') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+    }
+}
+
+project(':domain:domain_question') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_tag")
+    }
+}
+
+project(':domain:domain_tag') {
+    dependencies {
+        implementation project(":domain:domain_core")
+    }
+}
+
+project(':application:application_user') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+    }
+}
+
+project(':application:application_memo') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_memo")
+
+
+        implementation project(":application:application_core")
+        implementation project(":application:application_user")
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    }
+}
+
+project(':application:application_question') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_tag")
+        implementation project(":domain:domain_question")
+
+        implementation project(":application:application_core")
+        implementation project(":application:application_user")
+        implementation project(":application:application_tag")
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    }
+}
+
+project(':application:application_tag') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_tag")
+
+        implementation project(":application:application_core")
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    }
+}
+
+project(':adapter:adapter_core') {
+    dependencies {
+        implementation project(":domain:domain_core")
+
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+    }
+}
+
+project(':adapter:adapter_user') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_memo")
+        implementation project(":application:application_core")
+        implementation project(":application:application_memo")
+
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+        implementation 'org.flywaydb:flyway-core'
+        runtimeOnly 'org.postgresql:postgresql'
+
+        implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+        testImplementation 'org.testcontainers:junit-jupiter'
+    }
+}
+
+project(':adapter:adapter_memo') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_memo")
+        implementation project(":application:application_core")
+        implementation project(":application:application_memo")
+
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+        implementation 'org.flywaydb:flyway-core'
+        runtimeOnly 'org.postgresql:postgresql'
+
+        implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+        testImplementation 'org.testcontainers:junit-jupiter'
+    }
+}
+
+project(':adapter:adapter_question') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_question")
+        implementation project(":application:application_core")
+        implementation project(":application:application_question")
+
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+        implementation 'org.flywaydb:flyway-core'
+        runtimeOnly 'org.postgresql:postgresql'
+
+        implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+        testImplementation 'org.testcontainers:junit-jupiter'
+    }
+}
+
+project(':infrastructure:memocode_server') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":adapter:adapter_core")
+        implementation project(":adapter:adapter_memo")
+        implementation project(":adapter:adapter_user")
+        implementation project(":adapter:adapter_question")
+        implementation project(":adapter:adapter_tag")
+
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    }
 }

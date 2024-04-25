@@ -1,0 +1,44 @@
+spring:
+  profiles:
+    active: local
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${JWT_ISSUER_URI:SECRET}
+          jwk-set-uri: ${JWK_SET_URI:SECRET}
+  flyway:
+    enabled: true
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: false
+
+########## springdoc ##########
+springdoc:
+  api-docs:
+    path: /memocode/api-docs
+
+########## custom ##########
+custom:
+  front:
+    domain: "SECRET"
+    domain2: "SECRET"
+  meilisearch:
+    url: ${MEILISEARCH_URL}
+    api-key: ${MEILISEARCH_API_KEY}
+    index:
+      memos: ${MEILISEARCH_INDEX_MEMOS}
