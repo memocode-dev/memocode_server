@@ -21,7 +21,7 @@ public interface QuestionCommentApi {
 
     @Operation(summary = "질문 댓글 수정")
     @SecurityRequirement(name = "bearer-key")
-    ResponseEntity<Void> updateComment(UUID questionId, UUID questionCommentId, UpdateQuestionCommentForm form, Jwt jwt);
+    ResponseEntity<Void> updateQuestionComment(UUID questionId, UUID questionCommentId, UpdateQuestionCommentForm form, Jwt jwt);
 
     @Operation(summary = "질문 댓글 삭제")
     @SecurityRequirement(name = "bearer-key")
