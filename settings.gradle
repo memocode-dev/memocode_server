@@ -1,1 +1,47 @@
-rootProject.name = 'memo_server'
+rootProject.name = 'memocode'
+
+// domain module
+include 'domain'
+include 'domain:core'
+findProject(':domain:core')?.name = 'domain_core'
+include 'domain:user'
+findProject(':domain:user')?.name = 'domain_user'
+include 'domain:memo'
+findProject(':domain:memo')?.name = 'domain_memo'
+include 'domain:question'
+findProject(':domain:question')?.name = 'domain_question'
+include 'domain:tag'
+findProject(':domain:tag')?.name = 'domain_tag'
+
+// application module
+include 'application'
+include 'application:core'
+findProject(':application:core')?.name = 'application_core'
+include 'application:memo'
+findProject(':application:memo')?.name = 'application_memo'
+include 'application:user'
+findProject(':application:user')?.name = 'application_user'
+include 'application:question'
+findProject(':application:question')?.name = 'application_question'
+include 'application:tag'
+findProject(':application:tag')?.name = 'application_tag'
+
+
+// adapter module
+include 'adapter'
+include 'adapter:core'
+findProject(':adapter:core')?.name = 'adapter_core'
+include 'adapter:memo'
+findProject(':adapter:memo')?.name = 'adapter_memo'
+include 'adapter:user'
+findProject(':adapter:user')?.name = 'adapter_user'
+include 'adapter:question'
+findProject(':adapter:question')?.name = 'adapter_question'
+include 'adapter:tag'
+findProject(':adapter:tag')?.name = 'adapter_tag'
+
+// infrastructure module
+include 'infrastructure'
+include 'infrastructure:memocode_server'
+findProject(':infrastructure:memocode_server')?.name = 'memocode_server'
+
