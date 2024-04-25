@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -13,6 +14,7 @@ public class FindQuestion_QuestionResult {
     private String title;
     private FindQuestion_UserResult user;
     private String content;
+    private Set<String> tags;
     private Instant createdAt;
     private Instant updatedAt;
 }
