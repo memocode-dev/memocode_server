@@ -81,7 +81,7 @@ public class QuestionCommentController implements QuestionCommentApi {
     }
 
     @GetMapping
-    public ResponseEntity<List<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionComment(UUID questionId) {
+    public ResponseEntity<List<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionComment(@PathVariable UUID questionId) {
         List<FindAllQuestionComment_QuestionCommentResult> body = questionCommentUseCase.findAllQuestionComment(questionId);
         return ResponseEntity.ok(body);
     }
