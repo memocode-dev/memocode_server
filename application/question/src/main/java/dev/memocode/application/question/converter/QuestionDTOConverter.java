@@ -9,15 +9,22 @@ import dev.memocode.domain.user.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class QuestionDTOConverter {
     
     public FindQuestion_QuestionResult toFindQuestion_QuestionResult(Question question) {
+        Set<String> tags = question.getQuestionTags().stream()
+                .map(questionTag -> questionTag.getTag().getName())
+                .collect(Collectors.toSet());
+
         return FindQuestion_QuestionResult.builder()
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
+                .tags(tags)
                 .createdAt(question.getCreatedAt())
                 .updatedAt(question.getUpdatedAt())
                 .user(toFindQuestion_UserResult(question.getUser()))
