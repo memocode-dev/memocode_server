@@ -51,9 +51,11 @@ public class Memo extends BaseEntity {
     private boolean security;
 
     @OneToMany(mappedBy = "memo", cascade = {CascadeType.PERSIST})
+    @Builder.Default
     private List<MemoVersion> memoVersions = new ArrayList<>();
 
     @OneToMany(mappedBy = "memo", cascade = {CascadeType.PERSIST})
+    @Builder.Default
     private List<MemoComment> memoComments = new ArrayList<>();
 
     @Transient
