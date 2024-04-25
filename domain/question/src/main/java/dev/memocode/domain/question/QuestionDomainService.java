@@ -13,6 +13,8 @@ import java.util.UUID;
 public class QuestionDomainService {
 
     public Question createQuestion(User user, @Valid CreateQuestionDomainDTO dto) {
+        user.assertIsEnabled();
+
         Question question = Question.builder()
                 .id(UUID.randomUUID())
                 .title(dto.getTitle())
@@ -26,6 +28,8 @@ public class QuestionDomainService {
     }
 
     public Question updateQuestion(Question question, User user, @Valid UpdateQuestionDomainDTO dto) {
+        user.assertIsEnabled();
+
         question.assertIsNotDeleted();
         question.assertIsQuestionOwner(user);
 
@@ -35,6 +39,8 @@ public class QuestionDomainService {
     }
 
     public void deleteQuestion(Question question, User user) {
+        user.assertIsEnabled();
+
         question.assertIsNotDeleted();
         question.assertIsQuestionOwner(user);
 
