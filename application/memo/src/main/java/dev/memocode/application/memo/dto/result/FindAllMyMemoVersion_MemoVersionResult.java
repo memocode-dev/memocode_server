@@ -11,5 +11,6 @@ import java.util.UUID;
 public class FindAllMyMemoVersion_MemoVersionResult {
     private UUID id;
     private String content;
+    private Integer version;
     private Instant createdAt;
 }
