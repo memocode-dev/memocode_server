@@ -57,7 +57,7 @@ public class MemoVersionService implements MemoVersionUseCase {
         Memo memo = internalMemoService.findByIdElseThrow(request.getMemoId());
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
-        MemoVersion memoVersion = memoVersionDomainService.findMemoVersion(memo, user, request.getMemoVersionId());
+        MemoVersion memoVersion = memoVersionDomainService.findMyMemoVersion(memo, user, request.getMemoVersionId());
         return memoVersionDTOConverter.toResponse(memoVersion);
     }
 
@@ -66,7 +66,7 @@ public class MemoVersionService implements MemoVersionUseCase {
         Memo memo = internalMemoService.findByIdElseThrow(request.getMemoId());
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
-        List<MemoVersion> memoVersions = memoVersionDomainService.findAllMemoVersion(memo, user);
+        List<MemoVersion> memoVersions = memoVersionDomainService.findAllMyMemoVersion(memo, user);
 
         return memoVersionDTOConverter.toResponse(memoVersions);
     }

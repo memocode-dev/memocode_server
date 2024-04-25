@@ -13,12 +13,16 @@ import java.util.UUID;
 public class MemoVersionDomainService {
 
     public MemoVersion createMemoVersion(Memo memo, User user) {
+        user.assertIsEnabled();
+
         memo.assertIsNotDeleted();
         memo.assertIsMemoOwner(user);
         return memo.addVersion();
     }
 
     public void removeMemoVersion(Memo memo, User user, UUID memoVersionId) {
+        user.assertIsEnabled();
+
         memo.assertIsNotDeleted();
         memo.assertIsMemoOwner(user);
 
@@ -28,7 +32,9 @@ public class MemoVersionDomainService {
         memo.removeVersion(memoVersion);
     }
 
-    public MemoVersion findMemoVersion(Memo memo, User user, UUID memoVersionId) {
+    public MemoVersion findMyMemoVersion(Memo memo, User user, UUID memoVersionId) {
+        user.assertIsEnabled();
+
         memo.assertIsNotDeleted();
         memo.assertIsMemoOwner(user);
 
@@ -40,7 +46,9 @@ public class MemoVersionDomainService {
         return memoVersion;
     }
 
-    public List<MemoVersion> findAllMemoVersion(Memo memo, User user) {
+    public List<MemoVersion> findAllMyMemoVersion(Memo memo, User user) {
+        user.assertIsEnabled();
+
         memo.assertIsNotDeleted();
         memo.assertIsMemoOwner(user);
 
