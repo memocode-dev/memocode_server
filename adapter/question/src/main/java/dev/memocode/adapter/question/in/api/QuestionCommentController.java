@@ -38,9 +38,9 @@ public class QuestionCommentController implements QuestionCommentApi {
     }
 
     @PatchMapping("/{questionCommentId}")
-    public ResponseEntity<Void> updateComment(@PathVariable UUID questionId, @PathVariable UUID questionCommentId,
-                                              @RequestBody UpdateQuestionCommentForm form,
-                                              @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<Void> updateQuestionComment(@PathVariable UUID questionId, @PathVariable UUID questionCommentId,
+                                                      @RequestBody UpdateQuestionCommentForm form,
+                                                      @AuthenticationPrincipal Jwt jwt) {
         UpdateQuestionCommentRequest request = UpdateQuestionCommentRequest.builder()
                 .questionId(questionId)
                 .questionCommentId(questionCommentId)
