@@ -14,6 +14,7 @@ public class MemoVersionDTOConverter {
         return FindMyMemoVersion_MemoVersionResult.builder()
                 .id(memoVersion.getId())
                 .content(memoVersion.getContent())
+                .version(memoVersion.getVersion())
                 .createdAt(memoVersion.getCreatedAt())
                 .build();
     }
@@ -27,6 +28,7 @@ public class MemoVersionDTOConverter {
         return FindAllMyMemoVersion_MemoVersionResult.builder()
                 .id(memoVersion.getId())
                 .content(memoVersion.getContent())
+                .version(memoVersion.getVersion())
                 .createdAt(memoVersion.getCreatedAt())
                 .build();
     }
