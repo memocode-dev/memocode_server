@@ -5,6 +5,7 @@ import dev.memocode.application.question.dto.FindQuestion_UserResult;
 import dev.memocode.application.question.dto.SearchQuestion_QuestionResult;
 import dev.memocode.application.question.dto.SearchQuestion_UserResult;
 import dev.memocode.domain.question.Question;
+import dev.memocode.domain.question.QuestionTag;
 import dev.memocode.domain.user.User;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +17,11 @@ import java.util.stream.Collectors;
 public class QuestionDTOConverter {
     
     public FindQuestion_QuestionResult toFindQuestion_QuestionResult(Question question) {
-        Set<String> tags = question.getQuestionTags().stream()
-                .map(questionTag -> questionTag.getTag().getName())
-                .collect(Collectors.toSet());
-
         return FindQuestion_QuestionResult.builder()
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
-                .tags(tags)
+                .tags(this.toTagStrings(question.getQuestionTags()))
                 .createdAt(question.getCreatedAt())
                 .updatedAt(question.getUpdatedAt())
                 .user(toFindQuestion_UserResult(question.getUser()))
@@ -58,9 +55,16 @@ public class QuestionDTOConverter {
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
+                .tags(this.toTagStrings(question.getQuestionTags()))
                 .createdAt(question.getCreatedAt())
                 .updatedAt(question.getUpdatedAt())
                 .user(toSearchQuestion_UserResult(question.getUser()))
                 .build();
+    }
+
+    private Set<String> toTagStrings(Set<QuestionTag> questionTags) {
+        return questionTags.stream()
+                .map(questionTag -> questionTag.getTag().getName())
+                .collect(Collectors.toSet());
     }
 }
