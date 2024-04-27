@@ -47,7 +47,7 @@ public class MemoComment extends BaseEntity {
 
     protected void softDelete() {
         // 메모의 삭제로 인한 cascade 삭제일 경우 메모 댓글의 자식 댓글들도 삭제
-        if (this.memo.isDeleted()) {
+        if (this.memo.getDeleted()) {
             super.delete();
             childMemoComments.forEach(MemoComment::softDelete);
             return;
@@ -67,7 +67,7 @@ public class MemoComment extends BaseEntity {
     }
 
     protected void assertIsNotDeleted() {
-        if (this.isDeleted()) {
+        if (this.getDeleted()) {
             throw new ForbiddenException(DELETED_MEMO_COMMENT);
         }
     }

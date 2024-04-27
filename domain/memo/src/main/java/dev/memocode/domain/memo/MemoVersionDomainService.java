@@ -53,7 +53,7 @@ public class MemoVersionDomainService {
         memo.assertIsMemoOwner(user);
 
         return memo.getMemoVersions().stream()
-                .filter(memoVersion -> !memoVersion.isDeleted())
+                .filter(memoVersion -> !memoVersion.getDeleted())
                 .sorted(Comparator.comparingInt(MemoVersion::getVersion))
                 .toList();
     }

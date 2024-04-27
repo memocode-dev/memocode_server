@@ -37,11 +37,11 @@ public class MemoCommentDTOConverter {
         return FindAllMemoComment_MemoCommentResult.builder()
                 .id(memoComment.getId())
                 // TODO 비즈니스에 중요한 부분이라 이부분을 도메인 계층으로 옮겨야할 것 같음
-                .content(memoComment.isDeleted() ? DELETED_MEMO_COMMENT_CONTENT : memoComment.getContent())
+                .content(memoComment.getDeleted() ? DELETED_MEMO_COMMENT_CONTENT : memoComment.getContent())
                 .user(this.toFindAllMemoComment_UserResult(memoComment.getUser()))
                 // TODO 비즈니스에 중요한 부분이라 이부분을 도메인 계층으로 옮겨야할 것 같음
                 .childMemoComments(memoComment.getParentMemoComment() == null ? childComments : null)
-                .deleted(memoComment.isDeleted())
+                .deleted(memoComment.getDeleted())
                 .createdAt(memoComment.getCreatedAt())
                 .updatedAt(memoComment.getUpdatedAt())
                 .build();

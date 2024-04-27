@@ -1,8 +1,8 @@
 package dev.memocode.infrastructure.memocode_server.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.memocode.adapter.core.CoreAdapterErrorCode;
-import dev.memocode.adapter.core.ErrorResponse;
+import dev.memocode.adapter.adapter_api_core.AdapterApiErrorCode;
+import dev.memocode.adapter.adapter_api_core.ErrorResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,8 +23,8 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
 
         ErrorResponse errorResponse = ErrorResponse.builder()
-                .code(CoreAdapterErrorCode.UNAUTHENTICATED.getErrorCode())
-                .message(CoreAdapterErrorCode.UNAUTHENTICATED.getDefaultMessage())
+                .code(AdapterApiErrorCode.UNAUTHENTICATED.getErrorCode())
+                .message(AdapterApiErrorCode.UNAUTHENTICATED.getDefaultMessage())
                 .build();
 
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -10,7 +10,7 @@ import java.util.UUID;
 @Builder
 public class FindMyMemoRequest {
     @NotNull
-    private UUID authorId;
+    private UUID userId;
     @NotNull
     private UUID memoId;
 }

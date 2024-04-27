@@ -33,7 +33,7 @@ public class MyMemoController implements MyMemoApi {
 
         FindMyMemoRequest request = FindMyMemoRequest.builder()
                 .memoId(memoId)
-                .authorId(UUID.fromString(jwt.getSubject()))
+                .userId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         FindMyMemo_MemoResult response = memoUseCase.findMyMemo(request);
@@ -44,7 +44,7 @@ public class MyMemoController implements MyMemoApi {
     public ResponseEntity<List<FindAllMyMemo_MemoResult>> findAllMyMemo(@AuthenticationPrincipal Jwt jwt){
 
         FindAllMyMemoRequest request = FindAllMyMemoRequest.builder()
-                .authorId(UUID.fromString(jwt.getSubject()))
+                .userId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         List<FindAllMyMemo_MemoResult> body = memoUseCase.findAllMyMemo(request);

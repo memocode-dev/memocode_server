@@ -54,7 +54,7 @@ public class QuestionDomainService {
 
     public List<Question> searchQuestion(List<Question> questions) {
         return questions.stream()
-                .filter(question -> !question.isDeleted())
+                .filter(question -> !question.getDeleted())
                 .toList();
     }
 }

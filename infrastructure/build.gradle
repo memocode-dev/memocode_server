@@ -1,0 +1,33 @@
+project(':infrastructure:memocode_server') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":adapter:adapter_api_core")
+        implementation project(":adapter:adapter_db_core")
+        implementation project(":adapter:adapter_meilisearch_core")
+        implementation project(":adapter:adapter_memo")
+        implementation project(":adapter:adapter_user")
+        implementation project(":adapter:adapter_question")
+        implementation project(":adapter:adapter_tag")
+
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+    }
+}
+
+project(':infrastructure:DBToMeilisearchBatch') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":adapter:adapter_db_core")
+        implementation project(":adapter:adapter_batch_core")
+        implementation project(":adapter:adapter_meilisearch_core")
+        implementation project(":adapter:adapter_batch_memo")
+
+        implementation 'org.flywaydb:flyway-core'
+        runtimeOnly 'org.postgresql:postgresql'
+
+        testImplementation 'org.testcontainers:junit-jupiter'
+        testImplementation "org.testcontainers:postgresql:1.19.7"
+    }
+}

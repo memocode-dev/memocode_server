@@ -59,7 +59,7 @@ public class QuestionComment extends BaseEntity {
     }
 
     public void assertIsNotDeleted() {
-        if (this.isDeleted()) {
+        if (this.getDeleted()) {
             throw new ForbiddenException(DELETED_QUESTION_COMMENT);
         }
     }

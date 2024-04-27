@@ -39,16 +39,16 @@ public class Memo extends BaseEntity {
     private User user;
 
     @Column(name = "visibility")
-    private boolean visibility;
+    private Boolean visibility;
 
     @Column(name = "visibility_achieved_at")
     private Instant visibilityAchievedAt;
 
     @Column(name = "bookmarked")
-    private boolean bookmarked;
+    private Boolean bookmarked;
 
     @Column(name = "security")
-    private boolean security;
+    private Boolean security;
 
     @OneToMany(mappedBy = "memo", cascade = {CascadeType.PERSIST})
     @Builder.Default
@@ -141,7 +141,7 @@ public class Memo extends BaseEntity {
      *  - 삭제되지 않았다면 통과, 삭제되었다면 exception 발생
      */
     protected void assertIsNotDeleted() {
-        if (this.isDeleted()) {
+        if (this.getDeleted()) {
             throw new ForbiddenException(DELETED_MEMO);
         }
     }
