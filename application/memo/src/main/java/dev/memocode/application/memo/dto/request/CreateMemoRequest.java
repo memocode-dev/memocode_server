@@ -16,7 +16,7 @@ public class CreateMemoRequest {
     @NotNull
     private String summary;
     @NotNull
-    private UUID authorId;
+    private UUID userId;
     @NotNull
     private Boolean security;
 }

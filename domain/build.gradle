@@ -1,0 +1,26 @@
+project(':domain:domain_user') {
+    dependencies {
+        implementation project(":domain:domain_core")
+    }
+}
+
+project(':domain:domain_memo') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+    }
+}
+
+project(':domain:domain_question') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_tag")
+    }
+}
+
+project(':domain:domain_tag') {
+    dependencies {
+        implementation project(":domain:domain_core")
+    }
+}

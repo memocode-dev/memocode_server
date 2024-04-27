@@ -42,7 +42,7 @@ public abstract class BaseEntity {
     private Instant deletedAt;
 
     @Column(name = "is_deleted")
-    private boolean deleted;
+    private Boolean deleted;
 
     /**
      * 데이터를 삭제합니다.

@@ -36,7 +36,7 @@ public class MemoController implements MemoApi {
                 .title(form.getTitle())
                 .content(form.getContent())
                 .summary(form.getSummary())
-                .authorId(UUID.fromString(jwt.getSubject()))
+                .userId(UUID.fromString(jwt.getSubject()))
                 .security(form.getSecurity())
                 .build();
 
@@ -50,7 +50,7 @@ public class MemoController implements MemoApi {
                                            @AuthenticationPrincipal Jwt jwt) {
         UpdateMemoRequest dto = UpdateMemoRequest.builder()
                 .memoId(memoId)
-                .authorId(UUID.fromString(jwt.getSubject()))
+                .userId(UUID.fromString(jwt.getSubject()))
                 .title(form.getTitle())
                 .content(form.getContent())
                 .summary(form.getSummary())
@@ -67,7 +67,7 @@ public class MemoController implements MemoApi {
     public ResponseEntity<Void> deleteMemo(@PathVariable("memoId") UUID memoId, @AuthenticationPrincipal Jwt jwt) {
         DeleteMemoRequest dto = DeleteMemoRequest.builder()
                 .memoId(memoId)
-                .authorId(UUID.fromString(jwt.getSubject()))
+                .userId(UUID.fromString(jwt.getSubject()))
                 .build();
 
         memoUseCase.deleteMemo(dto);

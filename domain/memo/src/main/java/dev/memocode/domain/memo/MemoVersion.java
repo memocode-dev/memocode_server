@@ -43,7 +43,7 @@ public class MemoVersion extends BaseEntity {
     }
 
     protected void assertIsNotDeleted() {
-        if (this.isDeleted()) {
+        if (this.getDeleted()) {
             throw new ForbiddenException(DELETED_MEMO_VERSION);
         }
     }

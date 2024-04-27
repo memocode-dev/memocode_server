@@ -77,7 +77,7 @@ public class Question extends BaseEntity {
         // updatedTags에 포함된 질문태그들 중에서 삭제된 질문태그들은 다시 복구합니다.
         this.questionTags.stream()
                 .filter(questionTag -> updatedTags.contains(questionTag.getTag()))
-                .filter(BaseEntity::isDeleted)
+                .filter(BaseEntity::getDeleted)
                 .forEach(QuestionTag::recover);
 
         // question과 tag를 통해 동등성을 체크하므로 이미 포함되어있는 questionTag는 추가되지 않고 새로운 questionTag만 생성됨
@@ -107,7 +107,7 @@ public class Question extends BaseEntity {
      *  - 삭제되지 않았다면 통과, 삭제되었다면 exception 발생
      */
     protected void assertIsNotDeleted() {
-        if (this.isDeleted()) {
+        if (this.getDeleted()) {
             throw new ForbiddenException(DELETED_QUESTION);
         }
     }

@@ -10,5 +10,5 @@ import java.util.UUID;
 @Builder
 public class FindAllMyMemoRequest {
     @NotNull
-    private UUID authorId;
+    private UUID userId;
 }

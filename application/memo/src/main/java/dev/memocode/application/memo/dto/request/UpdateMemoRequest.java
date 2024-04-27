@@ -12,7 +12,7 @@ public class UpdateMemoRequest {
     @NotNull
     private UUID memoId;
     @NotNull
-    private UUID authorId;
+    private UUID userId;
     private String title;
     private String content;
     private String summary;

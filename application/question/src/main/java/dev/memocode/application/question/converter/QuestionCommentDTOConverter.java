@@ -37,11 +37,11 @@ public class QuestionCommentDTOConverter {
         return FindAllQuestionComment_QuestionCommentResult.builder()
                 .id(questionComment.getId())
                 // TODO 비즈니스에 중요한 부분이라 이부분을 도메인 계층으로 옮겨야할 것 같음
-                .content(questionComment.isDeleted() ? DELETED_QUESTION_COMMENT_CONTENT : questionComment.getContent())
+                .content(questionComment.getDeleted() ? DELETED_QUESTION_COMMENT_CONTENT : questionComment.getContent())
                 .user(this.toFindAllQuestionComment_UserResult(questionComment.getUser()))
                 // TODO 비즈니스에 중요한 부분이라 이부분을 도메인 계층으로 옮겨야할 것 같음
                 .childQuestionComments(questionComment.getParentQuestionComment() == null ? childComments : null)
-                .deleted(questionComment.isDeleted())
+                .deleted(questionComment.getDeleted())
                 .createdAt(questionComment.getCreatedAt())
                 .updatedAt(questionComment.getUpdatedAt())
                 .build();

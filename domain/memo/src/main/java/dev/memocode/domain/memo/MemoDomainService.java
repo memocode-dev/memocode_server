@@ -15,6 +15,7 @@ import java.util.UUID;
 public class MemoDomainService {
     private final static Boolean DEFAULT_BOOKMARKED = false;
     private final static Boolean DEFAULT_VISIBILITY = false;
+    private final static Boolean DEFAULT_DELETED = false;
 
     public Memo createMemo(@Valid MemoCreateDomainDTO dto) {
         User user = dto.getUser();
@@ -30,6 +31,7 @@ public class MemoDomainService {
                 .security(dto.getSecurity())
                 .bookmarked(DEFAULT_BOOKMARKED)
                 .user(user)
+                .deleted(DEFAULT_DELETED)
                 .build();
     }
 
@@ -55,13 +57,13 @@ public class MemoDomainService {
 
     public List<Memo> findAllMyMemo(List<Memo> memos, User user) {
         return memos.stream()
-                .filter(memo -> !memo.isDeleted() && memo.isMemoOwner(user))
+                .filter(memo -> !memo.getDeleted() && memo.isMemoOwner(user))
                 .toList();
     }
 
     public List<Memo> searchMyMemo(List<Memo> memos, User user) {
         return memos.stream()
-                .filter(memo -> !memo.isDeleted() && memo.isMemoOwner(user) && memo.getFormattedMemo() != null)
+                .filter(memo -> !memo.getDeleted() && memo.isMemoOwner(user) && memo.getFormattedMemo() != null)
                 .toList();
     }
 
@@ -73,7 +75,7 @@ public class MemoDomainService {
 
     public List<Memo> searchMemo(List<Memo> memos) {
         return memos.stream()
-                .filter(memo -> !memo.isDeleted() && memo.isVisibility())
+                .filter(memo -> !memo.getDeleted() && memo.getVisibility())
                 .toList();
     }
 }

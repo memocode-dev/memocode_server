@@ -1,7 +1,7 @@
 package dev.memocode.infrastructure.memocode_server.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.memocode.adapter.core.ErrorResponse;
+import dev.memocode.adapter.adapter_api_core.ErrorResponse;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-import static dev.memocode.adapter.core.CoreAdapterErrorCode.PERMISSION_DENIED;
+import static dev.memocode.adapter.adapter_api_core.AdapterApiErrorCode.PERMISSION_DENIED;
 
 @Component
 @RequiredArgsConstructor

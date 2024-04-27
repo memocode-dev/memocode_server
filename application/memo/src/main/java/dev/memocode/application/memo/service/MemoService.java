@@ -37,7 +37,7 @@ public class MemoService implements MemoUseCase {
     @Override
     @Transactional
     public UUID createMemo(CreateMemoRequest request) {
-        User user = internalUserService.findByIdEnabledUserElseThrow(request.getAuthorId());
+        User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
         MemoCreateDomainDTO domainDTO = memoDTOConverter.toDomainDTO(user, request);
 
@@ -52,7 +52,7 @@ public class MemoService implements MemoUseCase {
     @Transactional
     public void updateMemo(UpdateMemoRequest request) {
         Memo memo = internalMemoService.findByIdElseThrow(request.getMemoId());
-        User user = internalUserService.findByIdEnabledUserElseThrow(request.getAuthorId());
+        User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
         memoDomainService.updateMemo(memo, user, memoDTOConverter.toDomainDTO(request));
     }
@@ -61,7 +61,7 @@ public class MemoService implements MemoUseCase {
     @Transactional
     public void deleteMemo(DeleteMemoRequest request) {
         Memo memo = internalMemoService.findByIdElseThrow(request.getMemoId());
-        User user = internalUserService.findByIdEnabledUserElseThrow(request.getAuthorId());
+        User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
         memoDomainService.softDeleteMemo(memo, user);
     }
@@ -69,7 +69,7 @@ public class MemoService implements MemoUseCase {
     @Override
     public FindMyMemo_MemoResult findMyMemo(FindMyMemoRequest request) {
         Memo memo = internalMemoService.findByIdElseThrow(request.getMemoId());
-        User user = internalUserService.findByIdEnabledUserElseThrow(request.getAuthorId());
+        User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
         Memo validatedMemo = memoDomainService.findMyMemo(memo, user);
 
@@ -79,7 +79,7 @@ public class MemoService implements MemoUseCase {
     // TODO 필요한 필드만 가져올 수 있도록 수정 필요
     @Override
     public List<FindAllMyMemo_MemoResult> findAllMyMemo(FindAllMyMemoRequest request) {
-        User user = internalUserService.findByIdEnabledUserElseThrow(request.getAuthorId());
+        User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
         List<Memo> memos = internalMemoService.findAllNotDeletedMemo(user);
 
         List<Memo> validatedMemos = memoDomainService.findAllMyMemo(memos, user);
