@@ -43,6 +43,6 @@ public class MeilisearchSearchMemo_MemoResult {
     private Instant deletedAt;
 
     @JsonProperty("deleted")
-    private boolean deleted;
+    private Boolean deleted;
 
 }
