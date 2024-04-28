@@ -1,7 +1,6 @@
-package dev.memocode.adapter.adapter_batch_memo.out;
+package dev.memocode.adapter.adapter_batch_core;
 
-import dev.memocode.adapter.adapter_batch_core.BatchUtils;
-import dev.memocode.application.application_batch_memo.batch_requester.BatchJobRequester;
+import dev.memocode.application_batch_core.batch_requester.BatchJobRequester;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
-import static dev.memocode.adapter.adapter_batch_memo.out.MemoConfiguration.MEILISEARCH_MEMOS_JOB_NAME;
-
 @Component
 @RequiredArgsConstructor
 public class SpringBatchJobRequester implements BatchJobRequester {
@@ -31,7 +28,7 @@ public class SpringBatchJobRequester implements BatchJobRequester {
         try {
             Job job = jobRegistry.getJob(jobName);
             JobParameters jobParameters =
-                    batchUtils.determineJobParameters(MEILISEARCH_MEMOS_JOB_NAME, version, lastUpdatedAt);
+                    batchUtils.determineJobParameters(jobName, version, lastUpdatedAt);
             jobLauncher.run(job, jobParameters);
         } catch (NoSuchJobException | JobParametersInvalidException | JobRestartException |
                  JobExecutionAlreadyRunningException | JobInstanceAlreadyCompleteException e) {

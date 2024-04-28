@@ -14,20 +14,27 @@ import org.springframework.scheduling.annotation.EnableScheduling;
         "dev.memocode.domain.core",
         "dev.memocode.domain.user",
         "dev.memocode.domain.memo",
+        "dev.memocode.domain.question",
+        "dev.memocode.domain.tag",
         "dev.memocode.application.user",
         "dev.memocode.application.application_batch_memo",
+        "dev.memocode.application.application_batch_question",
         "dev.memocode.adapter.adapter_meilisearch_core",
         "dev.memocode.adapter.adapter_batch_core",
         "dev.memocode.adapter.adapter_batch_memo",
+        "dev.memocode.adapter.adapter_batch_question",
 })
 @EntityScan(basePackages = {
         "dev.memocode.domain.core",
         "dev.memocode.domain.user",
         "dev.memocode.domain.memo",
+        "dev.memocode.domain.question",
+        "dev.memocode.domain.tag",
 })
 @EnableJpaRepositories(basePackages = {
         "dev.memocode.application.user",
         "dev.memocode.application.application_batch_memo",
+        "dev.memocode.application.application_batch_question",
 })
 public class DBToMeilisearchBatchApplication {
     public static void main(String[] args) {

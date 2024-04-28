@@ -11,9 +11,9 @@ import com.meilisearch.sdk.model.TaskStatus;
 import dev.memocode.adapter.adapter_batch_core.QuerydslPagingItemReader;
 import dev.memocode.adapter.adapter_batch_memo.out.converter.MeilisearchMemoConverter;
 import dev.memocode.adapter.adapter_batch_memo.out.dto.MeilisearchMemo;
-import dev.memocode.adapter.adapter_meilisearch_core.MeiliSearchConfig;
 import dev.memocode.domain.memo.Memo;
 import jakarta.persistence.EntityManagerFactory;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -37,7 +37,7 @@ import static dev.memocode.domain.memo.QMemo.memo;
 @Slf4j
 @RequiredArgsConstructor
 @Configuration
-public class MemoConfiguration {
+public class MemoBatchConfiguration {
     public static final String MEILISEARCH_MEMOS_JOB_NAME = "meilisearch-memos-job";
     public static final String MEILISEARCH_MEMOS_STEP_NAME = "meilisearch-memos-step";
 
@@ -53,7 +53,9 @@ public class MemoConfiguration {
 
     private final Client meilisearchClient;
 
-    private final MeiliSearchConfig meiliSearchConfig;
+    @Getter
+    @Value("${custom.meilisearch.index.memos.name}")
+    private String memoIndexName;
 
     private final int chunkSize = 100;
 
@@ -98,7 +100,7 @@ public class MemoConfiguration {
     private ItemWriter<MeilisearchMemo> writer() {
         return chunk -> {
             String json = objectMapper.writeValueAsString(chunk.getItems());
-            Index index = meilisearchClient.getIndex(meiliSearchConfig.getMemoIndexName());
+            Index index = meilisearchClient.getIndex(memoIndexName);
 
             TaskInfo taskInfo = index.addDocuments(json, "id");
             meilisearchClient.waitForTask(taskInfo.getTaskUid());

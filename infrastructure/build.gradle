@@ -28,6 +28,7 @@ project(':infrastructure:DBToMeilisearchBatch') {
         implementation project(":adapter:adapter_batch_core")
         implementation project(":adapter:adapter_meilisearch_core")
         implementation project(":adapter:adapter_batch_memo")
+        implementation project(":adapter:adapter_batch_question")
 
         implementation 'org.flywaydb:flyway-core'
         runtimeOnly 'org.postgresql:postgresql'

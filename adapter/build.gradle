@@ -71,6 +71,7 @@ project(':adapter:adapter_question') {
 project(':adapter:adapter_batch_core') {
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter-batch'
+        implementation project(":application:application_batch_core")
     }
 }
 
@@ -80,6 +81,7 @@ project(':adapter:adapter_batch_memo') {
         implementation project(":domain:domain_user")
         implementation project(":domain:domain_memo")
 
+        implementation project(":application:application_batch_core")
         implementation project(":application:application_batch_memo")
         implementation project(":application:application_user")
 
@@ -97,6 +99,27 @@ project(':adapter:adapter_batch_memo') {
         testImplementation 'org.testcontainers:junit-jupiter'
         testImplementation "org.testcontainers:postgresql:1.19.7"
         testImplementation 'org.springframework.batch:spring-batch-test'
+    }
+}
+
+project(':adapter:adapter_batch_question') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_question")
+        implementation project(":domain:domain_tag")
+
+        implementation project(":application:application_batch_core")
+        implementation project(":application:application_batch_question")
+        implementation project(":application:application_user")
+
+        implementation project(":adapter:adapter_meilisearch_core")
+        implementation project(":adapter:adapter_batch_core")
+        implementation project(":adapter:adapter_db_core")
+
+        implementation 'org.springframework.boot:spring-boot-starter-batch'
+
+        implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
     }
 }
 

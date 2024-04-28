@@ -39,7 +39,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
 
     private final Client client;
 
-    @Value("${custom.meilisearch.index.memos}")
+    @Value("${custom.meilisearch.index.memos.name}")
     private String meilisearchIndexMemos;
 
     private final static String[] attributesToRetrieve =

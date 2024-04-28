@@ -1,4 +1,4 @@
-package dev.memocode.adapter.adapter_batch_memo.out.dto;
+package dev.memocode.adapter.adapter_batch_core;
 
 import lombok.Builder;
 import lombok.Data;
