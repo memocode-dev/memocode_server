@@ -14,8 +14,7 @@ spring:
       hibernate:
         default_batch_fetch_size: 100
   flyway:
-    locations: classpath:/db/migration
-    enabled: true
+    enabled: false
   batch:
     job:
       enabled: false
@@ -36,5 +35,3 @@ custom:
       questions:
         name: ${MEILISEARCH_INDEX_QUESTIONS_NAME}
         version: ${MEILISEARCH_INDEX_QUESTIONS_VERSION}
-
-
