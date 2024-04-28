@@ -23,7 +23,7 @@ public class QuestionCommentDomainService {
         question.updateComment(questionComment, dto.getContent());
     }
 
-    public void deleteMemoComment(Question question, QuestionComment questionComment, User user) {
+    public void deleteQuestionComment(Question question, QuestionComment questionComment, User user) {
         question.assertIsNotDeleted();
         questionComment.assertIsNotDeleted();
         questionComment.assertIsQuestionCommentOwner(user);
@@ -35,7 +35,7 @@ public class QuestionCommentDomainService {
         return question.getQuestionComments();
     }
 
-    public QuestionComment createChildMemoComment(
+    public QuestionComment createChildQuestionComment(
             Question question, QuestionComment questionComment, User user, @Valid CreateQuestionCommentDomainDTO dto) {
         question.assertIsNotDeleted();
         questionComment.assertIsNotDeleted();

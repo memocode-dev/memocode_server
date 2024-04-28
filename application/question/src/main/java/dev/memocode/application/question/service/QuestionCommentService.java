@@ -66,7 +66,7 @@ public class QuestionCommentService implements QuestionCommentUseCase {
         Question question = internalQuestionService.findByIdElseThrow(request.getQuestionId());
         QuestionComment questionComment = this.findByIdElseThrow(request.getQuestionCommentId());
 
-        questionCommentDomainService.deleteMemoComment(question, questionComment, user);
+        questionCommentDomainService.deleteQuestionComment(question, questionComment, user);
     }
 
     @Override
@@ -80,10 +80,10 @@ public class QuestionCommentService implements QuestionCommentUseCase {
                 .content(request.getContent())
                 .build();
 
-        QuestionComment childMemoComment = questionCommentDomainService.createChildMemoComment(question, questionComment, user, dto);
-        QuestionComment savedChildMemoComment = questionCommentRepository.save(childMemoComment);
+        QuestionComment childQuestionComment = questionCommentDomainService.createChildQuestionComment(question, questionComment, user, dto);
+        QuestionComment savedChildQuestionComment = questionCommentRepository.save(childQuestionComment);
 
-        return savedChildMemoComment.getId();
+        return savedChildQuestionComment.getId();
     }
 
     @Override
