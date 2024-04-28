@@ -135,6 +135,7 @@ public class Question extends BaseEntity {
         QuestionComment questionComment = QuestionComment.builder()
                 .id(UUID.randomUUID())
                 .question(this)
+                .deleted(false)
                 .user(user)
                 .content(content)
                 .build();
