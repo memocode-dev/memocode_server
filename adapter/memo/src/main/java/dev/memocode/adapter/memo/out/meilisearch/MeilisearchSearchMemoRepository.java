@@ -1,19 +1,21 @@
 package dev.memocode.adapter.memo.out.meilisearch;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.meilisearch.sdk.Client;
 import com.meilisearch.sdk.Index;
 import com.meilisearch.sdk.SearchRequest;
-import dev.memocode.adapter.memo.out.meilisearch.dto.MeilisearchSearchMemoResponse;
+import dev.memocode.adapter.adapter_meilisearch_core.MeilisearchSearchResponse;
 import dev.memocode.adapter.memo.out.meilisearch.dto.MeilisearchSearchMemo_MemoResult;
 import dev.memocode.adapter.memo.out.meilisearch.dto.MeilisearchSearchMemo_UserResult;
 import dev.memocode.application.memo.repository.SearchMemoRepository;
 import dev.memocode.domain.core.InternalServerException;
 import dev.memocode.domain.core.ValidationException;
-import dev.memocode.domain.memo.Memo;
+import dev.memocode.domain.memo.ImmutableMemo;
+import dev.memocode.domain.user.ImmutableUser;
 import dev.memocode.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +50,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
     private final static int cropLength = 50;
 
     @Override
-    public Page<Memo> searchMyMemo(User user, String keyword, int page, int pageSize) {
+    public Page<ImmutableMemo> searchMyMemo(User user, String keyword, int page, int pageSize) {
         try {
             SearchRequest request = createSearchMyMemoRequest(user, keyword, page, pageSize);
 
@@ -56,25 +58,29 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
 
             String rawJson = index.rawSearch(request);
 
-            return toEntity(objectMapper.readValue(rawJson, MeilisearchSearchMemoResponse.class));
+            TypeReference<MeilisearchSearchResponse<MeilisearchSearchMemo_MemoResult>> typeRef =
+                    new TypeReference<>() {};
+            return toEntity(objectMapper.readValue(rawJson, typeRef));
         } catch (JsonProcessingException e) {
-            throw new InternalServerException(MEMO_SEARCH_PARSING_ERROR, e);
+            throw new InternalServerException(MEILISEARCH_PARSING_ERROR, e);
         } catch (Exception e) {
             throw new InternalServerException(MEILISEARCH_SEARCH_ERROR, e);
         }
     }
 
     @Override
-    public Page<Memo> searchMemo(String keyword, int page, int pageSize) {
+    public Page<ImmutableMemo> searchMemo(String keyword, int page, int pageSize) {
         try {
             SearchRequest request = createSearchMemoRequest(keyword, page, pageSize);
 
             Index index = client.getIndex(meilisearchIndexMemos);
             String rawJson = index.rawSearch(request);
 
-            return toEntity(objectMapper.readValue(rawJson, MeilisearchSearchMemoResponse.class));
+            TypeReference<MeilisearchSearchResponse<MeilisearchSearchMemo_MemoResult>> typeRef =
+                    new TypeReference<>() {};
+            return toEntity(objectMapper.readValue(rawJson, typeRef));
         } catch (JsonProcessingException e) {
-            throw new InternalServerException(MEMO_SEARCH_PARSING_ERROR, e);
+            throw new InternalServerException(MEILISEARCH_PARSING_ERROR, e);
         } catch (Exception e) {
             throw new InternalServerException(MEILISEARCH_SEARCH_ERROR, e);
         }
@@ -118,17 +124,17 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                 .setHitsPerPage(pageSize);
     }
 
-    private Page<Memo> toEntity(MeilisearchSearchMemoResponse meilisearchSearchMemoResponse) {
-        List<Memo> content = meilisearchSearchMemoResponse.getContent().stream()
+    private Page<ImmutableMemo> toEntity(MeilisearchSearchResponse<MeilisearchSearchMemo_MemoResult> meilisearchSearchResponse) {
+        List<ImmutableMemo> content = meilisearchSearchResponse.getContent().stream()
                 .map(result -> {
                     MeilisearchSearchMemo_MemoResult formatted = result.get_formatted();
                     MeilisearchSearchMemo_UserResult user = formatted.getUser();
-                    Memo formattedMemo = Memo.builder()
+                    ImmutableMemo formattedMemo = ImmutableMemo.builder()
                             .id(formatted.getId())
                             .title(formatted.getTitle())
                             .summary(formatted.getSummary())
                             .content(formatted.getContent())
-                            .user(User.builder()
+                            .user(ImmutableUser.builder()
                                     .id(user.getId())
                                     .username(user.getUsername())
                                     .enabled(user.getEnabled())
@@ -138,12 +144,12 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                             .updatedAt(formatted.getUpdatedAt())
                             .build();
 
-                    Memo memo = Memo.builder()
+                    return ImmutableMemo.builder()
                             .id(result.getId())
                             .title(result.getTitle())
                             .summary(result.getSummary())
                             .content(result.getContent())
-                            .user(User.builder()
+                            .user(ImmutableUser.builder()
                                     .id(result.getUser().getId())
                                     .username(result.getUser().getUsername())
                                     .enabled(result.getUser().getEnabled())
@@ -155,13 +161,11 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                             .deletedAt(result.getDeletedAt())
                             .formattedMemo(formattedMemo)
                             .build();
-
-                    return memo;
                 })
                 .toList();
 
         Pageable pageable = PageRequest.of(
-                meilisearchSearchMemoResponse.getPage() - 1, meilisearchSearchMemoResponse.getHitsPerPage());
-        return PageableExecutionUtils.getPage(content, pageable, meilisearchSearchMemoResponse::getTotalHits);
+                meilisearchSearchResponse.getPage() - 1, meilisearchSearchResponse.getHitsPerPage());
+        return PageableExecutionUtils.getPage(content, pageable, meilisearchSearchResponse::getTotalHits);
     }
 }

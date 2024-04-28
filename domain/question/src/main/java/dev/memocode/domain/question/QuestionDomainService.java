@@ -1,5 +1,6 @@
 package dev.memocode.domain.question;
 
+import dev.memocode.domain.question.immutable.ImmutableQuestion;
 import dev.memocode.domain.user.User;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class QuestionDomainService {
         return question;
     }
 
-    public List<Question> searchQuestion(List<Question> questions) {
+    public List<ImmutableQuestion> searchQuestion(List<ImmutableQuestion> questions) {
         return questions.stream()
                 .filter(question -> !question.getDeleted())
                 .toList();

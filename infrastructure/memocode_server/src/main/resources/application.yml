@@ -43,3 +43,4 @@ custom:
     api-key: ${MEILISEARCH_API_KEY}
     index:
       memos: ${MEILISEARCH_INDEX_MEMOS}
+      questions: ${MEILISEARCH_INDEX_QUESTIONS}

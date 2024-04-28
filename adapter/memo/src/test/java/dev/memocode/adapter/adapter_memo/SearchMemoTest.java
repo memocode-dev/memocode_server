@@ -5,7 +5,7 @@ import com.meilisearch.sdk.Index;
 import com.meilisearch.sdk.model.TaskInfo;
 import dev.memocode.adapter.adapter_meilisearch_core.MeiliSearchConfig;
 import dev.memocode.adapter.memo.out.meilisearch.MeilisearchSearchMemoRepository;
-import dev.memocode.domain.memo.Memo;
+import dev.memocode.domain.memo.ImmutableMemo;
 import dev.memocode.domain.user.User;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -134,8 +134,8 @@ class SearchMemoTest {
     @Test
     void searchMemo() {
 
-        Page<Memo> page = meilisearchSearchMemoRepository.searchMyMemo(user, "제목", 0, 10);
-        List<Memo> content = page.getContent();
+        Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMyMemo(user, "제목", 0, 10);
+        List<ImmutableMemo> content = page.getContent();
 
         assertThat(content.size()).isEqualTo(1);
         assertThat(content.get(0)).isNotNull();

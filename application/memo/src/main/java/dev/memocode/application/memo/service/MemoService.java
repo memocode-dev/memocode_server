@@ -9,6 +9,7 @@ import dev.memocode.application.memo.repository.MemoRepository;
 import dev.memocode.application.memo.repository.SearchMemoRepository;
 import dev.memocode.application.memo.usecase.MemoUseCase;
 import dev.memocode.application.user.InternalUserService;
+import dev.memocode.domain.memo.ImmutableMemo;
 import dev.memocode.domain.memo.Memo;
 import dev.memocode.domain.memo.MemoCreateDomainDTO;
 import dev.memocode.domain.memo.MemoDomainService;
@@ -90,10 +91,10 @@ public class MemoService implements MemoUseCase {
     @Override
     public PageResponse<SearchMyMemo_MemoResult> searchMyMemo(SearchMyMemoRequest request) {
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
-        Page<Memo> page =
+        Page<ImmutableMemo> page =
                 searchMemoRepository.searchMyMemo(user, request.getKeyword(), request.getPage(), request.getPageSize());
 
-        List<Memo> validatedMemos = memoDomainService.searchMyMemo(page.getContent(), user);
+        List<ImmutableMemo> validatedMemos = memoDomainService.searchMyMemo(page.getContent(), user);
 
         return PageResponse.<SearchMyMemo_MemoResult>builder()
                 .page(page.getNumber())
@@ -116,10 +117,10 @@ public class MemoService implements MemoUseCase {
 
     @Override
     public PageResponse<SearchMemo_MemoResult> searchMemo(SearchMemoRequest request) {
-        Page<Memo> page =
+        Page<ImmutableMemo> page =
                 searchMemoRepository.searchMemo(request.getKeyword(), request.getPage(), request.getPageSize());
 
-        List<Memo> validatedMemos = memoDomainService.searchMemo(page.getContent());
+        List<ImmutableMemo> validatedMemos = memoDomainService.searchMemo(page.getContent());
 
         return PageResponse.<SearchMemo_MemoResult>builder()
                 .page(page.getNumber())

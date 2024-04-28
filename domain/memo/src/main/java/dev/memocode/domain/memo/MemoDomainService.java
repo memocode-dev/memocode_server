@@ -61,9 +61,11 @@ public class MemoDomainService {
                 .toList();
     }
 
-    public List<Memo> searchMyMemo(List<Memo> memos, User user) {
+    public List<ImmutableMemo> searchMyMemo(List<ImmutableMemo> memos, User user) {
         return memos.stream()
-                .filter(memo -> !memo.getDeleted() && memo.isMemoOwner(user) && memo.getFormattedMemo() != null)
+                .filter(memo -> !memo.getDeleted() &&
+                        memo.getUser().getId().equals(user.getId()) &&
+                        memo.getFormattedMemo() != null)
                 .toList();
     }
 
@@ -73,7 +75,7 @@ public class MemoDomainService {
         return memo;
     }
 
-    public List<Memo> searchMemo(List<Memo> memos) {
+    public List<ImmutableMemo> searchMemo(List<ImmutableMemo> memos) {
         return memos.stream()
                 .filter(memo -> !memo.getDeleted() && memo.getVisibility())
                 .toList();
