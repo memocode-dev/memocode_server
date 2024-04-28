@@ -21,6 +21,7 @@ public class QuestionDomainService {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .user(user)
+                .deleted(false)
                 .build();
 
         question.updateTags(dto.getTags());
