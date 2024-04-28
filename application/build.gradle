@@ -59,9 +59,25 @@ project(':application:application_tag') {
     }
 }
 
+project(':application:application_batch_core') {
+    dependencies {
+    }
+}
+
 project(':application:application_batch_memo') {
     dependencies {
         implementation project(":domain:domain_core")
         implementation project(":domain:domain_memo")
+
+        implementation project(":application:application_batch_core")
+    }
+}
+
+project(':application:application_batch_question') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_question")
+
+        implementation project(":application:application_batch_core")
     }
 }

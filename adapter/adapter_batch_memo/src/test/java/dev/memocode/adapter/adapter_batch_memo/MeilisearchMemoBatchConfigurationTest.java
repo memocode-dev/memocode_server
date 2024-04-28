@@ -35,7 +35,7 @@ import java.time.Instant;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-import static dev.memocode.adapter.adapter_batch_memo.out.MemoConfiguration.MEILISEARCH_MEMOS_JOB_NAME;
+import static dev.memocode.adapter.adapter_batch_memo.out.MemoBatchConfiguration.MEILISEARCH_MEMOS_JOB_NAME;
 import static dev.memocode.domain.memo.MemoDomainErrorCode.MEMO_NOT_FOUND;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -44,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Testcontainers
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class MeilisearchMemoConfigurationTest {
+public class MeilisearchMemoBatchConfigurationTest {
 
     protected final static String POSTGRESQL_DATABASE = "testdb";
     protected final static String POSTGRESQL_USERNAME = "test";
@@ -52,7 +52,7 @@ public class MeilisearchMemoConfigurationTest {
 
     protected final static String MEILISEARCH_MASTER_KEY = "masterKey";
 
-    private final static String MEILISEARCH_MEMO_INDEX_NAME = "MeilisearchMemoConfigurationTest";
+    private final static String MEILISEARCH_MEMO_INDEX_NAME = "MeilisearchMemoBatchConfigurationTest";
 
     protected static String POSTGRESQL_PORT;
     protected static String MEILISEARCH_PORT;
@@ -76,7 +76,7 @@ public class MeilisearchMemoConfigurationTest {
     @Autowired
     private Client client;
 
-    public MeilisearchMemoConfigurationTest() {
+    public MeilisearchMemoBatchConfigurationTest() {
         postgresql.start();
         meilisearch.start();
 

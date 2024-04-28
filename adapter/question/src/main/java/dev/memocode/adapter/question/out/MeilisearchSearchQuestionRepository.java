@@ -36,8 +36,8 @@ public class MeilisearchSearchQuestionRepository implements SearchQuestionReposi
 
     private final Client client;
 
-    @Value("${custom.meilisearch.index.questions}")
-    private String meilisearchIndexMemos;
+    @Value("${custom.meilisearch.index.questions.name}")
+    private String meilisearchIndexQuestions;
 
     private final static String[] attributesToRetrieve =
             {"id", "title", "content", "tags", "user", "createdAt", "updatedAt"};
@@ -51,7 +51,7 @@ public class MeilisearchSearchQuestionRepository implements SearchQuestionReposi
         try {
             SearchRequest request = createSearchQuestionRequest(keyword, page, pageSize);
 
-            Index index = client.getIndex(meilisearchIndexMemos);
+            Index index = client.getIndex(meilisearchIndexQuestions);
 
             String rawJson = index.rawSearch(request);
 

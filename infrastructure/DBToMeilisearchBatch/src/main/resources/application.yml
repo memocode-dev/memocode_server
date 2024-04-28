@@ -30,6 +30,11 @@ custom:
     url: ${MEILISEARCH_URL}
     api-key: ${MEILISEARCH_API_KEY}
     index:
-      memos: ${MEILISEARCH_INDEX_MEMOS}
-      version: 1
+      memos:
+        name: ${MEILISEARCH_INDEX_MEMOS_NAME}
+        version: ${MEILISEARCH_INDEX_MEMOS_VERSION}
+      questions:
+        name: ${MEILISEARCH_INDEX_QUESTIONS_NAME}
+        version: ${MEILISEARCH_INDEX_QUESTIONS_VERSION}
+
 
