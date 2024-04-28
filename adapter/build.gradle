@@ -1,3 +1,10 @@
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
+}
+
 project(':adapter:adapter_api_core') {
     dependencies {
         implementation project(":domain:domain_core")

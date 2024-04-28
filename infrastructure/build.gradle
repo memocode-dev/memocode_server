@@ -1,3 +1,10 @@
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
+}
+
 project(':infrastructure:memocode_server') {
     dependencies {
         implementation project(":domain:domain_core")
