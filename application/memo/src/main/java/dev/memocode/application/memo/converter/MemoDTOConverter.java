@@ -118,6 +118,7 @@ public class MemoDTOConverter {
                 .content(memo.getContent())
                 .user(SearchMemo_UserResult.builder()
                         .id(memo.getUser().getId())
+                        .username(memo.getUser().getUsername())
                         .build())
                 .formattedMemo(this.toSearchMemo_FormattedMemoResult(memo.getFormattedMemo()))
                 .summary(memo.getSummary())
@@ -130,6 +131,7 @@ public class MemoDTOConverter {
 
         SearchMemo_UserResult user = SearchMemo_UserResult.builder()
                 .id(formattedMemo.getUser().getId())
+                .username(formattedMemo.getUser().getUsername())
                 .build();
 
         return SearchMemo_FormattedMemoResult.builder()
