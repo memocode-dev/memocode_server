@@ -1,4 +1,4 @@
-package dev.memocode.adapter.memo.out.meilisearch.dto;
+package dev.memocode.adapter.adapter_meilisearch_core;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class MeilisearchSearchMemoResponse {
+public class MeilisearchSearchResponse<T> {
     @JsonProperty("totalHits")
     private int totalHits;
     @JsonProperty("hitsPerPage")
@@ -19,5 +19,5 @@ public class MeilisearchSearchMemoResponse {
     private int totalPages;
 
     @JsonProperty("hits")
-    List<MeilisearchSearchMemo_MemoResult> content;
+    List<T> content;
 }

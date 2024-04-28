@@ -6,6 +6,8 @@ import dev.memocode.application.question.dto.SearchQuestion_QuestionResult;
 import dev.memocode.application.question.dto.SearchQuestion_UserResult;
 import dev.memocode.domain.question.Question;
 import dev.memocode.domain.question.QuestionTag;
+import dev.memocode.domain.question.immutable.ImmutableQuestion;
+import dev.memocode.domain.user.ImmutableUser;
 import dev.memocode.domain.user.User;
 import org.springframework.stereotype.Component;
 
@@ -38,24 +40,24 @@ public class QuestionDTOConverter {
                 .build();
     }
 
-    public List<SearchQuestion_QuestionResult> toSearchQuestion_QuestionResult(List<Question> questions) {
+    public List<SearchQuestion_QuestionResult> toSearchQuestion_QuestionResult(List<ImmutableQuestion> questions) {
         return questions.stream()
                 .map(this::toSearchQuestion_QuestionResult)
                 .toList();
     }
 
-    public SearchQuestion_UserResult toSearchQuestion_UserResult(User user) {
+    public SearchQuestion_UserResult toSearchQuestion_UserResult(ImmutableUser user) {
         return SearchQuestion_UserResult.builder()
                 .id(user.getId())
                 .build();
     }
 
-    public SearchQuestion_QuestionResult toSearchQuestion_QuestionResult(Question question) {
+    public SearchQuestion_QuestionResult toSearchQuestion_QuestionResult(ImmutableQuestion question) {
         return SearchQuestion_QuestionResult.builder()
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
-                .tags(this.toTagStrings(question.getQuestionTags()))
+                .tags(question.getTags())
                 .createdAt(question.getCreatedAt())
                 .updatedAt(question.getUpdatedAt())
                 .user(toSearchQuestion_UserResult(question.getUser()))

@@ -12,6 +12,7 @@ import dev.memocode.domain.question.CreateQuestionDomainDTO;
 import dev.memocode.domain.question.Question;
 import dev.memocode.domain.question.QuestionDomainService;
 import dev.memocode.domain.question.UpdateQuestionDomainDTO;
+import dev.memocode.domain.question.immutable.ImmutableQuestion;
 import dev.memocode.domain.tag.Tag;
 import dev.memocode.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -93,10 +94,10 @@ public class QuestionService implements QuestionUseCase {
 
     @Override
     public PageResponse<SearchQuestion_QuestionResult> searchQuestion(SearchQuestionRequest request) {
-        Page<Question> page =
+        Page<ImmutableQuestion> page =
                 searchQuestionRepository.searchQuestion(request.getKeyword(), request.getPage(), request.getPageSize());
 
-        List<Question> validatedQuestions = questionDomainService.searchQuestion(page.getContent());
+        List<ImmutableQuestion> validatedQuestions = questionDomainService.searchQuestion(page.getContent());
 
         return PageResponse.<SearchQuestion_QuestionResult>builder()
                 .page(page.getNumber())

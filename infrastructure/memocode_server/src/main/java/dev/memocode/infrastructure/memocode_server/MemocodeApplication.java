@@ -22,9 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "dev.memocode.adapter.adapter_api_core",
         "dev.memocode.adapter.adapter_db_core",
         "dev.memocode.adapter.adapter_meilisearch_core",
-        "dev.memocode.adapter.user",
         "dev.memocode.adapter.memo",
-        "dev.memocode.adapter.tag",
         "dev.memocode.adapter.question"
 })
 @EnableJpaAuditing

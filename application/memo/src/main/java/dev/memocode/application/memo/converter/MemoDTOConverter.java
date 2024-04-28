@@ -3,6 +3,7 @@ package dev.memocode.application.memo.converter;
 import dev.memocode.application.memo.dto.request.CreateMemoRequest;
 import dev.memocode.application.memo.dto.request.UpdateMemoRequest;
 import dev.memocode.application.memo.dto.result.*;
+import dev.memocode.domain.memo.ImmutableMemo;
 import dev.memocode.domain.memo.Memo;
 import dev.memocode.domain.memo.MemoCreateDomainDTO;
 import dev.memocode.domain.memo.MemoUpdateDomainDTO;
@@ -78,13 +79,13 @@ public class MemoDTOConverter {
                 .build();
     }
 
-    public List<SearchMyMemo_MemoResult> toSearchMyMemo_MemoResult(List<Memo> memos) {
+    public List<SearchMyMemo_MemoResult> toSearchMyMemo_MemoResult(List<ImmutableMemo> memos) {
         return  memos.stream()
                 .map(this::toSearchMyMemo_MemoResult)
                 .toList();
     }
 
-    public SearchMyMemo_MemoResult toSearchMyMemo_MemoResult(Memo memo) {
+    public SearchMyMemo_MemoResult toSearchMyMemo_MemoResult(ImmutableMemo memo) {
         return SearchMyMemo_MemoResult.builder()
                 .id(memo.getId())
                 .title(memo.getTitle())
@@ -95,7 +96,7 @@ public class MemoDTOConverter {
                 .build();
     }
 
-    public SearchMyMemo_FormattedMemoResult toSearchMyMemo_FormattedMemoResult(Memo formattedMemo) {
+    public SearchMyMemo_FormattedMemoResult toSearchMyMemo_FormattedMemoResult(ImmutableMemo formattedMemo) {
         return SearchMyMemo_FormattedMemoResult.builder()
                 .id(formattedMemo.getId())
                 .title(formattedMemo.getTitle())
@@ -106,12 +107,12 @@ public class MemoDTOConverter {
                 .build();
     }
 
-    public List<SearchMemo_MemoResult> toSearchMemo_MemoResult(List<Memo> memos) {
+    public List<SearchMemo_MemoResult> toSearchMemo_MemoResult(List<ImmutableMemo> memos) {
         return memos.stream().map(this::toSearchMemo_MemoResult)
                 .toList();
     }
 
-    public SearchMemo_MemoResult toSearchMemo_MemoResult(Memo memo) {
+    public SearchMemo_MemoResult toSearchMemo_MemoResult(ImmutableMemo memo) {
         return SearchMemo_MemoResult.builder()
                 .id(memo.getId())
                 .title(memo.getTitle())
@@ -127,7 +128,7 @@ public class MemoDTOConverter {
                 .build();
     }
 
-    public SearchMemo_FormattedMemoResult toSearchMemo_FormattedMemoResult(Memo formattedMemo) {
+    public SearchMemo_FormattedMemoResult toSearchMemo_FormattedMemoResult(ImmutableMemo formattedMemo) {
 
         SearchMemo_UserResult user = SearchMemo_UserResult.builder()
                 .id(formattedMemo.getUser().getId())
