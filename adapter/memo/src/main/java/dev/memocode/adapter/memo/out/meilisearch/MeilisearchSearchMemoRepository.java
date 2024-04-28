@@ -43,7 +43,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
     private String meilisearchIndexMemos;
 
     private final static String[] attributesToRetrieve =
-            {"id", "title", "content", "summary", "user", "visibility", "createdAt", "updatedAt"};
+            {"id", "title", "content", "summary", "user", "visibility", "createdAt", "updatedAt", "deletedAt", "deleted"};
     private final static String[] attributesToHighlight = {"title", "content", "summary"};
     private final static String[] attributesToCrop = {"content"};
     private final static String[] sort = new String[] {"updatedAt:desc"};
@@ -142,6 +142,8 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                             .visibility(formatted.isVisibility())
                             .createdAt(formatted.getCreatedAt())
                             .updatedAt(formatted.getUpdatedAt())
+                            .deleted(formatted.getDeleted())
+                            .deletedAt(formatted.getDeletedAt())
                             .build();
 
                     return ImmutableMemo.builder()
