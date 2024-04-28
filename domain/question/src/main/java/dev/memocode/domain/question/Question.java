@@ -86,6 +86,7 @@ public class Question extends BaseEntity {
                     .id(UUID.randomUUID())
                     .question(this)
                     .tag(tag)
+                    .deleted(false)
                     .build();
 
             this.questionTags.add(questionTag);
@@ -176,6 +177,7 @@ public class Question extends BaseEntity {
                 .question(this)
                 .parentQuestionComment(parentQuestionComment)
                 .user(user)
+                .deleted(false)
                 .build();
         parentQuestionComment.addChildComment(childQuestionComment);
         return childQuestionComment;
