@@ -23,7 +23,7 @@ FROM ghcr.io/graalvm/jdk-community:21
 WORKDIR /app
 
 # 첫 번째 스테이지에서 빌드된 JAR 파일 복사
-COPY --from=builder /app/infrastructure/memocode_server/build/libs/*.jar app.jar
+COPY --from=builder /app/infrastructure/DBToMeilisearchBatch/build/libs/*.jar app.jar
 
 # 사용자 생성 및 권한 설정 (선택 사항)
 RUN groupadd -r spring && useradd -r -g spring spring
