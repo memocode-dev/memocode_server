@@ -93,8 +93,8 @@ project(':adapter:adapter_batch_memo') {
 
         implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
 
-        implementation 'com.fasterxml.jackson.core:jackson-databind'
-        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+        implementation 'org.flywaydb:flyway-core'
+        runtimeOnly 'org.postgresql:postgresql'
 
         testImplementation 'org.testcontainers:junit-jupiter'
         testImplementation "org.testcontainers:postgresql:1.19.7"
