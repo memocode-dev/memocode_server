@@ -159,7 +159,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                             .visibility(result.isVisibility())
                             .createdAt(result.getCreatedAt())
                             .updatedAt(result.getUpdatedAt())
-                            .deleted(result.isDeleted())
+                            .deleted(result.getDeleted())
                             .deletedAt(result.getDeletedAt())
                             .formattedMemo(formattedMemo)
                             .build();
