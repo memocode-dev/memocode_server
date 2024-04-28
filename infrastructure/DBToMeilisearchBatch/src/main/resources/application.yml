@@ -14,7 +14,7 @@ spring:
       hibernate:
         default_batch_fetch_size: 100
   flyway:
-    enabled: false
+    enabled: true
   batch:
     job:
       enabled: false
