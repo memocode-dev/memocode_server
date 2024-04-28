@@ -15,7 +15,7 @@ public class MeilisearchQuestionSchedulerConfiguration {
     @Value("${custom.meilisearch.index.questions.version}")
     private Long version;
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 1000)
     public void meilisearchQuestionScheduler() {
         questionBatchUseCase.syncDBToMeilisearch(version);
     }

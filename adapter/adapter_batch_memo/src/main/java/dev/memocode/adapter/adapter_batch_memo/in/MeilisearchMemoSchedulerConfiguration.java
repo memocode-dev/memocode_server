@@ -15,7 +15,7 @@ public class MeilisearchMemoSchedulerConfiguration {
     @Value("${custom.meilisearch.index.memos.version}")
     private Long version;
 
-    @Scheduled(fixedDelay = 60000)
+    @Scheduled(fixedDelay = 1000)
     public void meilisearchMemoScheduler() {
         memoBatchUseCase.syncDBToMeilisearch(version);
     }
