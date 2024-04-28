@@ -39,7 +39,7 @@ jobs:
       - name: 빌드 앤 푸시
         uses: docker/build-push-action@v3
         with:
-          file: Dockerfile-batch-server
+          file: Dockerfile-api-server
           context: .
           push: true
           tags: |
