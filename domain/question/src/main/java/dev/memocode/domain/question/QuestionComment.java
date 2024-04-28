@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static dev.memocode.domain.question.QuestionDomainErrorCode.DELETED_QUESTION_COMMENT;
-import static dev.memocode.domain.question.QuestionDomainErrorCode.NOT_QUESTION_OWNER;
+import static dev.memocode.domain.question.QuestionDomainErrorCode.NOT_QUESTION_COMMENT_OWNER;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -66,7 +66,7 @@ public class QuestionComment extends BaseEntity {
 
     public void assertIsQuestionCommentOwner(User user) {
         if (!this.getUser().equals(user)) {
-            throw new ForbiddenException(NOT_QUESTION_OWNER);
+            throw new ForbiddenException(NOT_QUESTION_COMMENT_OWNER);
         }
     }
 }

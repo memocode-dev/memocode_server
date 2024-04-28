@@ -11,6 +11,7 @@ import static dev.memocode.domain.core.ErrorCodeLogLevel.WARNING;
 public enum QuestionDomainErrorCode implements ErrorDetail {
 
     NOT_QUESTION_OWNER("질문의 소유자가 아닙니다.", WARNING),
+    NOT_QUESTION_COMMENT_OWNER("질문 댓글의 소유자가 아닙니다.", WARNING),
     DELETED_QUESTION("삭제된 질문입니다.", INFO),
     QUESTION_NOT_FOUND("질문을 찾을 수 없습니다.", INFO),
     DELETED_QUESTION_COMMENT("삭제된 질문 댓글입니다.", INFO),
