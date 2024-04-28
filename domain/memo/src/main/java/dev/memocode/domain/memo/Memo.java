@@ -176,6 +176,7 @@ public class Memo extends BaseEntity {
                 .memo(this)
                 .content(this.content)
                 .version(this.memoVersions.size())
+                .deleted(false)
                 .build();
 
         this.memoVersions.add(memoVersion);
@@ -216,6 +217,7 @@ public class Memo extends BaseEntity {
                 .memo(this)
                 .user(user)
                 .content(content)
+                .deleted(false)
                 .build();
 
         this.memoComments.add(comment);
@@ -254,6 +256,7 @@ public class Memo extends BaseEntity {
                 .memo(this)
                 .parentMemoComment(parentMemoComment)
                 .user(user)
+                .deleted(false)
                 .build();
         parentMemoComment.addChildComment(memoComment);
         return memoComment;
