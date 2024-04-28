@@ -59,4 +59,8 @@ public abstract class BaseEntity {
         this.deleted = false;
         this.deletedAt = null;
     }
+
+    protected void updateUpdatedAt() {
+        this.updatedAt = Instant.now();
+    }
 }

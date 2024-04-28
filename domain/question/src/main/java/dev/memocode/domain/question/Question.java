@@ -90,6 +90,9 @@ public class Question extends BaseEntity {
 
             this.questionTags.add(questionTag);
         });
+
+        // 태그 업데이트시에 메모 updatedAt 업데이트
+        super.updateUpdatedAt();
     }
 
     /**
