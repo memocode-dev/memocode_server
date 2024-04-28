@@ -40,7 +40,7 @@ public class MeilisearchSearchQuestionRepository implements SearchQuestionReposi
     private String meilisearchIndexQuestions;
 
     private final static String[] attributesToRetrieve =
-            {"id", "title", "content", "tags", "user", "createdAt", "updatedAt"};
+            {"id", "title", "content", "tags", "user", "createdAt", "updatedAt", "deleted", "deletedAt"};
     private final static String[] attributesToHighlight = {"title", "content", "tags"};
     private final static String[] attributesToCrop = {"content"};
     private final static String[] sort = new String[] {"updatedAt:desc"};
