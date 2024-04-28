@@ -14,6 +14,7 @@ public class TagDomainService {
         return Tag.builder()
                 .id(UUID.randomUUID())
                 .name(dto.getName())
+                .deleted(false)
                 .build();
     }
 }
