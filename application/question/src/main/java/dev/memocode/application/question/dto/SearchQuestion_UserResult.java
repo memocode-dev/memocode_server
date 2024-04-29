@@ -9,4 +9,5 @@ import java.util.UUID;
 @Builder
 public class SearchQuestion_UserResult {
     private UUID id;
+    private String username;
 }

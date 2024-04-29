@@ -49,6 +49,7 @@ public class QuestionDTOConverter {
     public SearchQuestion_UserResult toSearchQuestion_UserResult(ImmutableUser user) {
         return SearchQuestion_UserResult.builder()
                 .id(user.getId())
+                .username(user.getUsername())
                 .build();
     }
 
