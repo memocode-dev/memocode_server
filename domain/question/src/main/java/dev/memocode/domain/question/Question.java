@@ -123,7 +123,8 @@ public class Question extends BaseEntity {
     protected void softDelete() {
         super.delete();
 
-        this.questionTags.forEach(QuestionTag::softDelete);
+        this.getQuestionTags().forEach(QuestionTag::softDelete);
+        this.getQuestionComments().forEach(QuestionComment::softDelete);
     }
 
     /**
