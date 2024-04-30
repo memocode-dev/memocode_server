@@ -1,6 +1,5 @@
 package dev.memocode.domain.tag;
 
-import dev.memocode.domain.core.BaseEntity;
 import dev.memocode.domain.core.SoftDeleteBaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

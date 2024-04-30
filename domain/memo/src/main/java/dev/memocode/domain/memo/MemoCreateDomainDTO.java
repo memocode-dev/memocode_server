@@ -2,7 +2,6 @@ package dev.memocode.domain.memo;
 
 import dev.memocode.domain.user.User;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

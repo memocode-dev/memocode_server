@@ -1,6 +1,5 @@
 package dev.memocode.domain.memo;
 
-import dev.memocode.domain.core.BaseEntity;
 import dev.memocode.domain.core.ForbiddenException;
 import dev.memocode.domain.core.SoftDeleteBaseEntity;
 import dev.memocode.domain.user.User;
