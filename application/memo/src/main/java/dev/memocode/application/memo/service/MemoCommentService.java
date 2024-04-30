@@ -92,7 +92,7 @@ public class MemoCommentService implements MemoCommentUseCase {
     public List<FindAllMemoComment_MemoCommentResult> findAllMemoComment(UUID memoId) {
         Memo memo = internalMemoService.findByIdElseThrow(memoId);
 
-        List<MemoComment> memoComments = memoCommentDomainService.findAll(memo);
+        List<MemoComment> memoComments = memoCommentDomainService.findAllByParentMemoCommentIsNull(memo);
         return memoCommentDTOConverter.toResult(memoComments);
     }
 
