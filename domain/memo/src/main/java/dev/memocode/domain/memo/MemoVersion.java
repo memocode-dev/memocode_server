@@ -2,6 +2,7 @@ package dev.memocode.domain.memo;
 
 import dev.memocode.domain.core.BaseEntity;
 import dev.memocode.domain.core.ForbiddenException;
+import dev.memocode.domain.core.SoftDeleteBaseEntity;
 import dev.memocode.domain.user.User;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "memo_version")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class MemoVersion extends BaseEntity {
+public class MemoVersion extends SoftDeleteBaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "memo_id")

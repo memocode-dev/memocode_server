@@ -2,6 +2,7 @@ package dev.memocode.domain.question;
 
 import dev.memocode.domain.core.BaseEntity;
 import dev.memocode.domain.core.ForbiddenException;
+import dev.memocode.domain.core.SoftDeleteBaseEntity;
 import dev.memocode.domain.tag.Tag;
 import dev.memocode.domain.user.User;
 import jakarta.persistence.*;
@@ -27,7 +28,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "questions")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class Question extends BaseEntity {
+public class Question extends SoftDeleteBaseEntity {
 
     @Column(name = "title")
     private String title;
@@ -79,7 +80,7 @@ public class Question extends BaseEntity {
         // updatedTags에 포함된 질문태그들 중에서 삭제된 질문태그들은 다시 복구합니다.
         this.questionTags.stream()
                 .filter(questionTag -> updatedTags.contains(questionTag.getTag()))
-                .filter(BaseEntity::getDeleted)
+                .filter(SoftDeleteBaseEntity::getDeleted)
                 .forEach(QuestionTag::recover);
 
         // question과 tag를 통해 동등성을 체크하므로 이미 포함되어있는 questionTag는 추가되지 않고 새로운 questionTag만 생성됨
