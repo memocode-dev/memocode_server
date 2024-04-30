@@ -1,6 +1,7 @@
 package dev.memocode.domain.question;
 
 import dev.memocode.domain.core.BaseEntity;
+import dev.memocode.domain.core.SoftDeleteBaseEntity;
 import dev.memocode.domain.tag.Tag;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -19,7 +20,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "question_tag")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-public class QuestionTag extends BaseEntity {
+public class QuestionTag extends SoftDeleteBaseEntity {
 
     @ManyToOne(fetch = LAZY)
     @EqualsAndHashCode.Include
