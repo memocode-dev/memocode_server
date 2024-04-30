@@ -74,7 +74,7 @@ class SearchMemoTest {
 
         registry.add("custom.meilisearch.url", () -> "http://" + meilisearchHost + ":" + meilisearchPort);
         registry.add("custom.meilisearch.api-key", () -> MEILISEARCH_MASTER_KEY);
-        registry.add("custom.meilisearch.index.memos", () -> MEILISEARCH_MEMO_INDEX_NAME);
+        registry.add("custom.meilisearch.index.memos.name", () -> MEILISEARCH_MEMO_INDEX_NAME);
     }
 
     @BeforeAll
