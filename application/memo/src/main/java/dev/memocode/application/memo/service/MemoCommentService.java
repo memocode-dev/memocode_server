@@ -52,7 +52,7 @@ public class MemoCommentService implements MemoCommentUseCase {
     @Transactional
     public UUID createChildMemoComment(CreateChildMemoCommentRequest request) {
         Memo memo = internalMemoService.findByIdElseThrow(request.getMemoId());
-        MemoComment memoComment = this.findByIdElseThrow(request.getMemoCommentId());
+        MemoComment parentMemoComment = this.findByIdElseThrow(request.getMemoCommentId());
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
         CreateMemoCommentDomainDTO dto = CreateMemoCommentDomainDTO.builder()
@@ -60,7 +60,7 @@ public class MemoCommentService implements MemoCommentUseCase {
                 .build();
 
         MemoComment childMemoComment =
-                memoCommentDomainService.createChildMemoComment(memo, memoComment, user, dto);
+                memoCommentDomainService.createChildMemoComment(memo, parentMemoComment, user, dto);
         return childMemoComment.getId();
     }
 

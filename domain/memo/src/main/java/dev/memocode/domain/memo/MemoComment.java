@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static dev.memocode.domain.memo.MemoDomainErrorCode.DELETED_MEMO_COMMENT;
 import static dev.memocode.domain.memo.MemoDomainErrorCode.NOT_MEMO_COMMENT_OWNER;
@@ -73,7 +74,16 @@ public class MemoComment extends SoftDeleteBaseEntity {
         }
     }
 
-    protected void addChildComment(MemoComment childMemoComment) {
-        this.childMemoComments.add(childMemoComment);
+    protected MemoComment addChildComment(User user, String content) {
+        MemoComment childMemoComment = MemoComment.builder()
+                .id(UUID.randomUUID())
+                .content(content)
+                .memo(this.getMemo())
+                .parentMemoComment(this)
+                .user(user)
+                .deleted(false)
+                .build();
+        this.getChildMemoComments().add(childMemoComment);
+        return childMemoComment;
     }
 }

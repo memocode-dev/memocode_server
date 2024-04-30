@@ -40,10 +40,10 @@ public class MemoCommentDomainService {
     }
 
     public MemoComment createChildMemoComment(
-            Memo memo, MemoComment memoComment, User user, @Valid CreateMemoCommentDomainDTO dto) {
+            Memo memo, MemoComment parentMemoComment, User user, @Valid CreateMemoCommentDomainDTO dto) {
         memo.assertIsNotDeleted();
         memo.assertIsVisibility();
-        memoComment.assertIsNotDeleted();
-        return memo.addChildComment(memoComment, user, dto.getContent());
+        parentMemoComment.assertIsNotDeleted();
+        return memo.addChildComment(parentMemoComment, user, dto.getContent());
     }
 }
