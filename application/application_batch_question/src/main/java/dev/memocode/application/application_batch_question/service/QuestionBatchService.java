@@ -1,8 +1,8 @@
 package dev.memocode.application.application_batch_question.service;
 
+import dev.memocode.application.application_batch_core.batch_requester.BatchJobRequester;
 import dev.memocode.application.application_batch_question.repository.QuestionRepository;
 import dev.memocode.application.application_batch_question.usecase.QuestionBatchUseCase;
-import dev.memocode.application_batch_core.batch_requester.BatchJobRequester;
 import dev.memocode.domain.core.NotFoundException;
 import dev.memocode.domain.question.Question;
 import lombok.RequiredArgsConstructor;
