@@ -13,8 +13,7 @@ import java.util.UUID;
 
 import static dev.memocode.domain.memo.MemoDomainErrorCode.*;
 import static jakarta.persistence.FetchType.LAZY;
-import static lombok.AccessLevel.PRIVATE;
-import static lombok.AccessLevel.PROTECTED;
+import static lombok.AccessLevel.*;
 
 @Getter
 @Entity
@@ -54,6 +53,7 @@ public class Memo extends BaseEntity {
     @Builder.Default
     private List<MemoVersion> memoVersions = new ArrayList<>();
 
+    @Getter(value = NONE)
     @OneToMany(mappedBy = "memo", cascade = {CascadeType.PERSIST})
     @Builder.Default
     private List<MemoComment> memoComments = new ArrayList<>();
@@ -220,7 +220,7 @@ public class Memo extends BaseEntity {
                 .deleted(false)
                 .build();
 
-        this.memoComments.add(comment);
+        this.getMemoComments().add(comment);
 
         return comment;
     }
@@ -251,5 +251,15 @@ public class Memo extends BaseEntity {
      */
     protected MemoComment addChildComment(MemoComment parentMemoComment, User user, String content) {
         return parentMemoComment.addChildComment(user, content);
+    }
+
+    /**
+     * 제일 상위에 있는 메모 댓글만 출력
+     * @return parentMemoComment가 null인 comment만 출력
+     */
+    protected List<MemoComment> getMemoComments() {
+        return memoComments.stream()
+                .filter(comment -> comment.getParentMemoComment() == null)
+                .toList();
     }
 }

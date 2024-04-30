@@ -33,7 +33,7 @@ public class MemoCommentDomainService {
         memo.removeComment(memoComment);
     }
 
-    public List<MemoComment> findAll(Memo memo) {
+    public List<MemoComment> findAllByParentMemoCommentIsNull(Memo memo) {
         memo.assertIsNotDeleted();
         memo.assertIsVisibility();
         return memo.getMemoComments();
