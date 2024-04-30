@@ -51,7 +51,6 @@ public class QuestionComment extends BaseEntity {
 
     public void softDelete() {
         super.delete();
-        childQuestionComments.forEach(QuestionComment::softDelete);
     }
 
     public void addChildComment(QuestionComment memoComment) {
