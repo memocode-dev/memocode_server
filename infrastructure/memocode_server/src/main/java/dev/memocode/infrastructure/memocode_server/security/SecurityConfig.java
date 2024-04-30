@@ -44,6 +44,7 @@ public class SecurityConfig {
 
                         // question
                         .requestMatchers(GET, "/questions").permitAll()
+                        .requestMatchers(GET, "/questions/*").permitAll()
                         .requestMatchers(GET, "/questions/*/comments").permitAll()
                         .requestMatchers( "/questions/**").access(hasScope(SCOPE_WRITE_QUESTION))
 
