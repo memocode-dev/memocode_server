@@ -18,6 +18,7 @@ import dev.memocode.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -25,6 +26,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class QuestionService implements QuestionUseCase {
 
@@ -40,6 +42,7 @@ public class QuestionService implements QuestionUseCase {
     private final QuestionDTOConverter questionDTOConverter;
 
     @Override
+    @Transactional
     public UUID createQuestion(CreateQuestionRequest request) {
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
         Set<Tag> tags = request.getTags().stream()
@@ -59,6 +62,7 @@ public class QuestionService implements QuestionUseCase {
     }
 
     @Override
+    @Transactional
     public void updateQuestion(UpdateQuestionRequest request) {
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
         Set<Tag> tags = request.getTags().stream()
@@ -76,6 +80,7 @@ public class QuestionService implements QuestionUseCase {
     }
 
     @Override
+    @Transactional
     public void deleteQuestion(DeleteQuestionRequest request) {
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
         Question question = internalQuestionService.findByIdElseThrow(request.getQuestionId());
