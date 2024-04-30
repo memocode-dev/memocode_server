@@ -19,6 +19,7 @@ import static dev.memocode.domain.question.QuestionDomainErrorCode.NOT_QUESTION_
 import static jakarta.persistence.CascadeType.MERGE;
 import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.FetchType.LAZY;
+import static lombok.AccessLevel.NONE;
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
@@ -42,6 +43,7 @@ public class Question extends SoftDeleteBaseEntity {
     @Builder.Default
     private Set<QuestionTag> questionTags = new HashSet<>();
 
+    @Getter(value = NONE)
     @OneToMany(mappedBy = "question", cascade = {PERSIST})
     @Builder.Default
     private List<QuestionComment> questionComments = new ArrayList<>();
@@ -183,5 +185,15 @@ public class Question extends SoftDeleteBaseEntity {
                 .build();
         parentQuestionComment.addChildComment(childQuestionComment);
         return childQuestionComment;
+    }
+
+    /**
+     * 제일 상위에 있는 댓글만 리턴합니다.
+     * @return parentQuestionComment가 null인 questionComment만 반환합니다.
+     */
+    protected List<QuestionComment> getQuestionComments() {
+        return this.questionComments.stream()
+                .filter(questionComment -> questionComment.getParentQuestionComment() == null)
+                .toList();
     }
 }
