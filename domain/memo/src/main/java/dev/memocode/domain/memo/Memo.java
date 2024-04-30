@@ -23,7 +23,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "memos")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class Memo extends BaseEntity {
+public class Memo extends SoftDeleteBaseEntity {
 
     @Column(name = "title")
     private String title;

@@ -2,6 +2,7 @@ package dev.memocode.domain.question;
 
 import dev.memocode.domain.core.BaseEntity;
 import dev.memocode.domain.core.ForbiddenException;
+import dev.memocode.domain.core.SoftDeleteBaseEntity;
 import dev.memocode.domain.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -24,7 +25,7 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "question_comments")
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
-public class QuestionComment extends BaseEntity {
+public class QuestionComment extends SoftDeleteBaseEntity {
 
     @Column(name = "content")
     private String content;

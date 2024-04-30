@@ -38,28 +38,9 @@ public abstract class BaseEntity {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @Column(name = "deleted_at")
-    private Instant deletedAt;
-
-    @Column(name = "is_deleted")
-    private Boolean deleted;
-
     /**
-     * 데이터를 삭제합니다.
+     * updatedAt을 현재시간으로 업데이트합니다.
      */
-    protected void delete() {
-        this.deleted = true;
-        this.deletedAt = Instant.now();
-    }
-
-    /**
-     * 데이터를 복구합니다.
-     */
-    protected void recover() {
-        this.deleted = false;
-        this.deletedAt = null;
-    }
-
     protected void updateUpdatedAt() {
         this.updatedAt = Instant.now();
     }
