@@ -1,6 +1,6 @@
 package dev.memocode.adapter.adapter_batch_core;
 
-import dev.memocode.application_batch_core.batch_requester.BatchJobRequester;
+import dev.memocode.application.application_batch_core.batch_requester.BatchJobRequester;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
