@@ -250,15 +250,6 @@ public class Memo extends BaseEntity {
      * @return 답글 반환
      */
     protected MemoComment addChildComment(MemoComment parentMemoComment, User user, String content) {
-        MemoComment memoComment = MemoComment.builder()
-                .id(UUID.randomUUID())
-                .content(content)
-                .memo(this)
-                .parentMemoComment(parentMemoComment)
-                .user(user)
-                .deleted(false)
-                .build();
-        parentMemoComment.addChildComment(memoComment);
-        return memoComment;
+        return parentMemoComment.addChildComment(user, content);
     }
 }
