@@ -1,4 +1,4 @@
-package dev.memocode.application_batch_core.batch_requester;
+package dev.memocode.application.application_batch_core.batch_requester;
 
 import java.time.Instant;
 
