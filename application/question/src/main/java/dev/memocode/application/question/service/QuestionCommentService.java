@@ -41,9 +41,7 @@ public class QuestionCommentService implements QuestionCommentUseCase {
                 .content(request.getContent())
                 .build();
         QuestionComment questionComment = questionCommentDomainService.createQuestionComment(question, user, dto);
-
-        QuestionComment savedQuestionComment = questionCommentRepository.save(questionComment);
-        return savedQuestionComment.getId();
+        return questionComment.getId();
     }
 
     @Override
@@ -81,9 +79,8 @@ public class QuestionCommentService implements QuestionCommentUseCase {
                 .build();
 
         QuestionComment childQuestionComment = questionCommentDomainService.createChildQuestionComment(question, questionComment, user, dto);
-        QuestionComment savedChildQuestionComment = questionCommentRepository.save(childQuestionComment);
 
-        return savedChildQuestionComment.getId();
+        return childQuestionComment.getId();
     }
 
     @Override
