@@ -121,11 +121,13 @@ class QuestionCommentDomainServiceTest {
         //given
         User user = createUser();
         Question question = createQuestion(user, "title", "content");
-        QuestionComment questionComment = question.addComment("comment", user);
+        QuestionComment questionComment1 = question.addComment("comment1", user);
+        QuestionComment questionComment2 = question.addComment("comment2", user);
         //when
-        questionCommentDomainService.deleteQuestionComment(question, questionComment, user);
+        questionCommentDomainService.deleteQuestionComment(question, questionComment1, user);
         //then
-        assertThat(questionComment.getDeleted()).isTrue(); // 삭제된 댓글인 경우 true여야 합니다.
+        assertThat(questionComment1.getDeleted()).isTrue(); // 삭제된 댓글인 경우 true여야 합니다.
+        assertThat(questionComment2.getDeleted()).isFalse(); // 삭제되지않은 댓글인 경우 false여야 합니다.
     }
 
     @Test
@@ -241,5 +243,21 @@ class QuestionCommentDomainServiceTest {
         assertThat(childQuestionComment.getUser()).isEqualTo(user); // 사용자가 입력한 사용자와 일치해야 합니다.
         assertThat(childQuestionComment.getParentQuestionComment()).isEqualTo(parentQuestionComment); // 부모 댓글이 입력한 부모 댓글과 일치해야 합니다.
     }
+
+    @Test
+    @DisplayName("질문 대댓글 삭제 테스트")
+    void deleteChildQuestionCommentTest() {
+        //given
+        User user = createUser();
+        Question question = createQuestion(user, "title", "content");
+        QuestionComment parentQuestionComment = question.addComment("parentQuestionComment", user);
+        QuestionComment childQuestionComment = question.addChildComment(parentQuestionComment, user, "childQuestionComment");
+        //when
+        questionCommentDomainService.deleteQuestionComment(question, childQuestionComment, user);
+        //then
+        assertThat(childQuestionComment.getDeleted()).isTrue(); // 삭제된 자식댓글인 경우 true여야 합니다.
+        assertThat(parentQuestionComment.getDeleted()).isFalse(); // 부모댓글인 경우 false여야 합니다.
+    }
+
 
 }
