@@ -88,7 +88,7 @@ public class Memo extends SoftDeleteBaseEntity {
         this.bookmarked = bookmarked != null ? bookmarked : this.bookmarked;
 
         if (security != null && visibility != null) {
-            // 동시에 security와 visibilit를 수정할 수 없음
+            // 동시에 security와 visibility를 수정할 수 없음
             throw new ValidationException(CANNOT_UPDATE_SECURITY_AND_VISIBILITY_TOGETHER);
         } else if (security != null) {
             // 한번 보호 모드가 작동한다면 security를 변경하지 못함
@@ -175,7 +175,7 @@ public class Memo extends SoftDeleteBaseEntity {
                 .id(UUID.randomUUID())
                 .memo(this)
                 .content(this.content)
-                .version(this.memoVersions.size())
+                .version(this.memoVersions.size() + 1)
                 .deleted(false)
                 .build();
 
@@ -220,7 +220,10 @@ public class Memo extends SoftDeleteBaseEntity {
                 .deleted(false)
                 .build();
 
-        this.getMemoComments().add(comment);
+        if (comment.getParentMemoComment() != null) {
+            throw new BusinessRuleViolationException(MEMO_COMMENT_PARENT_NOT_NULL);
+        }
+        this.memoComments.add(comment);
 
         return comment;
     }
@@ -254,7 +257,7 @@ public class Memo extends SoftDeleteBaseEntity {
     }
 
     /**
-     * 제일 상위에 있는 메모 댓글만 출력
+     * 제일 상위에 있는 메모 댓글만 출력합니다.
      * @return parentMemoComment가 null인 comment만 출력
      */
     protected List<MemoComment> getMemoComments() {
