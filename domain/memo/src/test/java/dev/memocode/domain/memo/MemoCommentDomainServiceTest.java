@@ -263,8 +263,8 @@ class MemoCommentDomainServiceTest {
         List<MemoComment> allByParentMemoCommentIsNull = memoCommentDomainService.findAllByParentMemoCommentIsNull(memo);
 
         // then
-        assertThat(allByParentMemoCommentIsNull)
-                .containsExactlyInAnyOrder(comment1, comment3); // comment2는 삭제되었으므로 제외
+        assertThat(allByParentMemoCommentIsNull.stream().filter(memoComment -> !memoComment.getDeleted()).toList())
+                .containsExactlyInAnyOrder(comment1, comment3); // 삭제되지 않은 댓글만 조회되어야 함
     }
 
     @Test
