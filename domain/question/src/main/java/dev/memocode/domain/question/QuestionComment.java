@@ -15,6 +15,7 @@ import java.util.List;
 
 import static dev.memocode.domain.question.QuestionDomainErrorCode.DELETED_QUESTION_COMMENT;
 import static dev.memocode.domain.question.QuestionDomainErrorCode.NOT_QUESTION_COMMENT_OWNER;
+import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.FetchType.LAZY;
 import static lombok.AccessLevel.PROTECTED;
 
@@ -41,7 +42,7 @@ public class QuestionComment extends SoftDeleteBaseEntity {
     @JoinColumn(name = "parent_question_comment_id")
     private QuestionComment parentQuestionComment;
 
-    @OneToMany(mappedBy = "parentQuestionComment")
+    @OneToMany(mappedBy = "parentQuestionComment", cascade = PERSIST)
     @Builder.Default
     private List<QuestionComment> childQuestionComments = new ArrayList<>();
 
