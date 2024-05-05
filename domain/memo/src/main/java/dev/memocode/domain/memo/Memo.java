@@ -175,7 +175,7 @@ public class Memo extends SoftDeleteBaseEntity {
                 .id(UUID.randomUUID())
                 .memo(this)
                 .content(this.content)
-                .version(this.memoVersions.size())
+                .version(this.memoVersions.size() + 1)
                 .deleted(false)
                 .build();
 
