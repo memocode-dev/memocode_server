@@ -66,7 +66,11 @@ jobs:
     needs: [ release, tag ]
     steps:
       - uses: actions/checkout@v3
-      - uses: prepor/action-aws-iam-authenticator@1
+      - uses: install aws-iam-authenticator
+        run: |
+          curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+          chmod +x ./aws-iam-authenticator
+          sudo mv ./aws-iam-authenticator /usr/local/bin
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
