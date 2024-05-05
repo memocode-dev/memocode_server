@@ -254,12 +254,13 @@ public class Memo extends SoftDeleteBaseEntity {
     }
 
     /**
-     * 제일 상위에 있는 메모 댓글만 출력
-     * @return parentMemoComment가 null인 comment만 출력
+     * 제일 상위에 있는 메모 댓글만 출력합니다.
+     * @return parentMemoComment가 null이고 삭제되지않은 comment와 변경 가능한 리스트
      */
     protected List<MemoComment> getMemoComments() {
         return memoComments.stream()
                 .filter(comment -> comment.getParentMemoComment() == null)
+                .filter(comment -> !comment.getDeleted())
                 .toList();
     }
 
