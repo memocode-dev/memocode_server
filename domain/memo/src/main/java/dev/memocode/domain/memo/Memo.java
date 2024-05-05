@@ -88,7 +88,7 @@ public class Memo extends SoftDeleteBaseEntity {
         this.bookmarked = bookmarked != null ? bookmarked : this.bookmarked;
 
         if (security != null && visibility != null) {
-            // 동시에 security와 visibilit를 수정할 수 없음
+            // 동시에 security와 visibility를 수정할 수 없음
             throw new ValidationException(CANNOT_UPDATE_SECURITY_AND_VISIBILITY_TOGETHER);
         } else if (security != null) {
             // 한번 보호 모드가 작동한다면 security를 변경하지 못함
