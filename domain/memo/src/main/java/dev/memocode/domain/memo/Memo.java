@@ -220,7 +220,7 @@ public class Memo extends SoftDeleteBaseEntity {
                 .deleted(false)
                 .build();
 
-        this.getMemoComments().add(comment);
+        this.addFilterdComment(comment);
 
         return comment;
     }
@@ -261,5 +261,12 @@ public class Memo extends SoftDeleteBaseEntity {
         return memoComments.stream()
                 .filter(comment -> comment.getParentMemoComment() == null)
                 .toList();
+    }
+
+    /**
+     * 메모를 필터링하여 추가합니다.
+     */
+    protected void addFilterdComment(MemoComment comment) {
+        if (comment.getParentMemoComment() == null) this.memoComments.add(comment);
     }
 }
