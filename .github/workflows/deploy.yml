@@ -91,7 +91,7 @@ jobs:
           kubectl version --client
       - name: test
         run: |
-          kubectl version
+          kubectl get pods
 #      - name: 버전 변경
 #        run: |
 #          kubectl set image deployment/dev-memocode-memo-server spring-boot=ghcr.io/memocode-dev/memocode_memo_server:${{ needs.tag.outputs.tag_name }} --namespace=dev
