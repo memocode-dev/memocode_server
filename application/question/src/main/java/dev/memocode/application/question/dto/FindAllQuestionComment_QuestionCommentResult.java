@@ -1,6 +1,8 @@
 package dev.memocode.application.question.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,5 +23,6 @@ public class FindAllQuestionComment_QuestionCommentResult {
     private Instant updatedAt;
     private boolean deleted;
     private FindAllQuestionComment_UserResult user;
+    @ArraySchema(schema = @Schema(implementation = FindAllQuestionComment_QuestionCommentResult.class))
     private List<FindAllQuestionComment_QuestionCommentResult> childQuestionComments;
 }
