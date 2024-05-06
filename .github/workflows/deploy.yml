@@ -73,7 +73,10 @@ jobs:
           sudo mv ./aws-iam-authenticator /usr/local/bin
           aws-iam-authenticator version
       - name: install-aws-cli-action
-        uses: unfor19/install-aws-cli-action@v1
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
