@@ -78,8 +78,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_DEV_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - uses: actions-hub/kubectl@master
-        env:
-          KUBE_CONFIG: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
+      - uses: azure/k8s-set-context@v4
         with:
-          args: set image deployment/dev-memocode-memo-server spring-boot=ghcr.io/memocode-dev/memocode_memo_server:${{ needs.tag.outputs.tag_name }} --namespace=dev
+          method: kubeconfig
+          kubeconfig: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
+      - name: 버전 변경
+        run: |
+          kubectl set image deployment/dev-memocode-memo-server spring-boot=ghcr.io/memocode-dev/memocode_memo_server:${{ needs.tag.outputs.tag_name }} --namespace=dev
