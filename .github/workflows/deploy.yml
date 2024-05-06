@@ -86,4 +86,7 @@ jobs:
           kubeconfig: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
       - name: 버전 변경
         run: |
+          kubectl version
+      - name: 버전 변경
+        run: |
           kubectl set image deployment/dev-memocode-memo-server spring-boot=ghcr.io/memocode-dev/memocode_memo_server:${{ needs.tag.outputs.tag_name }} --namespace=dev
