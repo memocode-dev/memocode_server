@@ -72,6 +72,8 @@ jobs:
           chmod +x ./aws-iam-authenticator
           sudo mv ./aws-iam-authenticator /usr/local/bin
           aws-iam-authenticator version
+      - name: install-aws-cli-action
+        uses: unfor19/install-aws-cli-action@v1
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
