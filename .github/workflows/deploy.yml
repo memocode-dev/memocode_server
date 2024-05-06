@@ -81,7 +81,7 @@ jobs:
           ls -al
       - name: install kubectl
         run: |
-          snap install kubectl --classic
+          sudo snap install kubectl --classic
           kubectl version --client
       - name: test
         run: |
