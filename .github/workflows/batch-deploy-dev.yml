@@ -3,7 +3,7 @@ name: deloy
 on:
   push:
     branches:
-      - dev
+      - prod
 
 permissions: write-all
 
