@@ -78,7 +78,9 @@ jobs:
         env:
           KUBE_CONFIG_DATA: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
         run: |
-          ls -al
+          mkdir -p $HOME/.kube
+          touch $HOME/.kube/config
+          echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
       - name: install kubectl
         run: |
           sudo snap install kubectl --classic
