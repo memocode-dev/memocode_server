@@ -29,6 +29,7 @@ public enum MemoDomainErrorCode implements ErrorDetail {
     MEMO_COMMENT_NOT_FOUND("메모 댓글을 찾을 수 없습니다.", WARNING),
     NOT_MEMO_COMMENT_OWNER("메모댓글의 소유자가 아닙니다.", WARNING),
     DELETED_MEMO_COMMENT("삭제된 메모댓글입니다.", WARNING),
+    MEMO_COMMENT_PARENT_NOT_NULL("부모댓글이 존재합니다.", WARNING),
     ;
 
     private final String defaultMessage;

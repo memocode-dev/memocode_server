@@ -2,7 +2,6 @@ package dev.memocode.domain.question;
 
 import dev.memocode.domain.tag.Tag;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
