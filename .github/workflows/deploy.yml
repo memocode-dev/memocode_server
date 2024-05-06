@@ -83,15 +83,15 @@ jobs:
       - name: install kubectl
         run: |
           sudo snap install kubectl --channel=1.20/stable --classic
-          curl -o aws-iam-authenticator https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v0.6.13/aws-iam-authenticator_0.6.13_linux_amd64
+          curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
           chmod +x ./aws-iam-authenticator
           sudo mv ./aws-iam-authenticator /usr/local/bin
-          aws-iam-authenticator help
+          aws-iam-authenticator version
           aws --version
           kubectl version --client
       - name: test
         run: |
-          kubectl version
+          kubectl get pods
 #      - name: 버전 변경
 #        run: |
 #          kubectl set image deployment/dev-memocode-memo-server spring-boot=ghcr.io/memocode-dev/memocode_memo_server:${{ needs.tag.outputs.tag_name }} --namespace=dev
