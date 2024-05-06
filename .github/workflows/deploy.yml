@@ -79,6 +79,7 @@ jobs:
           mkdir -p $HOME/.kube
           touch $HOME/.kube/config
           echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
+          echo "$KUBE_CONFIG_DATA"
       - name: install kubectl
         run: |
           sudo snap install kubectl --classic
