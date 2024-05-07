@@ -38,6 +38,7 @@ public class MemoController implements MemoApi {
                 .summary(form.getSummary())
                 .userId(UUID.fromString(jwt.getSubject()))
                 .security(form.getSecurity())
+                .tags(form.getTags())
                 .build();
 
         UUID memoId = memoUseCase.createMemo(dto);
@@ -57,6 +58,7 @@ public class MemoController implements MemoApi {
                 .visibility(form.getVisibility())
                 .security(form.getSecurity())
                 .bookmarked(form.getBookmarked())
+                .tags(form.getTags())
                 .build();
 
         memoUseCase.updateMemo(dto);

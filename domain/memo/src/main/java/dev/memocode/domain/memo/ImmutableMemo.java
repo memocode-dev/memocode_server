@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -25,4 +26,5 @@ public class ImmutableMemo {
     private Instant updatedAt;
     private Instant deletedAt;
     private Boolean deleted;
+    private Set<String> tags;
 }

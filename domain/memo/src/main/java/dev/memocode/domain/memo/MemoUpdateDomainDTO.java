@@ -1,7 +1,6 @@
 package dev.memocode.domain.memo;
 
 import dev.memocode.domain.tag.Tag;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

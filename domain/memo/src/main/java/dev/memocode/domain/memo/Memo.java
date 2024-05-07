@@ -61,7 +61,7 @@ public class Memo extends SoftDeleteBaseEntity {
     @Setter
     private Memo formattedMemo;
 
-    @OneToMany(mappedBy = "memo", cascade = {CascadeType.PERSIST}, orphanRemoval = true)
+    @OneToMany(mappedBy = "memo", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @Builder.Default
     private Set<MemoTag> memoTags = new HashSet<>();
 
@@ -123,6 +123,7 @@ public class Memo extends SoftDeleteBaseEntity {
     /**
      * 메모를 소프트 삭제합니다.
      *  - 메모가 삭제될 때 메모버전과 메모댓글들이 모두 삭제될 수 있도록 로직 구성
+     *  - 메모의 태그들도 모두 삭제합니다.
      */
     protected void softDelete() {
         super.delete();
@@ -130,6 +131,7 @@ public class Memo extends SoftDeleteBaseEntity {
         memoVersions.forEach(MemoVersion::softDelete);
         // TODO comment의 개수가 많아질 때는 DB에서 직접 삭제 요청 필요
         memoComments.forEach(MemoComment::softDelete);
+        this.getMemoTags().clear();
     }
 
     /**

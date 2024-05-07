@@ -43,8 +43,8 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
     private String meilisearchIndexMemos;
 
     private final static String[] attributesToRetrieve =
-            {"id", "title", "content", "summary", "user", "visibility", "createdAt", "updatedAt", "deletedAt", "deleted"};
-    private final static String[] attributesToHighlight = {"title", "content", "summary"};
+            {"id", "title", "content", "summary", "user", "visibility", "createdAt", "updatedAt", "deletedAt", "deleted", "tags"};
+    private final static String[] attributesToHighlight = {"title", "content", "summary", "tags"};
     private final static String[] attributesToCrop = {"content"};
     private final static String[] sort = new String[] {"updatedAt:desc"};
     private final static int cropLength = 50;
@@ -139,6 +139,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                                     .username(user.getUsername())
                                     .enabled(user.getEnabled())
                                     .build())
+                            .tags(formatted.getTags())
                             .visibility(formatted.isVisibility())
                             .createdAt(formatted.getCreatedAt())
                             .updatedAt(formatted.getUpdatedAt())
@@ -156,6 +157,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                                     .username(result.getUser().getUsername())
                                     .enabled(result.getUser().getEnabled())
                                     .build())
+                            .tags(result.getTags())
                             .visibility(result.isVisibility())
                             .createdAt(result.getCreatedAt())
                             .updatedAt(result.getUpdatedAt())

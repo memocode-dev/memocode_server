@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -17,4 +18,5 @@ public class SearchMemo_MemoResult {
     private SearchMemo_FormattedMemoResult formattedMemo;
     private Instant createdAt;
     private Instant updatedAt;
+    private Set<String> tags;
 }

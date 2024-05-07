@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -45,4 +46,6 @@ public class MeilisearchSearchMemo_MemoResult {
     @JsonProperty("deleted")
     private Boolean deleted;
 
+    @JsonProperty(value = "tags")
+    private Set<String> tags;
 }

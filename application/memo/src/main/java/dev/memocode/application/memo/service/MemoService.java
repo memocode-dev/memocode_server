@@ -8,11 +8,13 @@ import dev.memocode.application.memo.dto.result.*;
 import dev.memocode.application.memo.repository.MemoRepository;
 import dev.memocode.application.memo.repository.SearchMemoRepository;
 import dev.memocode.application.memo.usecase.MemoUseCase;
+import dev.memocode.application.tag.InternalTagService;
 import dev.memocode.application.user.InternalUserService;
 import dev.memocode.domain.memo.ImmutableMemo;
 import dev.memocode.domain.memo.Memo;
 import dev.memocode.domain.memo.MemoCreateDomainDTO;
 import dev.memocode.domain.memo.MemoDomainService;
+import dev.memocode.domain.tag.Tag;
 import dev.memocode.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,13 +38,17 @@ public class MemoService implements MemoUseCase {
 
     private final InternalUserService internalUserService;
     private final InternalMemoService internalMemoService;
+    private final InternalTagService internalTagService;
 
     @Override
     @Transactional
     public UUID createMemo(CreateMemoRequest request) {
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
+        Set<Tag> tags = request.getTags().stream()
+                .map(internalTagService::createTagOrGetTag)
+                .collect(Collectors.toSet());
 
-        MemoCreateDomainDTO domainDTO = memoDTOConverter.toDomainDTO(user, request);
+        MemoCreateDomainDTO domainDTO = memoDTOConverter.toDomainDTO(user, request, tags);
 
         Memo memo = memoDomainService.createMemo(domainDTO);
 
@@ -55,7 +63,11 @@ public class MemoService implements MemoUseCase {
         Memo memo = internalMemoService.findByIdElseThrow(request.getMemoId());
         User user = internalUserService.findByIdEnabledUserElseThrow(request.getUserId());
 
-        memoDomainService.updateMemo(memo, user, memoDTOConverter.toDomainDTO(request));
+        Set<Tag> tags = request.getTags() == null ? null : request.getTags().stream()
+                .map(internalTagService::createTagOrGetTag)
+                .collect(Collectors.toSet());
+
+        memoDomainService.updateMemo(memo, user, memoDTOConverter.toDomainDTO(request, tags));
     }
 
     @Override

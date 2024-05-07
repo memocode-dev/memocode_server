@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 import static io.swagger.v3.oas.annotations.media.Schema.RequiredMode.REQUIRED;
 
 @Data
@@ -27,4 +29,7 @@ public class CreateMemoForm {
     @Schema(requiredMode = REQUIRED)
     @JsonProperty(defaultValue = "false")
     private Boolean security;
+
+    @Schema(requiredMode = REQUIRED)
+    private Set<String> tags;
 }
