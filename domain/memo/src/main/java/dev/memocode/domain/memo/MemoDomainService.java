@@ -22,7 +22,7 @@ public class MemoDomainService {
 
         user.assertIsEnabled();
 
-        return Memo.builder()
+        Memo memo = Memo.builder()
                 .id(UUID.randomUUID())
                 .title(dto.getTitle())
                 .content(dto.getContent())
@@ -33,6 +33,10 @@ public class MemoDomainService {
                 .user(user)
                 .deleted(DEFAULT_DELETED)
                 .build();
+
+        memo.updateMemoTags(dto.getTags());
+
+        return memo;
     }
 
     public void updateMemo(Memo memo, User user, @Valid MemoUpdateDomainDTO dto) {

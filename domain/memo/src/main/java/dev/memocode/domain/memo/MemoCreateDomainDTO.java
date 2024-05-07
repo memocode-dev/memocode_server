@@ -1,5 +1,6 @@
 package dev.memocode.domain.memo;
 
+import dev.memocode.domain.tag.Tag;
 import dev.memocode.domain.user.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -29,4 +32,7 @@ public class MemoCreateDomainDTO {
 
     @NotNull(message = "VALIDATION_SECURITY_NOT_NULL:security는 null일 수 없습니다.")
     private Boolean security;
+
+    @NotNull(message = "VALIDATION_TAGS_NOT_NULL:tags는 null일 수 없습니다.")
+    private Set<Tag> tags;
 }

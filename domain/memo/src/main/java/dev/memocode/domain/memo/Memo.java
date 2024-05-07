@@ -1,15 +1,14 @@
 package dev.memocode.domain.memo;
 
 import dev.memocode.domain.core.*;
+import dev.memocode.domain.tag.Tag;
 import dev.memocode.domain.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static dev.memocode.domain.memo.MemoDomainErrorCode.*;
 import static jakarta.persistence.FetchType.LAZY;
@@ -62,6 +61,10 @@ public class Memo extends SoftDeleteBaseEntity {
     @Setter
     private Memo formattedMemo;
 
+    @OneToMany(mappedBy = "memo", cascade = {CascadeType.PERSIST}, orphanRemoval = true)
+    @Builder.Default
+    private Set<MemoTag> memoTags = new HashSet<>();
+
     /**
      * 현재 메모 중에서 변경할 수 있는 필드를 변경합니다.
      *  - 변경할 수 있는 필드
@@ -86,6 +89,10 @@ public class Memo extends SoftDeleteBaseEntity {
         this.content = content != null ? content : this.content;
         this.summary = summary != null ? summary : this.summary;
         this.bookmarked = bookmarked != null ? bookmarked : this.bookmarked;
+
+        if (dto.getTags() != null) {
+            this.updateMemoTags(dto.getTags());
+        }
 
         if (security != null && visibility != null) {
             // 동시에 security와 visibility를 수정할 수 없음
@@ -264,5 +271,29 @@ public class Memo extends SoftDeleteBaseEntity {
         return memoComments.stream()
                 .filter(comment -> comment.getParentMemoComment() == null)
                 .toList();
+    }
+
+    /**
+     * 메모의 태그들을 업데이트합니다.
+     *  - 현재 매개변수로 주어진 태그들만 메모 태그에 존재하게 됩니다.
+     * @param updatedTags 업데이트하고자 하는 태그들
+     */
+    protected void updateMemoTags(Set<Tag> updatedTags) {
+        // updatedTags에 포함되지 않은 질문태그들은 소프트삭제합니다.
+        this.getMemoTags().removeIf(memoTag -> !updatedTags.contains(memoTag.getTag()));
+
+        // memo과 tag를 통해 동등성을 체크하므로 이미 포함되어있는 memoTag는 추가되지 않고 새로운 memoTag만 생성됨
+        updatedTags.forEach(tag -> {
+            MemoTag memoTag = MemoTag.builder()
+                    .id(UUID.randomUUID())
+                    .memo(this)
+                    .tag(tag)
+                    .build();
+
+            this.getMemoTags().add(memoTag);
+        });
+
+        // 태그 업데이트시에 메모 updatedAt 업데이트
+        super.updateUpdatedAt();
     }
 }

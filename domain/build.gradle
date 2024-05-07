@@ -15,6 +15,7 @@ project(':domain:domain_memo') {
     dependencies {
         implementation project(":domain:domain_core")
         implementation project(":domain:domain_user")
+        implementation project(":domain:domain_tag")
     }
 }
 
