@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(a -> a
                         // memo
                         .requestMatchers(GET, "/memos").permitAll()
+                        .requestMatchers(GET, "/memos/*").permitAll()
                         .requestMatchers(GET, "/memos/*/comments").permitAll()
                         .requestMatchers( "/memos/**").access(hasScope(SCOPE_WRITE_MEMO))
                         .requestMatchers("/users/memos/**").access(hasScope(SCOPE_WRITE_MEMO))
