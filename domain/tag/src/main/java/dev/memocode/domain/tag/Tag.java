@@ -16,10 +16,9 @@ import static lombok.AccessLevel.PROTECTED;
 @SuperBuilder
 @NoArgsConstructor(access = PROTECTED)
 @Table(name = "tags")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = true)
 public class Tag extends SoftDeleteBaseEntity {
 
     @Column(name = "name", unique = true)
-    @EqualsAndHashCode.Include
     private String name;
 }

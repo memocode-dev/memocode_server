@@ -7,25 +7,29 @@ import dev.memocode.domain.memo.ImmutableMemo;
 import dev.memocode.domain.memo.Memo;
 import dev.memocode.domain.memo.MemoCreateDomainDTO;
 import dev.memocode.domain.memo.MemoUpdateDomainDTO;
+import dev.memocode.domain.tag.Tag;
 import dev.memocode.domain.user.User;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class MemoDTOConverter {
 
-    public MemoCreateDomainDTO toDomainDTO(User user, CreateMemoRequest dto) {
+    public MemoCreateDomainDTO toDomainDTO(User user, CreateMemoRequest dto, Set<Tag> tags) {
         return MemoCreateDomainDTO.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .summary(dto.getSummary())
                 .user(user)
                 .security(dto.getSecurity())
+                .tags(tags)
                 .build();
     }
 
-    public MemoUpdateDomainDTO toDomainDTO(UpdateMemoRequest dto) {
+    public MemoUpdateDomainDTO toDomainDTO(UpdateMemoRequest dto, Set<Tag> tags) {
         return MemoUpdateDomainDTO.builder()
                 .title(dto.getTitle())
                 .content(dto.getContent())
@@ -33,6 +37,7 @@ public class MemoDTOConverter {
                 .security(dto.getSecurity())
                 .visibility(dto.getVisibility())
                 .bookmarked(dto.getBookmarked())
+                .tags(tags)
                 .build();
     }
 
@@ -48,6 +53,9 @@ public class MemoDTOConverter {
                 .security(memo.getSecurity())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
+                .tags(memo.getMemoTags().stream()
+                        .map(memoTag -> memoTag.getTag().getName())
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -74,6 +82,9 @@ public class MemoDTOConverter {
                 .visibility(memo.getVisibility())
                 .bookmarked(memo.getBookmarked())
                 .security(memo.getSecurity())
+                .tags(memo.getMemoTags().stream()
+                        .map(memoTag -> memoTag.getTag().getName())
+                        .collect(Collectors.toSet()))
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
                 .build();
@@ -93,6 +104,7 @@ public class MemoDTOConverter {
                 .formattedMemo(toSearchMyMemo_FormattedMemoResult(memo.getFormattedMemo()))
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
+                .tags(memo.getTags())
                 .build();
     }
 
@@ -123,6 +135,7 @@ public class MemoDTOConverter {
                         .build())
                 .formattedMemo(this.toSearchMemo_FormattedMemoResult(memo.getFormattedMemo()))
                 .summary(memo.getSummary())
+                .tags(memo.getTags())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())
                 .build();
@@ -159,6 +172,10 @@ public class MemoDTOConverter {
                 .user(findMemoUserResult)
                 .createdAt(validatedMemo.getCreatedAt())
                 .updatedAt(validatedMemo.getUpdatedAt())
+                .tags(validatedMemo.getMemoTags().stream()
+                        .map(memoTag -> memoTag.getTag().getName())
+                        .collect(Collectors.toSet())
+                )
                 .build();
     }
 

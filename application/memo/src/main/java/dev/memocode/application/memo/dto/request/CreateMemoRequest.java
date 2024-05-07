@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -19,4 +20,6 @@ public class CreateMemoRequest {
     private UUID userId;
     @NotNull
     private Boolean security;
+    @NotNull
+    private Set<String> tags;
 }

@@ -80,6 +80,7 @@ project(':adapter:adapter_batch_memo') {
         implementation project(":domain:domain_core")
         implementation project(":domain:domain_user")
         implementation project(":domain:domain_memo")
+        implementation project(":domain:domain_tag")
 
         implementation project(":application:application_batch_core")
         implementation project(":application:application_batch_memo")

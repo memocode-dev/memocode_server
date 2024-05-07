@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -16,4 +17,5 @@ public class FindMemo_MemoResult {
     private FindMemo_UserResult user;
     private Instant createdAt;
     private Instant updatedAt;
+    private Set<String> tags;
 }
