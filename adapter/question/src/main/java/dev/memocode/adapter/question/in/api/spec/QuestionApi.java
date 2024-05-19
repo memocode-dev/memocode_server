@@ -33,4 +33,7 @@ public interface QuestionApi {
 
     @Operation(summary = "QNA 전체 조회")
     ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestion(String keyword, int page, int pageSize);
+
+    @Operation(summary = "QNA 전체 조회 (USERNAME으로 조회)")
+    ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> findQuestionList(String username, int page, int pageSize);
 }

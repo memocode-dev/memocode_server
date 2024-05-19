@@ -5,4 +5,5 @@ import org.springframework.data.domain.Page;
 
 public interface SearchQuestionRepository {
     Page<ImmutableQuestion> searchQuestion(String keyword, int page, int pageSize);
+    Page<ImmutableQuestion> findQuestionList(String username, int page, int pageSize);
 }
