@@ -98,6 +98,23 @@ public class QuestionService implements QuestionUseCase {
     }
 
     @Override
+    public PageResponse<SearchQuestion_QuestionResult> findQuestionList(FindQuestionRequest request) {
+        Page<ImmutableQuestion> page =
+                searchQuestionRepository.findQuestionList(request.getUsername(), request.getPage(), request.getPageSize());
+
+        List<ImmutableQuestion> validatedQuestions = questionDomainService.searchQuestion(page.getContent());
+
+        return PageResponse.<SearchQuestion_QuestionResult>builder()
+                .page(page.getNumber())
+                .pageSize(page.getSize())
+                .totalCount(page.getTotalElements())
+                .content(questionDTOConverter.toSearchQuestion_QuestionResult(validatedQuestions))
+                .first(page.isFirst())
+                .last(page.isLast())
+                .build();
+    }
+
+    @Override
     public PageResponse<SearchQuestion_QuestionResult> searchQuestion(SearchQuestionRequest request) {
         Page<ImmutableQuestion> page =
                 searchQuestionRepository.searchQuestion(request.getKeyword(), request.getPage(), request.getPageSize());

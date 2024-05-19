@@ -71,6 +71,20 @@ public class QuestionController implements QuestionApi {
         return ResponseEntity.ok(body);
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> findQuestionList(
+            @PathVariable String username,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+        FindQuestionRequest request = FindQuestionRequest.builder()
+                .username(username)
+                .page(page)
+                .pageSize(pageSize)
+                .build();
+        PageResponse<SearchQuestion_QuestionResult> body = questionUseCase.findQuestionList(request);
+        return ResponseEntity.ok(body);
+    }
+
     @GetMapping
     public ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestion(
             @RequestParam(value = "keyword", defaultValue = "") String keyword,
