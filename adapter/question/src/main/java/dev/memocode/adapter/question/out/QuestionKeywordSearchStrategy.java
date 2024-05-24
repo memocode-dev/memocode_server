@@ -1,11 +1,12 @@
 package dev.memocode.adapter.question.out;
 
 import com.meilisearch.sdk.SearchRequest;
+import dev.memocode.adapter.adapter_meilisearch_core.SearchRequestStrategy;
 import dev.memocode.domain.core.ValidationException;
 
 import static dev.memocode.adapter.adapter_meilisearch_core.AdapterMeilisearchErrorCode.MEILISEARCH_INVALID_PAGE_NUMBER;
 
-public class KeywordSearchStrategy implements SearchRequestStrategy{
+public class QuestionKeywordSearchStrategy implements SearchRequestStrategy {
 
     private final static String[] attributesToRetrieve =
             {"id", "title", "content", "tags", "user", "createdAt", "updatedAt", "deleted", "deletedAt"};
