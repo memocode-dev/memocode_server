@@ -71,8 +71,8 @@ public class QuestionController implements QuestionApi {
         return ResponseEntity.ok(body);
     }
 
-    @GetMapping("/{username}")
-    public ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> findQuestionList(
+    @GetMapping("/users/{username}/questions")
+    public ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestionByUsername(
             @PathVariable String username,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
@@ -81,12 +81,12 @@ public class QuestionController implements QuestionApi {
                 .page(page)
                 .pageSize(pageSize)
                 .build();
-        PageResponse<SearchQuestion_QuestionResult> body = questionUseCase.findQuestionList(request);
+        PageResponse<SearchQuestion_QuestionResult> body = questionUseCase.searchQuestionByUsername(request);
         return ResponseEntity.ok(body);
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestion(
+    public ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestionByKeyword(
             @RequestParam(value = "keyword", defaultValue = "") String keyword,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
@@ -97,7 +97,7 @@ public class QuestionController implements QuestionApi {
                 .pageSize(pageSize)
                 .build();
 
-        PageResponse<SearchQuestion_QuestionResult> body = questionUseCase.searchQuestion(request);
+        PageResponse<SearchQuestion_QuestionResult> body = questionUseCase.searchQuestionByKeyword(request);
         return ResponseEntity.ok(body);
     }
 }
