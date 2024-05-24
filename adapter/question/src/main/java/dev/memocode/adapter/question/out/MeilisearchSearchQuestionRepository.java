@@ -9,6 +9,7 @@ import com.meilisearch.sdk.Client;
 import com.meilisearch.sdk.Index;
 import com.meilisearch.sdk.SearchRequest;
 import dev.memocode.adapter.adapter_meilisearch_core.MeilisearchSearchResponse;
+import dev.memocode.adapter.adapter_meilisearch_core.SearchRequestStrategy;
 import dev.memocode.application.question.repository.SearchQuestionRepository;
 import dev.memocode.domain.core.InternalServerException;
 import dev.memocode.domain.question.immutable.ImmutableQuestion;
@@ -40,13 +41,13 @@ public class MeilisearchSearchQuestionRepository implements SearchQuestionReposi
     private String meilisearchIndexQuestions;
 
     @Override
-    public Page<ImmutableQuestion> searchQuestion(String keyword, int page, int pageSize) {
-        return executeSearch(new KeywordSearchStrategy(), keyword, page, pageSize);
+    public Page<ImmutableQuestion> searchQuestionByKeyword(String keyword, int page, int pageSize) {
+        return executeSearch(new QuestionKeywordSearchStrategy(), keyword, page, pageSize);
     }
 
     @Override
-    public Page<ImmutableQuestion> findQuestionList(String username, int page, int pageSize) {
-        return executeSearch(new UsernameSearchStrategy(), username, page, pageSize);
+    public Page<ImmutableQuestion> searchQuestionByUsername(String username, int page, int pageSize) {
+        return executeSearch(new QuestionUsernameSearchStrategy(), username, page, pageSize);
     }
 
     private Page<ImmutableQuestion> toEntity(MeilisearchSearchResponse<MeilisearchSearchQuestion_QuestionResult> meilisearchSearchResponse) {
