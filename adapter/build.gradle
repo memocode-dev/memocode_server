@@ -23,6 +23,7 @@ project(':adapter:adapter_memo') {
         implementation project(":application:application_user")
         implementation project(":application:application_memo")
         implementation project(":adapter:adapter_api_core")
+        implementation project(":adapter:adapter_db_core")
         implementation project(":adapter:adapter_meilisearch_core")
 
         implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
@@ -39,6 +40,7 @@ project(':adapter:adapter_memo') {
 
         testImplementation 'org.testcontainers:junit-jupiter'
         testImplementation "org.testcontainers:postgresql:1.19.7"
+        testImplementation 'org.springframework.security:spring-security-test'
     }
 }
 
@@ -65,6 +67,8 @@ project(':adapter:adapter_question') {
         implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
         testImplementation 'org.testcontainers:junit-jupiter'
+        testImplementation "org.testcontainers:postgresql:1.19.7"
+        testImplementation 'org.springframework.security:spring-security-test'
     }
 }
 
