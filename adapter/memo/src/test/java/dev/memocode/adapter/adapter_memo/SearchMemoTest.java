@@ -68,7 +68,7 @@ class SearchMemoTest {
     }
 
     @DynamicPropertySource
-    static void mysqlProperties(DynamicPropertyRegistry registry) {
+    static void dynamicProperties(DynamicPropertyRegistry registry) {
         String meilisearchHost = meilisearch.getHost();
         int meilisearchPort = meilisearch.getFirstMappedPort();
 
