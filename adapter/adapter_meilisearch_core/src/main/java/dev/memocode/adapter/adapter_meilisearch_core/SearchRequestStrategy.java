@@ -1,4 +1,4 @@
-package dev.memocode.adapter.question.out;
+package dev.memocode.adapter.adapter_meilisearch_core;
 
 import com.meilisearch.sdk.SearchRequest;
 
