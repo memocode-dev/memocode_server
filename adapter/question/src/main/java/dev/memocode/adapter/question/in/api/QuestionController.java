@@ -76,7 +76,7 @@ public class QuestionController implements QuestionApi {
             @PathVariable String username,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
-        FindQuestionRequest request = FindQuestionRequest.builder()
+        SearchQuestionByUsernameRequest request = SearchQuestionByUsernameRequest.builder()
                 .username(username)
                 .page(page)
                 .pageSize(pageSize)

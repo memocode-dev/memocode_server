@@ -30,5 +30,8 @@ public interface MemoApi {
     ResponseEntity<FindMemo_MemoResult> findMemo(UUID memoId);
 
     @Operation(summary = "메모 검색")
-    ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemo(String keyword, int page, int pageSize);
+    ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemoByKeyword(String keyword, int page, int pageSize);
+
+    @Operation(summary = "메모 검색 (USERNAME으로 검색)")
+    ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemoByUsername(String username, int page, int pageSize);
 }
