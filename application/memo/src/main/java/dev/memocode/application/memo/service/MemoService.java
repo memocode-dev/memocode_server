@@ -2,6 +2,7 @@ package dev.memocode.application.memo.service;
 
 import dev.memocode.application.core.PageResponse;
 import dev.memocode.application.memo.converter.MemoDTOConverter;
+import dev.memocode.application.memo.dto.reque.SearchMemoByUsernameRequest;
 import dev.memocode.application.memo.dto.reque.SearchMemoRequest;
 import dev.memocode.application.memo.dto.request.*;
 import dev.memocode.application.memo.dto.result.*;
@@ -128,9 +129,9 @@ public class MemoService implements MemoUseCase {
     }
 
     @Override
-    public PageResponse<SearchMemo_MemoResult> searchMemo(SearchMemoRequest request) {
+    public PageResponse<SearchMemo_MemoResult> searchMemoByKeyword(SearchMemoRequest request) {
         Page<ImmutableMemo> page =
-                searchMemoRepository.searchMemo(request.getKeyword(), request.getPage(), request.getPageSize());
+                searchMemoRepository.searchMemoByKeyword(request.getKeyword(), request.getPage(), request.getPageSize());
 
         List<ImmutableMemo> validatedMemos = memoDomainService.searchMemo(page.getContent());
 
@@ -143,4 +144,22 @@ public class MemoService implements MemoUseCase {
                 .last(page.isLast())
                 .build();
     }
+
+    @Override
+    public PageResponse<SearchMemo_MemoResult> searchMemoByUsername(SearchMemoByUsernameRequest request) {
+        Page<ImmutableMemo> page =
+                searchMemoRepository.searchMemoByUsername(request.getUsername(), request.getPage(), request.getPageSize());
+
+        List<ImmutableMemo> validatedMemos = memoDomainService.searchMemo(page.getContent());
+
+        return PageResponse.<SearchMemo_MemoResult>builder()
+                .page(page.getNumber())
+                .pageSize(page.getSize())
+                .totalCount(page.getTotalElements())
+                .content(memoDTOConverter.toSearchMemo_MemoResult(validatedMemos))
+                .first(page.isFirst())
+                .last(page.isLast())
+                .build();
+    }
+
 }
