@@ -35,6 +35,12 @@ public class QuestionCommentDomainService {
         return question.getQuestionComments();
     }
 
+    public List<QuestionComment> findAll(List<QuestionComment> comments) {
+        return comments.stream()
+                .filter(questionComments -> !questionComments.getDeleted())
+                .toList();
+    }
+
     public QuestionComment createChildQuestionComment(
             Question question, QuestionComment questionComment, User user, @Valid CreateQuestionCommentDomainDTO dto) {
         question.assertIsNotDeleted();
