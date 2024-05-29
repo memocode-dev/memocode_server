@@ -27,4 +27,16 @@ public class InternalUserService {
 
         return user;
     }
+
+    public User findByUsernameElseThrow(String username) {
+        // TODO 중복된 유저이름이면 어떻게 처리할 것인가?
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException(AUTHOR_NOT_FOUND));
+
+        if (!user.getEnabled()) {
+            throw new ForbiddenException(DELETED_USER);
+    }
+
+            return user;
+        }
 }
