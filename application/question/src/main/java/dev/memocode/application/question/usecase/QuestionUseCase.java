@@ -17,7 +17,7 @@ public interface QuestionUseCase {
 
     FindQuestion_QuestionResult findQuestion(UUID questionId);
 
-    PageResponse<SearchQuestion_QuestionResult> searchQuestionByUsername(@Valid FindQuestionRequest request);
+    PageResponse<SearchQuestion_QuestionResult> searchQuestionByUsername(@Valid SearchQuestionByUsernameRequest request);
 
     PageResponse<SearchQuestion_QuestionResult> searchQuestionByKeyword(@Valid SearchQuestionRequest request);
 }

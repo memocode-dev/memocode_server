@@ -98,7 +98,7 @@ public class QuestionService implements QuestionUseCase {
     }
 
     @Override
-    public PageResponse<SearchQuestion_QuestionResult> searchQuestionByUsername(FindQuestionRequest request) {
+    public PageResponse<SearchQuestion_QuestionResult> searchQuestionByUsername(SearchQuestionByUsernameRequest request) {
         Page<ImmutableQuestion> page =
                 searchQuestionRepository.searchQuestionByUsername(request.getUsername(), request.getPage(), request.getPageSize());
 
