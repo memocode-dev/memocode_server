@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class FindQuestionRequest {
+public class SearchQuestionByUsernameRequest {
     @NotNull
     private String username;
     private int page;
