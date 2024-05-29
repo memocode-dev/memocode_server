@@ -20,4 +20,5 @@ public class InternalQuestionService {
         return questionRepository.findById(questionId)
                 .orElseThrow(() -> new NotFoundException(QUESTION_NOT_FOUND));
     }
+
 }
