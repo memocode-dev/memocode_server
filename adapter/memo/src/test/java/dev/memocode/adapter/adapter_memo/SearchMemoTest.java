@@ -132,9 +132,9 @@ class SearchMemoTest {
                         .put("userId", user.getId())
                         .put("user", convertUserToJSONObject(user))
                         .put("visibility", false)
-                        .put("created_at", Instant.now())
-                        .put("updated_at", Instant.now())
-                        .put("deleted_at", null)
+                        .put("createdAt", Instant.now())
+                        .put("updatedAt", Instant.now())
+                        .put("deletedAt", null)
                         .put("deleted", false)
                 )
                 ;
@@ -154,14 +154,13 @@ class SearchMemoTest {
     @Test
     @DisplayName("자신의 메모를 조회한다.")
     void searchMyMemo() {
-        //given
         // DB에 내 메모만 있는 상태인지? 내 메모, 다른 사람 메모가 있는 상태에서 내것만 조회가 도는지
         String writer = "memocode";
         Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMyMemo(user, "제목", 0, 10);
         List<ImmutableMemo> content = page.getContent();
         assertThat(content).hasSize(3);
         assertThat(content).allMatch(memo -> writer.equals(memo.getUser().getUsername()));
-        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getId));
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
     }
 
     @Test
@@ -170,8 +169,9 @@ class SearchMemoTest {
 
         Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMemoByKeyword("제목", 0, 10);
         List<ImmutableMemo> content = page.getContent();
-        assertThat(content.size()).isEqualTo(2);
+        assertThat(content).hasSize(2);
         assertThat(content).allMatch(Objects::nonNull);
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
     }
 
     @Test
@@ -180,7 +180,8 @@ class SearchMemoTest {
 
         Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMemoByKeyword("비공개 제목", 0, 10);
         List<ImmutableMemo> content = page.getContent();
-        assertThat(content.size()).isEqualTo(0);
+        assertThat(content).hasSize(0);
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
     }
 
     @Test
@@ -189,7 +190,8 @@ class SearchMemoTest {
 
         Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMemoByUsername("memocode", 0, 10);
         List<ImmutableMemo> content = page.getContent();
-        assertThat(content.size()).isEqualTo(2);
+        assertThat(content).hasSize(2);
         assertThat(content).allMatch(memo -> memo.getUser().getUsername().equals("memocode"));
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
     }
 }
