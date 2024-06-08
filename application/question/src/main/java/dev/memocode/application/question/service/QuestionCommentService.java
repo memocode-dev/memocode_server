@@ -100,13 +100,11 @@ public class QuestionCommentService implements QuestionCommentUseCase {
 
         Page<QuestionComment> page = questionCommentRepository.findAllQuestionCommentByUserId(user.getId(), request.getPageable());
 
-        List<QuestionComment> validatedQuestionComments = questionCommentDomainService.findAll(page.getContent());
-
         return PageResponse.<FindAllQuestionComment_QuestionCommentResult>builder()
                 .page(page.getNumber())
                 .pageSize(page.getSize())
                 .totalCount(page.getTotalElements())
-                .content(questionCommentDTOConverter.toResult(validatedQuestionComments))
+                .content(questionCommentDTOConverter.toResult(page.getContent()))
                 .first(page.isFirst())
                 .last(page.isLast())
                 .build();
