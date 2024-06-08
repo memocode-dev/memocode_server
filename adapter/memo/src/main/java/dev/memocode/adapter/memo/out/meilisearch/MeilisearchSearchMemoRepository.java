@@ -150,7 +150,8 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
         return new SearchRequest("")
                 .setFilter(new String[]{
                         "deleted = false",
-                        "username = %s".formatted(username)
+                        "visibility = true",
+                        "username = %s".formatted(username),
                 })
                 .setSort(sort)
                 .setAttributesToRetrieve(attributesToRetrieve)
