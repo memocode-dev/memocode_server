@@ -69,9 +69,27 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
     }
 
     @Override
-    public Page<ImmutableMemo> searchMemo(String keyword, int page, int pageSize) {
+    public Page<ImmutableMemo> searchMemoByKeyword(String keyword, int page, int pageSize) {
         try {
-            SearchRequest request = createSearchMemoRequest(keyword, page, pageSize);
+            SearchRequest request = createSearchByKeywordMemoRequest(keyword, page, pageSize);
+
+            Index index = client.getIndex(meilisearchIndexMemos);
+            String rawJson = index.rawSearch(request);
+
+            TypeReference<MeilisearchSearchResponse<MeilisearchSearchMemo_MemoResult>> typeRef =
+                    new TypeReference<>() {};
+            return toEntity(objectMapper.readValue(rawJson, typeRef));
+        } catch (JsonProcessingException e) {
+            throw new InternalServerException(MEILISEARCH_PARSING_ERROR, e);
+        } catch (Exception e) {
+            throw new InternalServerException(MEILISEARCH_SEARCH_ERROR, e);
+        }
+    }
+
+    @Override
+    public Page<ImmutableMemo> searchMemoByUsername(String username, int page, int pageSize) {
+        try {
+            SearchRequest request = createSearchByUsernameMemoRequest(username, page, pageSize);
 
             Index index = client.getIndex(meilisearchIndexMemos);
             String rawJson = index.rawSearch(request);
@@ -105,7 +123,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                 .setHitsPerPage(pageSize);
     }
 
-    private SearchRequest createSearchMemoRequest(String keyword, int page, int pageSize) {
+    private SearchRequest createSearchByKeywordMemoRequest(String keyword, int page, int pageSize) {
         if (page < 0) {
             throw new ValidationException(MEILISEARCH_INVALID_PAGE_NUMBER);
         }
@@ -114,6 +132,26 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                 .setFilter(new String[]{
                         "deleted = false",
                         "visibility = true",
+                })
+                .setSort(sort)
+                .setAttributesToRetrieve(attributesToRetrieve)
+                .setAttributesToHighlight(attributesToHighlight)
+                .setAttributesToCrop(attributesToCrop)
+                .setCropLength(cropLength)
+                .setPage(page + 1)
+                .setHitsPerPage(pageSize);
+    }
+
+    private SearchRequest createSearchByUsernameMemoRequest(String username, int page, int pageSize) {
+        if (page < 0) {
+            throw new ValidationException(MEILISEARCH_INVALID_PAGE_NUMBER);
+        }
+
+        return new SearchRequest("")
+                .setFilter(new String[]{
+                        "deleted = false",
+                        "visibility = true",
+                        "username = %s".formatted(username),
                 })
                 .setSort(sort)
                 .setAttributesToRetrieve(attributesToRetrieve)

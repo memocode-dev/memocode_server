@@ -4,6 +4,7 @@ import dev.memocode.adapter.memo.in.api.form.CreateMemoForm;
 import dev.memocode.adapter.memo.in.api.form.UpdateMemoForm;
 import dev.memocode.adapter.memo.in.api.spec.MemoApi;
 import dev.memocode.application.core.PageResponse;
+import dev.memocode.application.memo.dto.reque.SearchMemoByUsernameRequest;
 import dev.memocode.application.memo.dto.reque.SearchMemoRequest;
 import dev.memocode.application.memo.dto.request.CreateMemoRequest;
 import dev.memocode.application.memo.dto.request.DeleteMemoRequest;
@@ -87,7 +88,7 @@ public class MemoController implements MemoApi {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemo(
+    public ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemoByKeyword(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int pageSize
@@ -98,7 +99,21 @@ public class MemoController implements MemoApi {
                 .pageSize(pageSize)
                 .build();
 
-        PageResponse<SearchMemo_MemoResult> body = memoUseCase.searchMemo(request);
+        PageResponse<SearchMemo_MemoResult> body = memoUseCase.searchMemoByKeyword(request);
+        return ResponseEntity.ok(body);
+    }
+
+    @GetMapping("/users/{username}/memos")
+    public ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemoByUsername(
+            @PathVariable String username,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+        SearchMemoByUsernameRequest request = SearchMemoByUsernameRequest.builder()
+                .username(username)
+                .page(page)
+                .pageSize(pageSize)
+                .build();
+        PageResponse<SearchMemo_MemoResult> body = memoUseCase.searchMemoByUsername(request);
         return ResponseEntity.ok(body);
     }
 }
