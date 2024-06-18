@@ -27,4 +27,7 @@ public interface MemoUseCase {
     PageResponse<SearchMemo_MemoResult> searchMemoByUsername(@Valid SearchMemoByUsernameRequest request);
 
     PageResponse<SearchMemo_MemoResult> searchMemoByKeyword(@Valid SearchMemoRequest request);
+
+    CreateMemoImage_MemoImageResult createMemoImageUploadURL(UUID userId, UUID memoId, String mimeType);
+    String findMemoImageUploadURL(UUID userId, UUID memoId, UUID memoImageId, String extension);
 }

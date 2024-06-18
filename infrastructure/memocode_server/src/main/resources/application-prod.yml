@@ -2,3 +2,5 @@ custom:
   front:
     domain: "https://memocode.dev"
     domain2: "https://memocode.dev"
+  s3:
+    bucket_name: "memocode"
