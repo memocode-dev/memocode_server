@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +25,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,6 +54,7 @@ class SearchMemoTest {
 
     private final UUID MEMO_ID = UUID.randomUUID();
     private final UUID MEMO_ID_2 = UUID.randomUUID();
+    private final UUID MEMO_ID_3 = UUID.randomUUID();
     private final User user;
 
     public SearchMemoTest() {
@@ -68,7 +72,7 @@ class SearchMemoTest {
     }
 
     @DynamicPropertySource
-    static void mysqlProperties(DynamicPropertyRegistry registry) {
+    static void dynamicProperties(DynamicPropertyRegistry registry) {
         String meilisearchHost = meilisearch.getHost();
         int meilisearchPort = meilisearch.getFirstMappedPort();
 
@@ -84,7 +88,7 @@ class SearchMemoTest {
         client.waitForTask(taskInfo.getTaskUid());
         Index memosIndex = client.getIndex(MEILISEARCH_MEMO_INDEX_NAME);
         memosIndex.updateSearchableAttributesSettings(new String[]{"title", "content"});
-        memosIndex.updateFilterableAttributesSettings(new String[]{"deleted", "userId"});
+        memosIndex.updateFilterableAttributesSettings(new String[]{"deleted", "userId", "username", "visibility"});
         memosIndex.updateDisplayedAttributesSettings(
                 new String[]{"id", "title", "content", "summary", "user", "visibility", "createdAt", "updatedAt"});
         memosIndex.updateSortableAttributesSettings(new String[]{"updatedAt"});
@@ -93,7 +97,8 @@ class SearchMemoTest {
         JSONArray array = new JSONArray()
                 .put(new JSONObject()
                         .put("id", MEMO_ID)
-                        .put("title", "제목1")
+                        .put("username", user.getUsername())
+                        .put("title", "공개 제목")
                         .put("content", "내용1")
                         .put("summary", "요약1")
                         .put("userId", user.getId())
@@ -106,19 +111,34 @@ class SearchMemoTest {
                 )
                 .put(new JSONObject()
                         .put("id", MEMO_ID_2)
-                        .put("title", "제목2")
+                        .put("username", user.getUsername())
+                        .put("title", "공개 제목")
                         .put("content", "내용2")
                         .put("summary", "요약2")
                         .put("userId", user.getId())
                         .put("user", convertUserToJSONObject(user))
+                        .put("visibility", true)
+                        .put("createdAt", Instant.now())
+                        .put("updatedAt", Instant.now())
+                        .put("deletedAt", null)
+                        .put("deleted", false)
+                )
+                .put(new JSONObject()
+                        .put("id", MEMO_ID_3)
+                        .put("username", user.getUsername())
+                        .put("title", "비공개 제목")
+                        .put("content", "내용3")
+                        .put("summary", "요약3")
+                        .put("userId", user.getId())
+                        .put("user", convertUserToJSONObject(user))
                         .put("visibility", false)
-                        .put("created_at", Instant.now())
-                        .put("updated_at", Instant.now())
-                        .put("deleted_at", Instant.now())
-                        .put("deleted", true)
+                        .put("createdAt", Instant.now())
+                        .put("updatedAt", Instant.now())
+                        .put("deletedAt", null)
+                        .put("deleted", false)
                 )
                 ;
-        String documents = array.getJSONObject(0).toString();
+        String documents = array.toString();
         TaskInfo addDocumentsTaskInfo = memosIndex.addDocuments(documents);
         client.waitForTask(addDocumentsTaskInfo.getTaskUid());
     }
@@ -132,13 +152,46 @@ class SearchMemoTest {
     }
 
     @Test
-    void searchMemo() {
-
+    @DisplayName("자신의 메모를 조회한다.")
+    void searchMyMemo() {
+        // DB에 내 메모만 있는 상태인지? 내 메모, 다른 사람 메모가 있는 상태에서 내것만 조회가 도는지
+        String writer = "memocode";
         Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMyMemo(user, "제목", 0, 10);
         List<ImmutableMemo> content = page.getContent();
+        assertThat(content).hasSize(3);
+        assertThat(content).allMatch(memo -> writer.equals(memo.getUser().getUsername()));
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
+    }
 
-        assertThat(content.size()).isEqualTo(1);
-        assertThat(content.get(0)).isNotNull();
-        assertThat(content.get(0).getId()).isEqualTo(MEMO_ID);
+    @Test
+    @DisplayName("등록된 메모를 키워드로 검색한다.")
+    void searchQuestionByKeyword() {
+
+        Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMemoByKeyword("제목", 0, 10);
+        List<ImmutableMemo> content = page.getContent();
+        assertThat(content).hasSize(2);
+        assertThat(content).allMatch(Objects::nonNull);
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
+    }
+
+    @Test
+    @DisplayName("비공개된 메모를 키워드로 검색할 때")
+    void searchQuestionByKeywordWithVisibilityFalse() {
+
+        Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMemoByKeyword("비공개 제목", 0, 10);
+        List<ImmutableMemo> content = page.getContent();
+        assertThat(content).hasSize(0);
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
+    }
+
+    @Test
+    @DisplayName("등록된 메모를 이름으로 검색한다.")
+    void searchQuestionByUsername() {
+
+        Page<ImmutableMemo> page = meilisearchSearchMemoRepository.searchMemoByUsername("memocode", 0, 10);
+        List<ImmutableMemo> content = page.getContent();
+        assertThat(content).hasSize(2);
+        assertThat(content).allMatch(memo -> memo.getUser().getUsername().equals("memocode"));
+        assertThat(content).isSortedAccordingTo(Comparator.comparing(ImmutableMemo::getUpdatedAt));
     }
 }

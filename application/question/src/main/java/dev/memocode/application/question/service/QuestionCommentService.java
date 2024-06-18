@@ -1,5 +1,6 @@
 package dev.memocode.application.question.service;
 
+import dev.memocode.application.core.PageResponse;
 import dev.memocode.application.question.converter.QuestionCommentDTOConverter;
 import dev.memocode.application.question.dto.*;
 import dev.memocode.application.question.repository.QuestionCommentRepository;
@@ -9,6 +10,7 @@ import dev.memocode.domain.core.NotFoundException;
 import dev.memocode.domain.question.*;
 import dev.memocode.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,6 +92,22 @@ public class QuestionCommentService implements QuestionCommentUseCase {
         List<QuestionComment> questionComments = questionCommentDomainService.findAll(question);
 
         return questionCommentDTOConverter.toResult(questionComments);
+    }
+
+    @Override
+    public PageResponse<FindAllQuestionComment_QuestionCommentResult> findAllQuestionCommentByUsername(FindQuestionCommentByUsernameRequest request) {
+        User user = internalUserService.findByUsernameElseThrow(request.getUsername());
+
+        Page<QuestionComment> page = questionCommentRepository.findAllQuestionCommentByUserId(user.getId(), request.getPageable());
+
+        return PageResponse.<FindAllQuestionComment_QuestionCommentResult>builder()
+                .page(page.getNumber())
+                .pageSize(page.getSize())
+                .totalCount(page.getTotalElements())
+                .content(questionCommentDTOConverter.toResult(page.getContent()))
+                .first(page.isFirst())
+                .last(page.isLast())
+                .build();
     }
 
     private QuestionComment findByIdElseThrow(UUID questionCommentId) {

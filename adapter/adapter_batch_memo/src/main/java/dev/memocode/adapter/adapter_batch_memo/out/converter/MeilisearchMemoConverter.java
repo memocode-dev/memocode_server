@@ -3,7 +3,6 @@ package dev.memocode.adapter.adapter_batch_memo.out.converter;
 import dev.memocode.adapter.adapter_batch_core.MeilisearchUser;
 import dev.memocode.adapter.adapter_batch_memo.out.dto.MeilisearchMemo;
 import dev.memocode.domain.memo.Memo;
-import dev.memocode.domain.memo.MemoTag;
 import dev.memocode.domain.user.User;
 import org.springframework.stereotype.Component;
 

@@ -23,6 +23,42 @@ project(':adapter:adapter_memo') {
         implementation project(":application:application_user")
         implementation project(":application:application_memo")
         implementation project(":adapter:adapter_api_core")
+        implementation project(":adapter:adapter_db_core")
+        implementation project(":adapter:adapter_meilisearch_core")
+
+        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
+        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+        implementation 'org.flywaydb:flyway-core'
+        runtimeOnly 'org.postgresql:postgresql'
+
+        implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
+
+        // aws s3
+        implementation 'software.amazon.awssdk:s3:2.25.18'
+
+        implementation 'com.fasterxml.jackson.core:jackson-databind'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+        testImplementation 'org.testcontainers:junit-jupiter'
+        testImplementation "org.testcontainers:postgresql:1.19.7"
+        testImplementation 'org.springframework.security:spring-security-test'
+    }
+}
+
+project(':adapter:adapter_question') {
+    dependencies {
+        implementation project(":domain:domain_core")
+        implementation project(":domain:domain_user")
+        implementation project(":domain:domain_question")
+        implementation project(":domain:domain_tag")
+        implementation project(":application:application_core")
+        implementation project(":application:application_question")
+        implementation project(":application:application_user")
+        implementation project(":application:application_tag")
+        implementation project(":adapter:adapter_api_core")
+        implementation project(":adapter:adapter_db_core")
         implementation project(":adapter:adapter_meilisearch_core")
 
         implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
@@ -39,32 +75,7 @@ project(':adapter:adapter_memo') {
 
         testImplementation 'org.testcontainers:junit-jupiter'
         testImplementation "org.testcontainers:postgresql:1.19.7"
-    }
-}
-
-project(':adapter:adapter_question') {
-    dependencies {
-        implementation project(":domain:domain_core")
-        implementation project(":domain:domain_user")
-        implementation project(":domain:domain_question")
-        implementation project(":application:application_core")
-        implementation project(":application:application_question")
-        implementation project(":adapter:adapter_api_core")
-        implementation project(":adapter:adapter_meilisearch_core")
-
-        implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-
-        implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
-
-        implementation 'org.flywaydb:flyway-core'
-        runtimeOnly 'org.postgresql:postgresql'
-
-        implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
-
-        implementation 'com.fasterxml.jackson.core:jackson-databind'
-        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-
-        testImplementation 'org.testcontainers:junit-jupiter'
+        testImplementation 'org.springframework.security:spring-security-test'
     }
 }
 
@@ -127,7 +138,7 @@ project(':adapter:adapter_batch_question') {
 project(':adapter:adapter_meilisearch_core') {
     dependencies {
         implementation project(":domain:domain_core")
-
+        implementation project(":domain:domain_user")
         implementation 'com.meilisearch.sdk:meilisearch-java:0.11.8'
 
         implementation 'com.fasterxml.jackson.core:jackson-databind'

@@ -19,6 +19,7 @@ public enum MemoDomainErrorCode implements ErrorDetail {
     DELETED_MEMO("삭제된 메모입니다.", WARNING),
     NOT_MEMO_OWNER("메모의 소유자가 아닙니다.", WARNING),
     NOT_VISIBILITY_MEMO("공개되지 않은 메모입니다.", WARNING),
+    INVALID_MEMO_IMAGE_TYPE("메모의 이미지 타입 중에 일치하는 타입이 없습니다.", WARNING),
 
     // 메모 버전
     MEMO_VERSION_NOT_FOUND("메모 버전을 찾을 수 없습니다.", WARNING),

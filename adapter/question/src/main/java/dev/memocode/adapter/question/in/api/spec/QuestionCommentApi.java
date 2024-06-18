@@ -34,4 +34,5 @@ public interface QuestionCommentApi {
 
     @Operation(summary = "질문 댓글 전체조회")
     ResponseEntity<List<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionComment(UUID questionId);
+
 }

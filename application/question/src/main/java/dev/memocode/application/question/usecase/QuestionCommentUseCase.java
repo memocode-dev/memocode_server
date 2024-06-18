@@ -1,5 +1,6 @@
 package dev.memocode.application.question.usecase;
 
+import dev.memocode.application.core.PageResponse;
 import dev.memocode.application.question.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
@@ -17,4 +18,6 @@ public interface QuestionCommentUseCase {
     UUID createChildQuestionComment(@Valid CreateChildQuestionCommentRequest request);
 
     List<FindAllQuestionComment_QuestionCommentResult> findAllQuestionComment(UUID questionId);
+
+    PageResponse<FindAllQuestionComment_QuestionCommentResult> findAllQuestionCommentByUsername(@Valid FindQuestionCommentByUsernameRequest request);
 }

@@ -9,9 +9,9 @@ import com.meilisearch.sdk.Client;
 import com.meilisearch.sdk.Index;
 import com.meilisearch.sdk.SearchRequest;
 import dev.memocode.adapter.adapter_meilisearch_core.MeilisearchSearchResponse;
+import dev.memocode.adapter.adapter_meilisearch_core.SearchRequestStrategy;
 import dev.memocode.application.question.repository.SearchQuestionRepository;
 import dev.memocode.domain.core.InternalServerException;
-import dev.memocode.domain.core.ValidationException;
 import dev.memocode.domain.question.immutable.ImmutableQuestion;
 import dev.memocode.domain.user.ImmutableUser;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static dev.memocode.adapter.adapter_meilisearch_core.AdapterMeilisearchErrorCode.*;
+import static dev.memocode.adapter.adapter_meilisearch_core.AdapterMeilisearchErrorCode.MEILISEARCH_PARSING_ERROR;
+import static dev.memocode.adapter.adapter_meilisearch_core.AdapterMeilisearchErrorCode.MEILISEARCH_SEARCH_ERROR;
 
 @Repository
 @RequiredArgsConstructor
@@ -39,48 +40,14 @@ public class MeilisearchSearchQuestionRepository implements SearchQuestionReposi
     @Value("${custom.meilisearch.index.questions.name}")
     private String meilisearchIndexQuestions;
 
-    private final static String[] attributesToRetrieve =
-            {"id", "title", "content", "tags", "user", "createdAt", "updatedAt", "deleted", "deletedAt"};
-    private final static String[] attributesToHighlight = {"title", "content", "tags"};
-    private final static String[] attributesToCrop = {"content"};
-    private final static String[] sort = new String[] {"updatedAt:desc"};
-    private final static int cropLength = 50;
-
     @Override
-    public Page<ImmutableQuestion> searchQuestion(String keyword, int page, int pageSize) {
-        try {
-            SearchRequest request = createSearchQuestionRequest(keyword, page, pageSize);
-
-            Index index = client.getIndex(meilisearchIndexQuestions);
-
-            String rawJson = index.rawSearch(request);
-
-            TypeReference<MeilisearchSearchResponse<MeilisearchSearchQuestion_QuestionResult>> typeRef =
-                    new TypeReference<>() {};
-            return toEntity(objectMapper.readValue(rawJson, typeRef));
-        } catch (JsonProcessingException e) {
-            throw new InternalServerException(MEILISEARCH_PARSING_ERROR, e);
-        } catch (Exception e) {
-            throw new InternalServerException(MEILISEARCH_SEARCH_ERROR, e);
-        }
+    public Page<ImmutableQuestion> searchQuestionByKeyword(String keyword, int page, int pageSize) {
+        return executeSearch(new QuestionKeywordSearchStrategy(), keyword, page, pageSize);
     }
 
-    private SearchRequest createSearchQuestionRequest(String keyword, int page, int pageSize) {
-        if (page < 0) {
-            throw new ValidationException(MEILISEARCH_INVALID_PAGE_NUMBER);
-        }
-
-        return new SearchRequest(keyword)
-                .setFilter(new String[]{
-                        "deleted = false",
-                })
-                .setSort(sort)
-                .setAttributesToRetrieve(attributesToRetrieve)
-                .setAttributesToHighlight(attributesToHighlight)
-                .setAttributesToCrop(attributesToCrop)
-                .setCropLength(cropLength)
-                .setPage(page + 1)
-                .setHitsPerPage(pageSize);
+    @Override
+    public Page<ImmutableQuestion> searchQuestionByUsername(String username, int page, int pageSize) {
+        return executeSearch(new QuestionUsernameSearchStrategy(), username, page, pageSize);
     }
 
     private Page<ImmutableQuestion> toEntity(MeilisearchSearchResponse<MeilisearchSearchQuestion_QuestionResult> meilisearchSearchResponse) {
@@ -137,4 +104,22 @@ public class MeilisearchSearchQuestionRepository implements SearchQuestionReposi
                 meilisearchSearchResponse.getPage() - 1, meilisearchSearchResponse.getHitsPerPage());
         return PageableExecutionUtils.getPage(immutableQuestions, pageable, meilisearchSearchResponse::getTotalHits);
     }
+
+    private Page<ImmutableQuestion> executeSearch(SearchRequestStrategy strategy, String query, int page, int pageSize) {
+        try {
+            SearchRequest request = strategy.createSearchRequest(query, page, pageSize);
+            Index index = client.getIndex(meilisearchIndexQuestions);
+            String rawJson = index.rawSearch(request);
+
+            TypeReference<MeilisearchSearchResponse<MeilisearchSearchQuestion_QuestionResult>> typeRef = new TypeReference<>() {};
+            MeilisearchSearchResponse<MeilisearchSearchQuestion_QuestionResult> response = objectMapper.readValue(rawJson, typeRef);
+
+            return toEntity(response);
+        } catch (JsonProcessingException e) {
+            throw new InternalServerException(MEILISEARCH_PARSING_ERROR, e);
+        } catch (Exception e) {
+            throw new InternalServerException(MEILISEARCH_SEARCH_ERROR, e);
+        }
+    }
+
 }

@@ -46,4 +46,10 @@ public class MemoCommentDomainService {
         parentMemoComment.assertIsNotDeleted();
         return memo.addChildComment(parentMemoComment, user, dto.getContent());
     }
+
+    public List<MemoComment> findAll(List<MemoComment> comments) {
+        return comments.stream()
+                .filter(memoComments -> !memoComments.getDeleted())
+                .toList();
+    }
 }

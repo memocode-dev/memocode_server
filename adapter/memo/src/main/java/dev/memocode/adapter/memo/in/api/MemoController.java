@@ -1,19 +1,23 @@
 package dev.memocode.adapter.memo.in.api;
 
 import dev.memocode.adapter.memo.in.api.form.CreateMemoForm;
+import dev.memocode.adapter.memo.in.api.form.CreateMemoImageURLForm;
 import dev.memocode.adapter.memo.in.api.form.UpdateMemoForm;
 import dev.memocode.adapter.memo.in.api.spec.MemoApi;
 import dev.memocode.application.core.PageResponse;
+import dev.memocode.application.memo.dto.reque.SearchMemoByUsernameRequest;
 import dev.memocode.application.memo.dto.reque.SearchMemoRequest;
 import dev.memocode.application.memo.dto.request.CreateMemoRequest;
 import dev.memocode.application.memo.dto.request.DeleteMemoRequest;
 import dev.memocode.application.memo.dto.request.FindMemoRequest;
 import dev.memocode.application.memo.dto.request.UpdateMemoRequest;
+import dev.memocode.application.memo.dto.result.CreateMemoImage_MemoImageResult;
 import dev.memocode.application.memo.dto.result.FindMemo_MemoResult;
 import dev.memocode.application.memo.dto.result.SearchMemo_MemoResult;
 import dev.memocode.application.memo.usecase.MemoUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -87,7 +91,7 @@ public class MemoController implements MemoApi {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemo(
+    public ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemoByKeyword(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int pageSize
@@ -98,7 +102,22 @@ public class MemoController implements MemoApi {
                 .pageSize(pageSize)
                 .build();
 
-        PageResponse<SearchMemo_MemoResult> body = memoUseCase.searchMemo(request);
+        PageResponse<SearchMemo_MemoResult> body = memoUseCase.searchMemoByKeyword(request);
         return ResponseEntity.ok(body);
+    }
+
+    @PostMapping("/{memoId}/images")
+    public ResponseEntity<CreateMemoImage_MemoImageResult> createMemoImage(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt, @RequestBody CreateMemoImageURLForm form) {
+        CreateMemoImage_MemoImageResult result = memoUseCase.createMemoImageUploadURL(UUID.fromString(jwt.getSubject()), memoId, form.getMimeType());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{memoId}/images/{memoImageId}.{extension}")
+    public ResponseEntity<Void> findMemoImage(@PathVariable UUID memoId, @AuthenticationPrincipal Jwt jwt, @PathVariable UUID memoImageId, @PathVariable String extension) {
+        String memoImageUploadURL = memoUseCase.findMemoImageUploadURL(jwt == null ? null : UUID.fromString(jwt.getSubject()), memoId, memoImageId, extension);
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create(memoImageUploadURL))
+                .build();
     }
 }

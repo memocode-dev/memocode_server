@@ -1,6 +1,7 @@
 package dev.memocode.application.memo.usecase;
 
 import dev.memocode.application.core.PageResponse;
+import dev.memocode.application.memo.dto.reque.SearchMemoByUsernameRequest;
 import dev.memocode.application.memo.dto.reque.SearchMemoRequest;
 import dev.memocode.application.memo.dto.request.*;
 import dev.memocode.application.memo.dto.result.*;
@@ -23,5 +24,10 @@ public interface MemoUseCase {
 
     FindMemo_MemoResult findMemo(@Valid FindMemoRequest request);
 
-    PageResponse<SearchMemo_MemoResult> searchMemo(@Valid SearchMemoRequest request);
+    PageResponse<SearchMemo_MemoResult> searchMemoByUsername(@Valid SearchMemoByUsernameRequest request);
+
+    PageResponse<SearchMemo_MemoResult> searchMemoByKeyword(@Valid SearchMemoRequest request);
+
+    CreateMemoImage_MemoImageResult createMemoImageUploadURL(UUID userId, UUID memoId, String mimeType);
+    String findMemoImageUploadURL(UUID userId, UUID memoId, UUID memoImageId, String extension);
 }
