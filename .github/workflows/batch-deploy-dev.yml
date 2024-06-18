@@ -44,7 +44,6 @@ jobs:
           push: true
           tags: |
             ghcr.io/memocode-dev/memocode_batch_server:${{ needs.tag.outputs.tag_name }}
-            ghcr.io/memocode-dev/memocode_batch_server:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
   release:
