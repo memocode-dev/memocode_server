@@ -128,7 +128,6 @@ public class MemoDTOConverter {
         return SearchMemo_MemoResult.builder()
                 .id(memo.getId())
                 .title(memo.getTitle())
-                .content(memo.getContent())
                 .user(SearchMemo_UserResult.builder()
                         .id(memo.getUser().getId())
                         .username(memo.getUser().getUsername())

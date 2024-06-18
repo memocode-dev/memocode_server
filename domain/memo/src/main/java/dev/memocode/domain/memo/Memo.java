@@ -139,7 +139,7 @@ public class Memo extends SoftDeleteBaseEntity {
      *  - 자신의 메모가 아닌 경우 exception 발생
      * @param user 작성자
      */
-    protected void assertIsMemoOwner(User user) {
+    public void assertIsMemoOwner(User user) {
         if (!this.isMemoOwner(user)) {
             throw new ForbiddenException(NOT_MEMO_OWNER);
         }
@@ -170,7 +170,7 @@ public class Memo extends SoftDeleteBaseEntity {
      * @param user 자신의 메모가 맞는지 확인할 유저
      * @return 자신의 메모가 맞다면 true 반환
      */
-    protected boolean isMemoOwner(User user) {
+    public boolean isMemoOwner(User user) {
         return this.getUser().equals(user);
     }
 

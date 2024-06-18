@@ -2,15 +2,18 @@ package dev.memocode.application.memo.service;
 
 import dev.memocode.application.core.PageResponse;
 import dev.memocode.application.memo.converter.MemoDTOConverter;
+import dev.memocode.application.memo.dto.AllowedImageMemoType;
 import dev.memocode.application.memo.dto.reque.SearchMemoByUsernameRequest;
 import dev.memocode.application.memo.dto.reque.SearchMemoRequest;
 import dev.memocode.application.memo.dto.request.*;
 import dev.memocode.application.memo.dto.result.*;
+import dev.memocode.application.memo.repository.ImageMemoRepository;
 import dev.memocode.application.memo.repository.MemoRepository;
 import dev.memocode.application.memo.repository.SearchMemoRepository;
 import dev.memocode.application.memo.usecase.MemoUseCase;
 import dev.memocode.application.tag.InternalTagService;
 import dev.memocode.application.user.InternalUserService;
+import dev.memocode.domain.core.ForbiddenException;
 import dev.memocode.domain.memo.ImmutableMemo;
 import dev.memocode.domain.memo.Memo;
 import dev.memocode.domain.memo.MemoCreateDomainDTO;
@@ -27,6 +30,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static dev.memocode.application.memo.dto.AllowedImageMemoType.toAllowedImageMemoType;
+import static dev.memocode.application.memo.dto.AllowedImageMemoType.toAllowedImageMemoTypeFromExtension;
+import static dev.memocode.domain.memo.MemoDomainErrorCode.NOT_MEMO_OWNER;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -34,6 +41,7 @@ public class MemoService implements MemoUseCase {
 
     private final MemoRepository memoRepository;
     private final SearchMemoRepository searchMemoRepository;
+    private final ImageMemoRepository imageMemoRepository;
     private final MemoDomainService memoDomainService;
     private final MemoDTOConverter memoDTOConverter;
 
@@ -162,4 +170,38 @@ public class MemoService implements MemoUseCase {
                 .build();
     }
 
+    @Override
+    public CreateMemoImage_MemoImageResult createMemoImageUploadURL(UUID userId, UUID memoId, String mimeType) {
+        Memo memo = internalMemoService.findByIdElseThrow(memoId);
+        User user = internalUserService.findByIdEnabledUserElseThrow(userId);
+
+        memo.assertIsMemoOwner(user);
+
+        AllowedImageMemoType allowedImageMemoType = toAllowedImageMemoType(mimeType);
+
+        return imageMemoRepository.createMemoImageUploadURL(user.getId(), memo.getId(), allowedImageMemoType);
+    }
+
+    @Override
+    public String findMemoImageUploadURL(UUID userId, UUID memoId, UUID memoImageId, String extension) {
+        Memo memo = internalMemoService.findByIdElseThrow(memoId);
+
+        AllowedImageMemoType allowedImageMemoType = toAllowedImageMemoTypeFromExtension(extension);
+
+        if (memo.getVisibility()) {
+            return imageMemoRepository.findMemoImageUploadURL(memo.getUser().getId(), memoId, memoImageId, allowedImageMemoType);
+        } else {
+            if (userId == null) {
+                throw new ForbiddenException(NOT_MEMO_OWNER);
+            }
+
+            User user = internalUserService.findByIdEnabledUserElseThrow(userId);
+
+            if (memo.isMemoOwner(user)) {
+                return imageMemoRepository.findMemoImageUploadURL(memo.getUser().getId(), memoId, memoImageId, allowedImageMemoType);
+            } else {
+                throw new ForbiddenException(NOT_MEMO_OWNER);
+            }
+        }
+    }
 }
