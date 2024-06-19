@@ -24,6 +24,8 @@ public class AwsImageMemoRepository implements ImageMemoRepository {
     @Value("${custom.s3.bucket_name}")
     private String BUCKET_NAME;
 
+    private final static long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
     private final static String IMAGE_MEMO_KEY_TEMPLATE = "users/%s/memos/%s/images/%s.%s";
 
     @Override
@@ -43,6 +45,7 @@ public class AwsImageMemoRepository implements ImageMemoRepository {
                             allowedImageMemoType.getExtension())
                     )
                     .contentType(allowedImageMemoType.getMimeType())
+                    .contentLength(MAX_FILE_SIZE)
                     .build();
 
             PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
