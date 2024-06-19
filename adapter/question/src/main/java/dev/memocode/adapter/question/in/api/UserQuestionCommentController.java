@@ -21,17 +21,17 @@ public class UserQuestionCommentController implements UserQuestionCommentApi {
 
     private final QuestionCommentUseCase questionCommentUseCase;
 
-    @GetMapping("/{username}/questionComments")
-    public ResponseEntity<PageResponse<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionCommentByUsername(
-            @PathVariable String username,
-            @PageableDefault(size = 10) Pageable pageable) {
-
-        FindQuestionCommentByUsernameRequest request = FindQuestionCommentByUsernameRequest.builder()
-                .username(username)
-                .pageable(pageable)
-                .build();
-
-        PageResponse<FindAllQuestionComment_QuestionCommentResult> body = questionCommentUseCase.findAllQuestionCommentByUsername(request);
-        return ResponseEntity.ok(body);
-    }
+//    @GetMapping("/{username}/questionComments")
+//    public ResponseEntity<PageResponse<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionCommentByUsername(
+//            @PathVariable String username,
+//            @PageableDefault(size = 10) Pageable pageable) {
+//
+//        FindQuestionCommentByUsernameRequest request = FindQuestionCommentByUsernameRequest.builder()
+//                .username(username)
+//                .pageable(pageable)
+//                .build();
+//
+//        PageResponse<FindAllQuestionComment_QuestionCommentResult> body = questionCommentUseCase.findAllQuestionCommentByUsername(request);
+//        return ResponseEntity.ok(body);
+//    }
 }

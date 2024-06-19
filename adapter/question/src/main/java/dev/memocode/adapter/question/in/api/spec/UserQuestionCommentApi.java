@@ -10,6 +10,6 @@ import org.springframework.http.ResponseEntity;
 @Tag(name = "user-questions-comments", description = "유저 질문 댓글 API")
 public interface UserQuestionCommentApi {
 
-    @Operation(summary = "유저 질문 댓글 이름으로 전체조회")
-    ResponseEntity<PageResponse<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionCommentByUsername(String username, Pageable pageable);
+//    @Operation(summary = "유저 질문 댓글 이름으로 전체조회")
+//    ResponseEntity<PageResponse<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionCommentByUsername(String username, Pageable pageable);
 }
