@@ -21,17 +21,17 @@ public class UserMemoCommentController implements UserMemoCommentApi {
 
     private final MemoCommentUseCase memoCommentUseCase;
 
-    @GetMapping("/{username}/memoComments")
-    public ResponseEntity<PageResponse<FindAllMemoComment_MemoCommentResult>> findAllQuestionCommentByUsername(
-            @PathVariable String username,
-            @PageableDefault(size = 10) Pageable pageable) {
-
-        FindMemoCommentByUsernameRequest request = FindMemoCommentByUsernameRequest.builder()
-                .username(username)
-                .pageable(pageable)
-                .build();
-
-        PageResponse<FindAllMemoComment_MemoCommentResult> body = memoCommentUseCase.findAllMemoCommentByUsername(request);
-        return ResponseEntity.ok(body);
-    }
+//    @GetMapping("/{username}/memoComments")
+//    public ResponseEntity<PageResponse<FindAllMemoComment_MemoCommentResult>> findAllQuestionCommentByUsername(
+//            @PathVariable String username,
+//            @PageableDefault(size = 10) Pageable pageable) {
+//
+//        FindMemoCommentByUsernameRequest request = FindMemoCommentByUsernameRequest.builder()
+//                .username(username)
+//                .pageable(pageable)
+//                .build();
+//
+//        PageResponse<FindAllMemoComment_MemoCommentResult> body = memoCommentUseCase.findAllMemoCommentByUsername(request);
+//        return ResponseEntity.ok(body);
+//    }
 }
