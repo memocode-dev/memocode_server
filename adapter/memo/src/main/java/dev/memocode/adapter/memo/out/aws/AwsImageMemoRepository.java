@@ -45,7 +45,6 @@ public class AwsImageMemoRepository implements ImageMemoRepository {
                             allowedImageMemoType.getExtension())
                     )
                     .contentType(allowedImageMemoType.getMimeType())
-                    .contentLength(MAX_FILE_SIZE)
                     .build();
 
             PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
