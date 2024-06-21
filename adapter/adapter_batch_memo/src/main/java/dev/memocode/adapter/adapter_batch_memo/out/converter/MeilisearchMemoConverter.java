@@ -31,6 +31,7 @@ public class MeilisearchMemoConverter {
                 .summary(memo.getSummary())
                 .userId(user.getId())
                 .user(meilisearchUser)
+                .username(user.getUsername())
                 .visibility(memo.getVisibility())
                 .bookmarked(memo.getBookmarked())
                 .security(memo.getSecurity())
