@@ -42,6 +42,6 @@ public class MemoVersionController implements MemoVersionApi {
                 .build();
 
         memoVersionUseCase.deleteMemoVersion(request);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 }
