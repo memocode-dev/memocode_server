@@ -1,9 +1,6 @@
 package dev.memocode.application.question.converter;
 
-import dev.memocode.application.question.dto.FindQuestion_QuestionResult;
-import dev.memocode.application.question.dto.FindQuestion_UserResult;
-import dev.memocode.application.question.dto.SearchQuestion_QuestionResult;
-import dev.memocode.application.question.dto.SearchQuestion_UserResult;
+import dev.memocode.application.question.dto.*;
 import dev.memocode.domain.question.Question;
 import dev.memocode.domain.question.QuestionTag;
 import dev.memocode.domain.question.immutable.ImmutableQuestion;
@@ -55,6 +52,18 @@ public class QuestionDTOConverter {
 
     public SearchQuestion_QuestionResult toSearchQuestion_QuestionResult(ImmutableQuestion question) {
         return SearchQuestion_QuestionResult.builder()
+                .id(question.getId())
+                .title(question.getTitle())
+                .tags(question.getTags())
+                .formattedQuestion(this.toSearchQuestion_FormattedQuestionResult(question.getFormattedQuestion()))
+                .createdAt(question.getCreatedAt())
+                .updatedAt(question.getUpdatedAt())
+                .user(toSearchQuestion_UserResult(question.getUser()))
+                .build();
+    }
+
+    public SearchQuestion_FormattedQuestionResult toSearchQuestion_FormattedQuestionResult(ImmutableQuestion question) {
+        return SearchQuestion_FormattedQuestionResult.builder()
                 .id(question.getId())
                 .title(question.getTitle())
                 .content(question.getContent())
