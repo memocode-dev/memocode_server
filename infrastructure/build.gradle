@@ -9,6 +9,7 @@ project(':infrastructure:memocode_server') {
     dependencies {
         implementation project(":domain:domain_core")
         implementation project(":adapter:adapter_api_core")
+        implementation project(":adapter:adapter_api_user")
         implementation project(":adapter:adapter_db_core")
         implementation project(":adapter:adapter_meilisearch_core")
         implementation project(":adapter:adapter_memo")
