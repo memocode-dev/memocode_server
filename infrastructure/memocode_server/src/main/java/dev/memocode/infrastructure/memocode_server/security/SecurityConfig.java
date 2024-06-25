@@ -40,6 +40,8 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
                 .cors(c -> c.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(a -> a
+                        // user
+                        .requestMatchers(GET, "/users/**").permitAll()
                         // memo
                         .requestMatchers(GET, "/memos").permitAll()
                         .requestMatchers(GET, "/memos/*").permitAll()
