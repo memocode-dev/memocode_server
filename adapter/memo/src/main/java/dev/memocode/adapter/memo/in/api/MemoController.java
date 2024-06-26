@@ -30,7 +30,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/memos")
-public class MemoController implements MemoApi {
+public class MemoController implements MemoApi{
 
     private final MemoUseCase memoUseCase;
 
