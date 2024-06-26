@@ -15,6 +15,7 @@ import dev.memocode.application.question.dto.SearchQuestion_QuestionResult;
 import dev.memocode.application.question.usecase.QuestionCommentUseCase;
 import dev.memocode.application.question.usecase.QuestionUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class UserController{
+public class UserController implements UserApi{
 
     private final MemoUseCase memoUseCase;
     private final MemoCommentUseCase memoCommentUseCase;
@@ -47,11 +48,12 @@ public class UserController{
     @GetMapping("/{username}/memoComments")
     public ResponseEntity<PageResponse<FindAllMemoComment_MemoCommentResult>> findAllMemoCommentByUsername(
             @PathVariable String username,
-            @PageableDefault(size = 10) Pageable pageable) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         FindMemoCommentByUsernameRequest request = FindMemoCommentByUsernameRequest.builder()
                 .username(username)
-                .pageable(pageable)
+                .pageable(PageRequest.of(page, pageSize))
                 .build();
 
         PageResponse<FindAllMemoComment_MemoCommentResult> body = memoCommentUseCase.findAllMemoCommentByUsername(request);
@@ -75,11 +77,12 @@ public class UserController{
     @GetMapping("/{username}/questionComments")
     public ResponseEntity<PageResponse<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionCommentByUsername(
             @PathVariable String username,
-            @PageableDefault(size = 10) Pageable pageable) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         FindQuestionCommentByUsernameRequest request = FindQuestionCommentByUsernameRequest.builder()
                 .username(username)
-                .pageable(pageable)
+                .pageable(PageRequest.of(page, pageSize))
                 .build();
 
         PageResponse<FindAllQuestionComment_QuestionCommentResult> body = questionCommentUseCase.findAllQuestionCommentByUsername(request);

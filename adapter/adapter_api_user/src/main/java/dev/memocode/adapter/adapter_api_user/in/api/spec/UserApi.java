@@ -17,11 +17,11 @@ public interface UserApi {
     ResponseEntity<PageResponse<SearchMemo_MemoResult>> searchMemoByUsername(String username, int page, int pageSize);
 
     @Operation(summary = "메모 댓글 이름으로 전체조회")
-    ResponseEntity<PageResponse<FindAllMemoComment_MemoCommentResult>> findAllMemoCommentByUsername(String username, Pageable pageable);
+    ResponseEntity<PageResponse<FindAllMemoComment_MemoCommentResult>> findAllMemoCommentByUsername(String username, int page, int pageSize);
 
     @Operation(summary = "QNA 검색 (USERNAME으로 검색)")
     ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestionByUsername(String username, int page, int pageSize);
 
     @Operation(summary = "QNA 댓글 이름으로 전체조회")
-    ResponseEntity<PageResponse<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionCommentByUsername(String username, Pageable pageable);
+    ResponseEntity<PageResponse<FindAllQuestionComment_QuestionCommentResult>> findAllQuestionCommentByUsername(String username, int page, int pageSize);
 }
