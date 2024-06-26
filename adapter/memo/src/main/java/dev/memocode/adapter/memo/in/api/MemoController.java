@@ -46,6 +46,7 @@ public class MemoController implements MemoApi {
                 .build();
 
         UUID memoId = memoUseCase.createMemo(dto);
+
         return ResponseEntity.created(URI.create(memoId.toString())).body(memoId.toString());
     }
 
