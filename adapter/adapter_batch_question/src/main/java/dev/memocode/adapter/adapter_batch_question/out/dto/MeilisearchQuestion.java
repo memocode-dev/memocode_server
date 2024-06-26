@@ -15,6 +15,7 @@ public class MeilisearchQuestion {
     private String title;
     private String content;
     private UUID userId;
+    private String username;
     private Set<String> tags;
     private MeilisearchUser user;
     private Instant createdAt;

@@ -20,6 +20,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "dev.memocode.application.tag",
         "dev.memocode.application.question",
         "dev.memocode.adapter.adapter_api_core",
+        "dev.memocode.adapter.adapter_api_user",
         "dev.memocode.adapter.adapter_db_core",
         "dev.memocode.adapter.adapter_meilisearch_core",
         "dev.memocode.adapter.memo",

@@ -28,12 +28,9 @@ public interface QuestionApi {
     @SecurityRequirement(name = "bearer-key")
     ResponseEntity<Void> updateQuestion(UUID questionId, UpdateQuestionForm form, Jwt jwt);
 
-    @Operation(summary = "QNA 단일 조회")
+    @Operation(summary = "QNA 단건 조회")
     ResponseEntity<FindQuestion_QuestionResult> findQuestion(UUID questionId);
 
-    @Operation(summary = "QNA 전체 조회")
+    @Operation(summary = "QNA 검색")
     ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestionByKeyword(String keyword, int page, int pageSize);
-
-    @Operation(summary = "QNA 전체 조회 (USERNAME으로 조회)")
-    ResponseEntity<PageResponse<SearchQuestion_QuestionResult>> searchQuestionByUsername(String username, int page, int pageSize);
 }
