@@ -5,7 +5,6 @@ import dev.memocode.adapter.memo.in.api.form.CreateMemoImageURLForm;
 import dev.memocode.adapter.memo.in.api.form.UpdateMemoForm;
 import dev.memocode.adapter.memo.in.api.spec.MemoApi;
 import dev.memocode.application.core.PageResponse;
-import dev.memocode.application.memo.dto.reque.SearchMemoByUsernameRequest;
 import dev.memocode.application.memo.dto.reque.SearchMemoRequest;
 import dev.memocode.application.memo.dto.request.CreateMemoRequest;
 import dev.memocode.application.memo.dto.request.DeleteMemoRequest;
