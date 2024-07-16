@@ -108,6 +108,7 @@ public class MeilisearchSearchQuestionRepository implements SearchQuestionReposi
     private Page<ImmutableQuestion> executeSearch(SearchRequestStrategy strategy, String query, int page, int pageSize) {
         try {
             SearchRequest request = strategy.createSearchRequest(query, page, pageSize);
+
             Index index = client.getIndex(meilisearchIndexQuestions);
             String rawJson = index.rawSearch(request);
 

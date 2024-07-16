@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "memos-memoComments", description = "메모 댓글 API")
+@Tag(name = "memos", description = "메모 API")
 @SecurityRequirement(name = "bearer-key")
 public interface MemoCommentApi {
 

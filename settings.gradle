@@ -35,6 +35,8 @@ findProject(':application:application_batch_memo')?.name = 'application_batch_me
 include 'adapter'
 include 'adapter:adapter_api_core'
 findProject(':adapter:adapter_api_core')?.name = 'adapter_api_core'
+include 'adapter:adapter_api_user'
+findProject(':adapter:adapter_api_user')?.name = 'adapter_api_user'
 include 'adapter:memo'
 findProject(':adapter:memo')?.name = 'adapter_memo'
 include 'adapter:question'
@@ -51,6 +53,8 @@ include 'adapter:adapter_meilisearch_core'
 findProject(':adapter:adapter_meilisearch_core')?.name = 'adapter_meilisearch_core'
 include 'adapter:adapter_db_core'
 findProject(':adapter:adapter_db_core')?.name = 'adapter_db_core'
+include 'adapter:adapter_api_user'
+findProject(':adapter:adapter_api_user')?.name = 'adapter_api_user'
 
 // infrastructure module
 include 'infrastructure'

@@ -30,6 +30,7 @@ public class MeilisearchQuestionConverter {
                 .content(question.getContent())
                 .userId(user.getId())
                 .user(meilisearchUser)
+                .username(user.getUsername())
                 .tags(tags)
                 .createdAt(question.getCreatedAt())
                 .updatedAt(question.getUpdatedAt())

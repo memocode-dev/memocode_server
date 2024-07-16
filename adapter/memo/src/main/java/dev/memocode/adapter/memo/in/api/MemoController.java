@@ -30,7 +30,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/memos")
-public class MemoController implements MemoApi {
+public class MemoController implements MemoApi{
 
     private final MemoUseCase memoUseCase;
 
@@ -46,6 +46,7 @@ public class MemoController implements MemoApi {
                 .build();
 
         UUID memoId = memoUseCase.createMemo(dto);
+
         return ResponseEntity.created(URI.create(memoId.toString())).body(memoId.toString());
     }
 

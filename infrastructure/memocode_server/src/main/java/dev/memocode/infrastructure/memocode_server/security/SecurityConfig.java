@@ -11,8 +11,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Arrays;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.*;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
 
@@ -40,6 +39,8 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(STATELESS))
                 .cors(c -> c.configurationSource(corsConfigurationSource))
                 .authorizeHttpRequests(a -> a
+                        // user
+                        .requestMatchers(GET, "/users/**").permitAll()
                         // memo
                         .requestMatchers(GET, "/memos").permitAll()
                         .requestMatchers(GET, "/memos/*").permitAll()
@@ -56,6 +57,7 @@ public class SecurityConfig {
 
                         // cookie
                         .requestMatchers(POST, "/cookies").authenticated()
+                        .requestMatchers(DELETE, "/cookies").authenticated()
 
                         // swagger
                         .requestMatchers(GET, "/memocode/api-docs/**", "/swagger-ui/**").permitAll()
