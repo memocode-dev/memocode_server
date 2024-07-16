@@ -14,18 +14,21 @@ import java.util.List;
 import java.util.UUID;
 
 @Tag(name = "memos", description = "메모 API")
-@SecurityRequirement(name = "bearer-key")
 public interface MemoCommentApi {
 
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "메모 댓글 생성")
     ResponseEntity<String> createMemoComment(UUID memoId, CreateMemoCommentForm form, Jwt jwt);
 
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "메모 댓글 수정")
     ResponseEntity<Void> updateMemoComment(UUID memoId, UUID memoCommentId, UpdateMemoCommentForm form, Jwt jwt);
 
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "메모 댓글 삭제")
     ResponseEntity<Void> deleteMemoComment(UUID memoId, UUID memoCommentId, Jwt jwt);
 
+    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "메모 대댓글 생성")
     ResponseEntity<String> createChildMemoComment(UUID memoId, UUID memoCommentId, CreateChildMemoCommentForm form, Jwt jwt);
 

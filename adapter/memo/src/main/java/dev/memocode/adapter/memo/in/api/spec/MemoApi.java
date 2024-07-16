@@ -37,7 +37,6 @@ public interface MemoApi {
     @Operation(summary = "메모 삭제")
     ResponseEntity<Void> deleteMemo(UUID memoId, Jwt jwt);
 
-    @SecurityRequirement(name = "bearer-key")
     @Operation(summary = "메모 단건 조회")
     ResponseEntity<FindMemo_MemoResult> findMemo(UUID memoId);
 
