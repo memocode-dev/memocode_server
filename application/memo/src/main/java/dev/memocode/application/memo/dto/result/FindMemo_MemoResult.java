@@ -13,6 +13,7 @@ public class FindMemo_MemoResult {
     private UUID id;
     private String title;
     private String summary;
+    private String thumbnailUrl;
     private String content;
     private FindMemo_UserResult user;
     private Instant createdAt;

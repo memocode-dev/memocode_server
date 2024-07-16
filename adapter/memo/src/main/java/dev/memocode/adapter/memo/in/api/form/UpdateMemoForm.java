@@ -13,6 +13,7 @@ public class UpdateMemoForm {
     private String title;
     private String content;
     private String summary;
+    private String thumbnailUrl;
     private Boolean visibility;
     private Boolean security;
     private Boolean bookmarked;

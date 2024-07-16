@@ -15,6 +15,7 @@ public class MeilisearchMemo {
     private String title;
     private String content;
     private String summary;
+    private String thumbnailUrl;
     private UUID userId;
     private String username;
     private MeilisearchUser user;

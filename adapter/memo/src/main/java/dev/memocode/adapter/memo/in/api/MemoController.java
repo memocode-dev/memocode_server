@@ -60,6 +60,7 @@ public class MemoController implements MemoApi{
                 .title(form.getTitle())
                 .content(form.getContent())
                 .summary(form.getSummary())
+                .thumbnailUrl(form.getThumbnailUrl())
                 .visibility(form.getVisibility())
                 .security(form.getSecurity())
                 .bookmarked(form.getBookmarked())

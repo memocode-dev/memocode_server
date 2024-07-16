@@ -32,6 +32,9 @@ public class Memo extends SoftDeleteBaseEntity {
     @Column(name = "summary")
     private String summary;
 
+    @Column(name = "thumbnail_url")
+    private String thumbnailUrl;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -84,11 +87,13 @@ public class Memo extends SoftDeleteBaseEntity {
         Boolean bookmarked = dto.getBookmarked();
         Boolean security = dto.getSecurity();
         Boolean visibility = dto.getVisibility();
+        String thumbnailUrl = dto.getThumbnailUrl();
 
         this.title = title != null ? title : this.title;
         this.content = content != null ? content : this.content;
         this.summary = summary != null ? summary : this.summary;
         this.bookmarked = bookmarked != null ? bookmarked : this.bookmarked;
+        this.thumbnailUrl = thumbnailUrl != null ? thumbnailUrl : this.thumbnailUrl;
 
         if (dto.getTags() != null) {
             this.updateMemoTags(dto.getTags());

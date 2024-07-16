@@ -10,16 +10,14 @@ import java.util.UUID;
 @Data
 @Builder
 public class CreateMemoRequest {
-    @NotNull
     private String title;
-    @NotNull
     private String content;
-    @NotNull
     private String summary;
+    private Boolean security;
+
     @NotNull
     private UUID userId;
-    @NotNull
-    private Boolean security;
+
     @NotNull
     private Set<String> tags;
 }

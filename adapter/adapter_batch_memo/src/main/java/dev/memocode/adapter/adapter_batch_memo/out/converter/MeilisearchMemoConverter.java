@@ -29,6 +29,7 @@ public class MeilisearchMemoConverter {
                 .title(memo.getTitle())
                 .content(memo.getContent())
                 .summary(memo.getSummary())
+                .thumbnailUrl(memo.getThumbnailUrl())
                 .userId(user.getId())
                 .user(meilisearchUser)
                 .username(user.getUsername())
