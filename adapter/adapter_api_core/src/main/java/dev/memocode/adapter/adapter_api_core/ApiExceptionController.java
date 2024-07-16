@@ -14,7 +14,6 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 @Slf4j
 @RestControllerAdvice
 public class ApiExceptionController {
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> exception(Exception ex) {
 

@@ -137,6 +137,8 @@ public class MemoDTOConverter {
                         .build())
                 .formattedMemo(this.toSearchMemo_FormattedMemoResult(memo.getFormattedMemo()))
                 .summary(memo.getSummary())
+                .thumbnailUrl(memo.getThumbnailUrl())
+                .thumbnailUrl(memo.getThumbnailUrl())
                 .tags(memo.getTags())
                 .createdAt(memo.getCreatedAt())
                 .updatedAt(memo.getUpdatedAt())

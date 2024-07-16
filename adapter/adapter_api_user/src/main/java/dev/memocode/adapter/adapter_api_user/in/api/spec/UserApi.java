@@ -7,7 +7,6 @@ import dev.memocode.application.question.dto.FindAllQuestionComment_QuestionComm
 import dev.memocode.application.question.dto.SearchQuestion_QuestionResult;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 @Tag(name = "users", description = "유저 API")

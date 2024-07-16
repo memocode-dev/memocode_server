@@ -1,11 +1,15 @@
 package dev.memocode.domain.memo;
 
+import dev.memocode.domain.core.BusinessRuleViolationException;
+import dev.memocode.domain.core.ErrorDetail;
 import dev.memocode.domain.user.User;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+
+import static dev.memocode.domain.memo.MemoDomainErrorCode.PARENT_MEMO_COMMENT_HAS_PARENT;
 
 @Service
 @Validated
@@ -44,6 +48,11 @@ public class MemoCommentDomainService {
         memo.assertIsNotDeleted();
         memo.assertIsVisibility();
         parentMemoComment.assertIsNotDeleted();
+
+        if (parentMemoComment.getParentMemoComment() != null) {
+            throw new BusinessRuleViolationException(PARENT_MEMO_COMMENT_HAS_PARENT);
+        }
+
         return memo.addChildComment(parentMemoComment, user, dto.getContent());
     }
 
