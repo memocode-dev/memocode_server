@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "users-memoVersions", description = "나의 메모 버전 API")
+@Tag(name = "users", description = "유저 API")
 @SecurityRequirement(name = "bearer-key")
 public interface MyMemoVersionApi {
     @Operation(summary = "나의 메모 버전 단일 조회")

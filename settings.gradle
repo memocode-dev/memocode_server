@@ -53,6 +53,8 @@ include 'adapter:adapter_meilisearch_core'
 findProject(':adapter:adapter_meilisearch_core')?.name = 'adapter_meilisearch_core'
 include 'adapter:adapter_db_core'
 findProject(':adapter:adapter_db_core')?.name = 'adapter_db_core'
+include 'adapter:adapter_api_user'
+findProject(':adapter:adapter_api_user')?.name = 'adapter_api_user'
 
 // infrastructure module
 include 'infrastructure'
@@ -60,3 +62,4 @@ include 'infrastructure:memocode_server'
 findProject(':infrastructure:memocode_server')?.name = 'memocode_server'
 include 'infrastructure:DBToMeilisearchBatch'
 findProject(':infrastructure:DBToMeilisearchBatch')?.name = 'DBToMeilisearchBatch'
+

@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.UUID;
 
-@Tag(name = "memos-memoVersions", description = "메모 버전 API")
+@Tag(name = "memos", description = "메모 API")
 @SecurityRequirement(name = "bearer-key")
 public interface MemoVersionApi {
 
