@@ -31,6 +31,7 @@ public enum MemoDomainErrorCode implements ErrorDetail {
     NOT_MEMO_COMMENT_OWNER("메모댓글의 소유자가 아닙니다.", WARNING),
     DELETED_MEMO_COMMENT("삭제된 메모댓글입니다.", WARNING),
     MEMO_COMMENT_PARENT_NOT_NULL("부모댓글이 존재합니다.", WARNING),
+    PARENT_MEMO_COMMENT_HAS_PARENT("부모 댓글이 이미 부모를 가지고 있습니다.", WARNING),
     ;
 
     private final String defaultMessage;
