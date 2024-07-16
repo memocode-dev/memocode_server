@@ -43,7 +43,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
     private String meilisearchIndexMemos;
 
     private final static String[] attributesToRetrieve =
-            {"id", "title", "content", "summary", "user", "visibility", "createdAt", "updatedAt", "deletedAt", "deleted", "tags"};
+            {"id", "title", "content", "summary", "user", "visibility", "createdAt", "updatedAt", "deletedAt", "deleted", "tags", "thumbnailUrl"};
     private final static String[] attributesToHighlight = {"title", "content", "summary", "tags"};
     private final static String[] attributesToCrop = {"content"};
     private final static String[] sort = new String[] {"updatedAt:desc"};
@@ -172,6 +172,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                             .title(formatted.getTitle())
                             .summary(formatted.getSummary())
                             .content(formatted.getContent())
+                            .thumbnailUrl(formatted.getThumbnailUrl())
                             .user(ImmutableUser.builder()
                                     .id(user.getId())
                                     .username(user.getUsername())
@@ -190,6 +191,7 @@ public class MeilisearchSearchMemoRepository implements SearchMemoRepository {
                             .title(result.getTitle())
                             .summary(result.getSummary())
                             .content(result.getContent())
+                            .thumbnailUrl(result.getThumbnailUrl())
                             .user(ImmutableUser.builder()
                                     .id(result.getUser().getId())
                                     .username(result.getUser().getUsername())

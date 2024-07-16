@@ -25,6 +25,9 @@ public class MeilisearchSearchMemo_MemoResult {
     @JsonProperty("content")
     private String content;
 
+    @JsonProperty("thumbnailUrl")
+    private String thumbnailUrl;
+
     @JsonProperty("visibility")
     private boolean visibility;
 

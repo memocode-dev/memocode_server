@@ -14,6 +14,7 @@ public class FindMyMemo_MemoResult {
     private String title;
     private String content;
     private String summary;
+    private String thumbnailUrl;
     private FindMyMemo_UserResult author;
     private Boolean visibility;
     private Boolean bookmarked;

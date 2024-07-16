@@ -1,0 +1,2 @@
+ALTER TABLE memos
+    ADD COLUMN thumbnail_url TEXT NOT NULL DEFAULT '';

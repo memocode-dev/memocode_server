@@ -16,6 +16,7 @@ public class MemoDomainService {
     private final static Boolean DEFAULT_BOOKMARKED = false;
     private final static Boolean DEFAULT_VISIBILITY = false;
     private final static Boolean DEFAULT_DELETED = false;
+    private final static String DEFAULT_THUMBNAIL_URL = "";
 
     public Memo createMemo(@Valid MemoCreateDomainDTO dto) {
         User user = dto.getUser();
@@ -27,6 +28,7 @@ public class MemoDomainService {
                 .title(dto.getTitle())
                 .content(dto.getContent())
                 .summary(dto.getSummary())
+                .thumbnailUrl(DEFAULT_THUMBNAIL_URL)
                 .visibility(DEFAULT_VISIBILITY)
                 .security(dto.getSecurity())
                 .bookmarked(DEFAULT_BOOKMARKED)

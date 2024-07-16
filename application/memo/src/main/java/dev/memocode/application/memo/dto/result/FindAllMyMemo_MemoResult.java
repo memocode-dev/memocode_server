@@ -12,6 +12,7 @@ import java.util.UUID;
 public class FindAllMyMemo_MemoResult {
     private UUID id;
     private String title;
+    private String thumbnailUrl;
     private Boolean visibility;
     private Boolean bookmarked;
     private Boolean security;

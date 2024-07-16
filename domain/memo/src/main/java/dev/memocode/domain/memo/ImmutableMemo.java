@@ -19,6 +19,7 @@ public class ImmutableMemo {
     private String title;
     private String summary;
     private String content;
+    private String thumbnailUrl;
     private Boolean visibility;
     private ImmutableUser user;
     private ImmutableMemo formattedMemo;
